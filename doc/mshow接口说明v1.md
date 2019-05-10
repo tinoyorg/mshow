@@ -3,7 +3,7 @@
 **包含模块**
 
 - 用户模块（user、staff、curator）
-- 场馆模块*venue*
+- 场馆模块*exhibition*
 - 展览模块show
 - 展品模块*exhibits* 
 
@@ -12,6 +12,27 @@
 - 协议：HTTPS
 - 项目名：mshow
 - 最新版本：v1
+
+## 元数据及其他接口
+
+### 测试连通性
+
+GET	/
+
+- 请求示例：
+
+  ```
+  GET /
+  ```
+
+- 响应示例：
+
+  ```
+  {
+      "status": "success",
+      "info": "Hello, world!"
+  }
+  ```
 
 
 
@@ -29,18 +50,15 @@ GET	/search?query=*
 
 **参数**
 
-| 属性     | 类型    | 必填 | 说明                         |
-| -------- | ------- | ---- | ---------------------------- |
-| query    | String  | 是   | 根据场馆、展览、展品进行搜索 |
-| page     | Integer | 否   | 第几页，默认值：1            |
-| per_page | Integer | 否   | 每页显示多少条，默认值：5    |
+- **query**  :String    根据场馆、展览、展品进行搜索 
+- **page** （可选） :Integer    第几页，默认值：1  
+- **Integer**（可选）  每页显示多少条，默认值：5
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **total_page** : Integer  总页数，当next_page大于total_pages时表示不再有数据   
-
 - **next_page** : Integer  下一页索引 
-
 - **items** : Object[]  搜索结果列表
   - item_id : Integer 结果id
 
@@ -61,18 +79,19 @@ GET	/search?query=*
 
 查询并返回用户相关的预约记录
 
-GET 	/orders
+GET 	/order_list/{user_id}
 
-**成功 200 OK**
-
-- **order_id** : Integer 预约记录id
+**参数**
 
 - **user_id** : Integer 用户id
 
+**成功 200 OK**
+
+- **status**：响应结果，正常情况下为success
+- **order_id** : Integer 预约记录id
+- **user_id** : Integer 用户id
 - **order_count** : Integer 预约记录包含的展览数量
-
-- **shows** : Object[] 预约记录中包含的展览
-
+- **show_list**: Object[] 预约记录中包含的展览
   - show_id : Integer 展览id
   - show_name : String 展览名称
   - show_image : String 展览图片
@@ -104,9 +123,12 @@ POST	/login
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **user_id** : Integer 用户唯一标识
 - **token** : String 后续请求中用户访问控制
 - **ttl** : Integer token有效期，单位秒
+
+
 
 ### 用户信息
 
@@ -116,35 +138,43 @@ POST	/login
 
 获取用户相应的信息
 
-GET	/userinfo
+GET	/userinfo/{user_id}
+
+**参数**
+
+- **user_id** : Integer 用户id
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **userInfo** : Object 用户信息
-- **user_id** : Integer 用户唯一的标识
-- **user_name** ： String 用户名
-- **role ** : integer 0为普通用户，1为馆员，2为馆长
-- **order_id** : Integer 用户预约展览记录id
-- **collection_count** : Integer 收藏的数量
-- **collections** : Object[] 收藏列表
+  - **user_id** : Integer 用户唯一的标识
+  - **user_nick** ： String 用户昵称
+  - **user_name** ： String 用户姓名
+  - **role ** : integer 0为普通用户，1为馆员，2为馆长
+  - **order_id** : Integer 用户预约展览记录id
+  - **collection_count** : Integer 收藏的数量
+  - **collections** : Object[] 收藏列表
 
 
 
 
 #### 修改用户信息
 
-PUT	/user
+PUT	/user/{user_id}
 
 **参数**
 
-- **user_name** (可选) : String   用户名，可以使用微信帐号昵称传递 ,取值范围: `1..32`
-- **?role** (可选)  : integer 0为普通用户，1为馆员，2为馆长
-
-  
+- **user_name** (可选) : String   用户姓名
+- **user_sex**(可选) ： String   用户性别
+- **user_location**(可选) ：String   用户性别
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **object** ： Object 用户信息，字段说明见获取用户信息接口
+
+
 
 ### 点赞、收藏、分享
 
@@ -157,10 +187,11 @@ POST	/like
 **参数**
 
 - **like_type** ：Integer 类型 1场馆、2展览、3展品 取值范围1,2,3
-- **like_type_id** ：Integer 类型id，比如场馆时为venue_id
+- **like_type_id** ：Integer 类型id，比如场馆时为exhibition_id
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **tost** : String tost提示,如 已点赞
 - **like_count** : integer 对象被点赞数
 
@@ -174,11 +205,16 @@ POST	/like
 
 #### 取消点赞
 
-DELETE	/like/id
+DELETE	/like/{like_type_id}
 
 参数
 
-- **like_type_id** ：Integer 类型id，比如场馆时为venue_id
+- **like_type** ：Integer 类型 1场馆、2展览、3展品 取值范围1,2,3
+- **like_type_id** ：Integer 类型id，比如场馆时为exhibition_id
+
+**成功 200 OK**
+
+- **status**：响应结果，正常情况下为success
 
 **错误 4xx**
 
@@ -191,15 +227,16 @@ DELETE	/like/id
 
 用户对场馆、展览、展品进行收藏
 
-POST	/collections
+POST	/collection
 
 **参数**
 
 - **collection_type** ：Integer 类型 1场馆、2展览、3展品 取值范围1,2,3
-- **collection_type_id** ：Integer 类型id，比如场馆时为venue_id
+- **collection_type_id** ：Integer 类型id，比如场馆时为exhibition_id
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **tost** : String tost提示,如 已收藏
 - **collection_count** : integer 对象被收藏数
 
@@ -207,11 +244,16 @@ POST	/collections
 
 #### 取消收藏
 
-DELETE	/collections/id
+DELETE	/collection/{collection_type_id}
 
-参数
+**参数**
 
-- **collection_type_id** ：Integer 类型id，比如场馆时为venue_id
+- **collection_type** ：Integer 类型 1场馆、2展览、3展品 取值范围1,2,3
+- **collection_type_id** ：Integer 类型id，比如场馆时为exhibition_id
+
+**成功 200 OK**
+
+- **status**：响应结果，正常情况下为success
 
 **错误 4xx**
 
@@ -224,15 +266,16 @@ DELETE	/collections/id
 
 ？调用微信分享对于场馆、展览、展品进行分享
 
-GET  /sharing
+GET  /sharing/{sharing_type}/type/{sharing_type_id}
 
 **参数**
 
 - **sharing_type** ：Integer 类型 1场馆、2展览、3展品 取值范围1,2,3
-- **sharing_type_id** ：Integer 类型id，比如场馆时为venue_id
+- **sharing_type_id** ：Integer 类型id，比如场馆时为exhibition_id
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **share** ：Object 分享链接
   - **url** ： String 分享链接 
   - **image**： String  分享时使用的图片ur 
@@ -249,7 +292,7 @@ GET  /sharing
 
 ### 意见反馈
 
-POST	/feedback
+POST	/feedback/{user_id}
 
 **参数**
 
@@ -259,6 +302,7 @@ POST	/feedback
 
 **成功 200 OK**
 
+- **status**：响应结果，正常情况下为success
 - **tost** : String tost提示,如 意见反馈成功，会及时处理
 - **user_name** : String 用户名
 - **content** : String  反馈内容
@@ -281,19 +325,23 @@ POST	/feedback
 
 用户或员工需要先填写场馆信息，创建场馆，升级为馆长curator,role=2
 
-POST 	/curator
+POST 	/curator/{user_id}
 
 **参数**
 
 - **user_id** : Integer 用户id（与微信接口中appid关联）
-- **venue_name** : String 场馆名称
-- **venue_add** : String 场馆地址
-- **venue_intro** : String 场馆简介
-- **venue_thumb** : String 场馆图片，加密后的String类型（特殊处理）
+- **exhibition_name** : String 场馆名称
+- **exhibition_phone** : String 场馆电话
+- **exhibition_avatar** : String 场馆图片，加密后的String类型（特殊处理）
+- **exhibition_position** : String 场馆地址
+- **exhibition_intro** : String 场馆简介
+- **open_time** : String 开馆时间
+- **end_time** ： : String 闭馆时间
 
 **成功 201 Created**
 
-- **venue** : Object 场馆对象
+- **status**：响应结果，正常情况下为success
+- **exhibition** : Object 场馆对象
 - **role**（可选） : 返回权限（一般修改role即可 ）
 
 **错误 4XX**
@@ -308,7 +356,7 @@ POST 	/curator
 
 在个人信息中查看自己的馆长信息（需要先登录且需要验证是否为馆长curator,role=2）
 
-GET	/curator
+GET	/curator/{user_id}
 
 **参数**
 
@@ -316,7 +364,8 @@ GET	/curator
 
 **成功 200 OK**
 
-- **venue** : Object 场馆对象
+- **status**：响应结果，正常情况下为success
+- **exhibition** : Object 场馆对象
 
 **错误 4XX**
 
@@ -328,19 +377,24 @@ GET	/curator
 
 馆长修改场馆信息，需要验证是否为馆长curator,role=2
 
-PUT	/curator
+PUT	/curator/{user_id}
 
 **参数**
 
-- **venue_id** : Integer 场馆id
-- **venue_name**（可选） : String 场馆名称
-- **venue_add** （可选）: String 场馆地址
-- **venue_intro**（可选） : String 场馆简介
-- **venue_thumb**（可选） : String 场馆图片，加密后的String类型（特殊处理）
+- **user_id** : Integer 用户id（与微信接口中appid关联）
+- **exhibition_id** : Integer 场馆id
+- **exhibition_name**（可选） : String 场馆名称
+- **exhibition_phone**（可选） : String 场馆电话
+- **exhibition_avatar**（可选） : String 场馆图片，加密后的String类型（特殊处理）
+- **exhibition_position** （可选）: String 场馆地址
+- **exhibition_intro** （可选）: String 场馆简介
+- **open_time**（可选） : String 开馆时间
+- **end_time** （可选）： : String 闭馆时间
 
 **成功 201 Created**
 
-- **venue** : Object 场馆对象
+- **status**：响应结果，正常情况下为success
+- **exhibition** : Object 场馆对象
 
 **错误 4XX**
 
@@ -354,11 +408,16 @@ PUT	/curator
 
 馆长注销自己馆长身份，同时需要场馆信息，需要验证是否为馆长curator,role=2
 
-DELETE    /curator
+DELETE    /curator/{user_id}
+
+**参数**
+
+- **user_id** : Integer 用户id（与微信接口中appid关联）
 
 **成功 204**
 
-- **venue** : Object 场馆对象
+- **status**：响应结果，正常情况下为success
+- **exhibition** : Object 场馆对象
 - **role**（可选） : 返回权限（一般修改role即可 ）
 
 **错误 4XX**
@@ -372,7 +431,7 @@ DELETE    /curator
 
 馆长查看场馆的相关数据（需要登录及馆长权限）
 
-GET	/venue/count
+GET	/exhibition/count
 
 **参数**
 
@@ -398,7 +457,7 @@ post	/staff
 
 馆长进行删除员工
 
-DELETE 	/staff
+DELETE 	/staff/{id}
 
 **参数**
 
@@ -406,7 +465,8 @@ DELETE 	/staff
 
 **成功 200 OK**
 
-- **staffs** :  Object[]  返回删除后的新员工组
+- **status**：响应结果，正常情况下为success
+- **staff_list** :  Object[]  返回删除后的新员工组
 
 **错误 4XX**
 
@@ -418,15 +478,16 @@ DELETE 	/staff
 
 馆长进行删除员工
 
-DELETE 	/staffs
+DELETE 	/staff_list
 
 **参数**
 
-- **staff_ids** : Object[] 删除对于员工组的所有id列表
+- **staff_id_list** : Object[] 删除对于员工组的所有id列表
 
 **成功 200 OK**
 
-- **staffs** :  Object[]  返回删除后的新员工组列表
+- **status**：响应结果，正常情况下为success
+- **staff_list** :  Object[]  返回删除后的新员工组列表
 
 **错误 4XX**
 
@@ -444,20 +505,21 @@ DELETE 	/staffs
 
 获取场馆的列表（游客模式，不需要登录验证）
 
-GET	/venues
+GET	/exhibition_list
 
 **成功 200 OK**
 
-- **venues** :  Object[]  返回当前的所有场馆列表
-  - **venue_id** : Integer 场馆id
-  - **venue_name** : String 场馆名称
-  - **venue_add** : String 场馆地址
-  - **venue_intro** : String 场馆简介
-  - **venue_thumb** : String 场馆图片，加密后的String类型（特殊处理）
+- **status**：响应结果，正常情况下为success
+- **exhibition_list** :  Object[]  返回当前的所有场馆列表
+  - **exhibition_id** : Integer 场馆id
+  - **exhibition_name** : String 场馆名称
+  - **exhibition_add** : String 场馆地址
+  - **exhibition_intro** : String 场馆简介
+  - **exhibition_thumb** : String 场馆图片，加密后的String类型（特殊处理）
   - **collected_count** : Integer 被收藏数
   - **star_count** : Integer 点赞数
   - **share_count** : Integer 分享数
-- **venue_count** : Integer 当前的场馆总数
+- **exhibition_count** : Integer 当前的场馆总数
 
 
 
@@ -465,19 +527,19 @@ GET	/venues
 
 获取某一个场馆的详情信息
 
-GET	/venue/id
+GET	/exhibition/{exhibition_id}
 
 **参数**
 
-- **venue_id** : Integer 场馆id
+- **exhibition_id** : Integer 场馆id
 
 **成功 200 OK**
 
-- **venues** :  Object  返回当前的所有场馆列表
-  - **venue_name** : String 场馆名称
-  - **venue_add** : String 场馆地址
-  - **venue_intro** : String 场馆简介
-  - **venue_thumb** : String 场馆图片，加密后的String类型（特殊处理）
+- **exhibition_list** :  Object  返回当前的所有场馆列表
+  - **exhibition_name** : String 场馆名称
+  - **exhibition_add** : String 场馆地址
+  - **exhibition_intro** : String 场馆简介
+  - **exhibition_thumb** : String 场馆图片，加密后的String类型（特殊处理）
   - **collected_count** : Integer 被收藏数
   - **star_count** : Integer 点赞数
   - **share_count** : Integer 分享数
@@ -490,11 +552,11 @@ GET	/venue/id
 
 #### 获取当前场馆所有评论
 
-GET	/venue/id/comments?page=*&per_page= *
+GET	/exhibition/{exhibition_id}/comment_list
 
 **参数**
 
-- **venue_id** : Integer 场馆id
+- **exhibition_id** : Integer 场馆id
 - **page** (可选) : Integer 请求分页索引，默认值1
 - **per_page ** (可选) : Integer 每页返回的数据条数，默认值10
 
@@ -502,14 +564,14 @@ GET	/venue/id/comments?page=*&per_page= *
 
 - **next_page** :Integer 下一页索引 
 - **total_pages**  :  Integer总页数，当next_page大于total_pages时表示不再有数据
-- **items** :Object[]  评论列表  
+- **comment_list** :Object[]  评论列表  
   - **comment_id**: String  评论id
   - **content** :String   评论内容
   - **create_at_format**  :String  格式化后的评论时间       
   - **user_id**  : Integer  评论用户的id
   - **user_name** : String  评论用户的用户名 
   - **sub_comments_count** : Integer 子评论数量
-  - **sub_comments**(可选) : Object[] 子评论列表
+  - **sub_comment_list**(可选) : Object[] 子评论列表
     - **comment_id**: String  评论或回复id
     - **content** :String   评论或回复的日记，语音评论时为空
     - **create_at_format**  :String  格式化后的评论时         
@@ -528,11 +590,11 @@ GET	/venue/id/comments?page=*&per_page= *
 
 发布有关场馆的评论（需要登录）
 
-POST	/venue/id/comments
+POST	/exhibition/comment
 
 **参数**
 
-- **venue_id** : Integer 场馆id
+- **exhibition_id** : Integer 场馆id
 - **user_id** : Integer 用户id（与微信接口中appid关联）
 - **content** : String 评论内容
 
@@ -556,11 +618,11 @@ POST	/venue/id/comments
 
 删除场馆有关评论（需要登录）
 
-DELETE	/venue/id/comments
+DELETE	/exhibition/{exhibition_id}/comment/{comment_id}
 
 **参数**
 
-- **venue_id** : Integer 场馆id
+- **exhibition_id** : Integer 场馆id
 
 - **user_id** : Integer 用户id（与微信接口中appid关联）
 
@@ -580,6 +642,25 @@ DELETE	/venue/id/comments
 
 
 ### 获取所有展览
+
+获取当前所有展览的列表（游客模式，不需要登录验证）
+
+GET	/shows
+
+**成功 200 OK**
+
+- **show_list** :  Object[]  返回当前的所有场馆列表
+  - **show_id** : Integer 场馆id
+  - **show_name** : String 场馆名称
+  - **show_add** : String 场馆地址
+  - **show_intro** : String 场馆简介
+  - **show_thumb** : String 场馆图片，加密后的String类型（特殊处理）
+  - **collected_count** : Integer 被收藏数
+  - **star_count** : Integer 点赞数
+  - **share_count** : Integer 分享数
+- **show_count** : Integer 当前的场馆总数
+
+
 
 ### 获取展览内展品
 
