@@ -36,10 +36,6 @@ public class Report {
         return rid;
     }
 
-    public void setRid(int rid) {
-        this.rid = rid;
-    }
-
     public int getUid() {
         return uid;
     }

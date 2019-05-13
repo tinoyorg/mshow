@@ -41,10 +41,6 @@ public class Show {
         return sid;
     }
 
-    public void setSid(int sid) {
-        this.sid = sid;
-    }
-
     public int getEid() {
         return eid;
     }

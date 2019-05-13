@@ -1,11 +1,16 @@
 package com.server.mshow.controller;
 
+import com.server.mshow.common.JsonUtils;
+import com.server.mshow.common.WxService;
+import com.server.mshow.domain.UserInfo;
 import com.server.mshow.service.UserService;
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.constraints.PastOrPresent;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping(value = "/user")
@@ -14,38 +19,41 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/order_list/{user_id}")
-    public Object getOrder(@PathVariable("user_id") String user_id){
-        JSONObject result = new JSONObject();
-        result.put("status","success");
-        return result ;
-    }
+    @Autowired
+    private WxService wxService;
 
     @PostMapping("/login")
-    public Object login(){
-        JSONObject result = new JSONObject();
-        result.put("status","success");
-        return result;
+    public Object login(@RequestParam(required = true,value = "code")String wxCode){
+        Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
+        JsonUtils result = new JsonUtils();
+
+        if(wxSessionMap == null){
+
+        }
+
+
+        UserInfo user =new UserInfo();
+        result.setData(user);
+        return result.getJsonObject();
     }
 
     @GetMapping("/user_info/{user_id}")
     public Object getUserInfo(@PathVariable("user_id") String user_id){
-        JSONObject result = new JSONObject();
-        result.put("status","success");
-        return result;
+        UserInfo user =new UserInfo();
+
+        return user;
     }
 
     @PutMapping("/user_info/{user_id}")
     public Object updateUserInfo(@PathVariable("user_id") String user_id){
-        JSONObject result = new JSONObject();
-        result.put("status","success");
+        JsonUtils result = new JsonUtils();
+
         return result;
     }
 
     @PostMapping("/like")
     public Object like(){
-        JSONObject result = new JSONObject();
-        result.put("status","success");
+        JsonUtils result = new JsonUtils();
         return result;
     }
 }

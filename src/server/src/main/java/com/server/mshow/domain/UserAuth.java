@@ -28,6 +28,7 @@ public class UserAuth {
         return uid;
     }
 
+
     public String getOpenid() {
         return openid;
     }
@@ -42,10 +43,6 @@ public class UserAuth {
 
     public String getAuth() {
         return auth;
-    }
-
-    public void setUid(int uid) {
-        this.uid = uid;
     }
 
     public void setOpenid(String openid) {

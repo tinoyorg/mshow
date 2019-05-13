@@ -35,10 +35,6 @@ public class UserInfo {
         return uid;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
-    }
-
     public String getSex() {
         return sex;
     }

@@ -47,9 +47,6 @@ public class Collection {
         return cid;
     }
 
-    public void setCid(int cid) {
-        this.cid = cid;
-    }
 
     public int getEid() {
         return eid;

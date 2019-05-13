@@ -34,10 +34,6 @@ public class Appointment {
         return aid;
     }
 
-    public void setAid(int aid) {
-        this.aid = aid;
-    }
-
     public int getUid() {
         return uid;
     }

@@ -34,10 +34,6 @@ public class Comment {
         return cid;
     }
 
-    public void setCid(int cid) {
-        this.cid = cid;
-    }
-
     public int getUid() {
         return uid;
     }

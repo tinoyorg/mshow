@@ -44,10 +44,6 @@ public class Exhibition {
         return eid;
     }
 
-    public void setEid(int eid) {
-        this.eid = eid;
-    }
-
     public int getUid() {
         return uid;
     }

@@ -29,9 +29,6 @@ public class Record {
         return rid;
     }
 
-    public void setRid(int rid) {
-        this.rid = rid;
-    }
 
     public int getUid() {
         return uid;

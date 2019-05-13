@@ -30,10 +30,6 @@ public class Star {
         return sid;
     }
 
-    public void setSid(int sid) {
-        this.sid = sid;
-    }
-
     public int getUid() {
         return uid;
     }
