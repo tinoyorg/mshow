@@ -4,9 +4,11 @@ import com.server.mshow.dao.CollectionMapper;
 import com.server.mshow.domain.Collection;
 import com.server.mshow.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("CollectionService")
 public class CollectionServiceImpl implements CollectionService {
 
     //@Autowired

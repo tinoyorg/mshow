@@ -1,8 +1,11 @@
 package com.server.mshow.common;
 
-import org.springframework.stereotype.Repository;
 
-@Repository("WxAuth")
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "wxapp")
 public class WxAuth {
     private String appId;
 
@@ -43,4 +46,7 @@ public class WxAuth {
     public void setSessionHost(String sessionHost) {
         this.sessionHost = sessionHost;
     }
+
+
+
 }

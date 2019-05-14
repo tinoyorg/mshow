@@ -14,13 +14,13 @@ public class JsonUtils  {
     private String status;
     private String msg;
     private String token;
-    private Object data;
+    private LinkedHashMap  data;
 
 
     public JsonUtils(){
         jsonObject = new LinkedHashMap();
-        this.setStatus("success");
-        this.setMsg("No message available");
+        this.setStatus("200");
+        this.setMsg("success");
     }
 
     public LinkedHashMap getJsonObject() {
@@ -46,7 +46,7 @@ public class JsonUtils  {
         this.jsonObject.put("token",token);
     }
 
-    public void setData(Object data) {
+    public void setData(LinkedHashMap data) {
         this.data = data;
         this.jsonObject.put("data",data);
     }

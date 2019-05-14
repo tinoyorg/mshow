@@ -1,7 +1,5 @@
 package com.server.mshow.common;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
@@ -23,6 +21,7 @@ public class WxService {
         sb.append("&js_code=").append(wxCode);
         sb.append("&grant_type=").append(wxAuth.getGrantType());
         String res = HttpRequest.sendGet(wxAuth.getSessionHost(), sb.toString());
+
         if(res == null || "".equals(res)){
             return null;
         }

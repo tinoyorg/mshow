@@ -4,9 +4,11 @@ import com.server.mshow.dao.CommentMapper;
 import com.server.mshow.domain.Comment;
 import com.server.mshow.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("CommentService")
 public class CommentServiceImpl implements CommentService {
 
     //@Autowired

@@ -4,9 +4,11 @@ import com.server.mshow.dao.AppointmentMapper;
 import com.server.mshow.domain.Appointment;
 import com.server.mshow.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("AppointmentService")
 public class AppointmentServiceImpl implements AppointmentService {
 
    //@Autowired

@@ -4,9 +4,11 @@ import com.server.mshow.dao.RecordMapper;
 import com.server.mshow.domain.Record;
 import com.server.mshow.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("RecordService")
 public class RecordServiceImpl implements RecordService {
 
     //@Autowired

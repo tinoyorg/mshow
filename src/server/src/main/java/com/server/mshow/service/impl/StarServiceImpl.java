@@ -4,9 +4,12 @@ import com.server.mshow.dao.StarMapper;
 import com.server.mshow.domain.Star;
 import com.server.mshow.service.StarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service("StarService")
 public class StarServiceImpl implements StarService {
 
     //@Autowired
