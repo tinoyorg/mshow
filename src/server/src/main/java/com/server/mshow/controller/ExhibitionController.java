@@ -29,19 +29,23 @@ public class ExhibitionController {
     public Object getExhibitionList(){
         JsonUtils result = new JsonUtils();
 
-        List<Exhibition>  exhibitionList = exhibitionService.getAllExhibitionList();
-//        List<Exhibition>  exhibitionList = new ArrayList<Exhibition>();
-//        exhibitionList.add(new Exhibition(1,"ex1"));
-//        exhibitionList.add(new Exhibition(2,"ex2"));
-        if(exhibitionList == null){
+        List<Exhibition>  exhibitionList;
+
+        try {
+            exhibitionList = exhibitionService.getAllExhibitionList();
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("exhibition_list",exhibitionList);
+            result.setData(data);
+
+        } catch (Exception e) {
+
             result.setStatus("500");
             result.setMsg("no any exhibition");
+            e.printStackTrace();
             return  result.getJsonObject();
+
         }
 
-        LinkedHashMap data = new LinkedHashMap<String,Object>();
-        data.put("exhibition_list",exhibitionList);
-        result.setData(data);
 
         return result.getJsonObject();
     }
@@ -51,16 +55,21 @@ public class ExhibitionController {
     public Object getExhibition(@PathVariable("exhibition_id") int exhibition_id){
         JsonUtils result = new JsonUtils();
 
-        Exhibition exhibition = exhibitionService.getExhibition(exhibition_id);
-        if(exhibition == null){
+        Exhibition exhibition;
+
+        try {
+            exhibition = exhibitionService.getExhibition(exhibition_id);
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("exhibition",exhibition);
+            result.setData(data);
+
+        } catch (Exception e) {
             result.setStatus("500");
-            result.setMsg("no any exhibition");
+            result.setMsg("no this exhibition");
+            e.printStackTrace();
             return  result.getJsonObject();
         }
 
-        LinkedHashMap data = new LinkedHashMap<String,Object>();
-        data.put("exhibition",exhibition);
-        result.setData(data);
 
         return result.getJsonObject();
     }
@@ -69,17 +78,21 @@ public class ExhibitionController {
     public Object getShowList(@PathVariable("exhibition_id") int exhibition_id){
         JsonUtils result = new JsonUtils();
 
-        List<Show>  showList =showService.getShowListByEid(exhibition_id);
+        List<Show>  showList;
 
-        if(showList == null){
+        try {
+            showList = showService.getShowListByEid(exhibition_id);
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("show_list",showList);
+            result.setData(data);
+
+        } catch (Exception e) {
             result.setStatus("500");
             result.setMsg("no any show");
+            e.printStackTrace();
             return  result.getJsonObject();
         }
 
-        LinkedHashMap data = new LinkedHashMap<String,Object>();
-        data.put("show_list",showList);
-        result.setData(data);
 
         return result.getJsonObject();
     }
