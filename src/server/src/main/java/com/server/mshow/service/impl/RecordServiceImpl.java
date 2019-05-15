@@ -16,26 +16,26 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Record getRecord(String rid) {
-        return null;
+        return recordMapper.getRecord(rid);
     }
 
     @Override
     public List<Record> getRecordByUser(String uid) {
-        return null;
+        return getRecordByUser(uid);
     }
 
     @Override
     public void createRecord(Record record) {
-
+        recordMapper.createRecord(record);
     }
 
     @Override
     public void cancelRecord(String rid) {
-
+        recordMapper.cancelRecord(rid);
     }
 
     @Override
     public void cancelAllRecordByUid(String uid) {
-
+        recordMapper.cancelAllRecordByUid(uid);
     }
 }

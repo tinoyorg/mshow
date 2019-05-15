@@ -16,21 +16,21 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report getReport(String rid) {
-        return null;
+        return reportMapper.getReport(rid);
     }
 
     @Override
     public List<Report> getReportByUser(String uid) {
-        return null;
+        return reportMapper.getReportByUser(uid);
     }
 
     @Override
     public void createReport(Report report) {
-
+        reportMapper.createReport(report);
     }
 
     @Override
     public void cancelReport(String rid) {
-
+        reportMapper.cancelReport(rid);
     }
 }

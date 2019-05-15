@@ -17,21 +17,21 @@ public class StarServiceImpl implements StarService {
 
     @Override
     public Star getStar(String sid) {
-        return null;
+        return starMapper.getStar(sid);
     }
 
     @Override
     public List<Star> getStarByUser(String uid) {
-        return null;
+        return starMapper.getStarByUser(uid);
     }
 
     @Override
     public void createStar(Star star) {
-
+        starMapper.createStar(star);
     }
 
     @Override
     public void cancelStar(String sid) {
-
+        starMapper.cancelStar(sid);
     }
 }

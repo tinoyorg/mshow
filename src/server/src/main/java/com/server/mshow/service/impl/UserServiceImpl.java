@@ -15,41 +15,41 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserAuth getUserAuth(String uid) {
-        return null;
+        return userMapper.getUserAuth(uid);
     }
 
     @Override
     public UserAuth getUserAuthBywx(String openid) {
-        return null;
+        return userMapper.getUserAuthBywx(openid);
     }
 
     @Override
     public void insertUserAuth(UserAuth userAuth) {
-
+        userMapper.insertUserAuth(userAuth);
     }
 
     @Override
     public void updateUserAuth(UserAuth userAuth) {
-
+        userMapper.updateUserAuth(userAuth);
     }
 
     @Override
     public void updateAuth(String auth) {
-
+        userMapper.updateAuth(auth);
     }
 
     @Override
     public UserInfo getUserInfo(String uid) {
-        return null;
+        return userMapper.getUserInfo(uid);
     }
 
     @Override
-    public void insertUserInfo(UserInfo UserInfo) {
-
+    public void insertUserInfo(UserInfo userInfo) {
+        userMapper.insertUserInfo(userInfo);
     }
 
     @Override
     public void updateUserInfo(UserInfo userInfo) {
-
+        userMapper.updateUserInfo(userInfo);
     }
 }

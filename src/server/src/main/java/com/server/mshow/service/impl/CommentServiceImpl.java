@@ -16,21 +16,21 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getComment(String cid) {
-        return null;
+        return commentMapper.getComment(cid);
     }
 
     @Override
     public List<Comment> getCommentListByObject(String object_id) {
-        return null;
+        return getCommentListByObject(object_id);
     }
 
     @Override
     public void createComment(Comment comment) {
-
+        commentMapper.createComment(comment);
     }
 
     @Override
     public void cancelComment(String cid) {
-
+        commentMapper.cancelComment(cid);
     }
 }

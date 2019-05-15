@@ -16,32 +16,34 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment getAppointment(String aid) {
-        return null;
+        return appointmentMapper.getAppointment(aid);
     }
 
     @Override
     public List<Appointment> getAppointmentListByUid(String uid) {
-        return null;
+        return appointmentMapper.getAppointmentListByUid(uid);
     }
 
     @Override
     public List<Appointment> getAppointmentListBySid(String sid) {
-        return null;
+        return appointmentMapper.getAppointmentListBySid(sid);
     }
 
     @Override
     public void createAppointment(Appointment appointment) {
-
+        appointmentMapper.createAppointment(appointment);
     }
 
     @Override
     public void updateAppointment(Appointment appointment) {
-
+        appointmentMapper.updateAppointment(appointment);
     }
 
     @Override
     public void cancelAppointment(String aid) {
-
+        Appointment appointment = getAppointment(aid);
+        appointment.setStatus("取消订单");
+        appointmentMapper.updateAppointment(appointment);
     }
 
 

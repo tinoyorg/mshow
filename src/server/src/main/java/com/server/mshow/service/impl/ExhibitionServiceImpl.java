@@ -16,31 +16,31 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
     @Override
     public Exhibition getExhibition(String eid) {
-        return null;
+        return exhibitionMapper.getExhibition(eid);
     }
 
     @Override
     public List<Exhibition> getAllExhibitionList() {
-        return null;
+        return exhibitionMapper.getAllExhibitionList();
     }
 
     @Override
     public List<Exhibition> getExhibitionListByUid(String uid) {
-        return null;
+        return getExhibitionListByUid(uid);
     }
 
     @Override
     public void createExhibition(Exhibition exhibition) {
-
+        exhibitionMapper.createExhibition(exhibition);
     }
 
     @Override
     public void updateExhibition(Exhibition exhibition) {
-
+        exhibitionMapper.updateExhibition(exhibition);
     }
 
     @Override
     public void deleteExhibition(String eid) {
-
+        exhibitionMapper.deleteExhibition(eid);
     }
 }

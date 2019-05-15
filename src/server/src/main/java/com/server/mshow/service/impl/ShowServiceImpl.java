@@ -18,31 +18,31 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public Show getShow(String sid) {
-        return null;
+        return showMapper.getShow(sid);
     }
 
     @Override
     public List<Show> getAllShowList() {
-        return null;
+        return showMapper.getAllShowList();
     }
 
     @Override
     public List<Show> getShowListByeid(String eid) {
-        return null;
+        return showMapper.getShowListByeid(eid);
     }
 
     @Override
     public void createShow(Show show) {
-
+        showMapper.createShow(show);
     }
 
     @Override
     public void updateShow(Show show) {
-
+        showMapper.updateShow(show);
     }
 
     @Override
     public void deleteShow(String sid) {
-
+            showMapper.deleteShow(sid);
     }
 }

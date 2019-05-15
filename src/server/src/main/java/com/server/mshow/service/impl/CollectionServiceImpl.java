@@ -16,31 +16,31 @@ public class CollectionServiceImpl implements CollectionService {
 
     @Override
     public Collection getCollection(String cid) {
-        return null;
+        return collectionMapper.getCollection(cid);
     }
 
     @Override
     public List<Collection> getAllCollectionList() {
-        return null;
+        return collectionMapper.getAllCollectionList();
     }
 
     @Override
     public List<Collection> getCollectionBysid(String sid) {
-        return null;
+        return collectionMapper.getCollectionBysid(sid);
     }
 
     @Override
-    public void createCollection(Collection Collection) {
-
+    public void createCollection(Collection collection) {
+        collectionMapper.createCollection(collection);
     }
 
     @Override
-    public void updateCollection(Collection Collection) {
-
+    public void updateCollection(Collection collection) {
+        collectionMapper.updateCollection(collection);
     }
 
     @Override
     public void deleteCollection(String cid) {
-
+        collectionMapper.deleteCollection(cid);
     }
 }
