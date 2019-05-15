@@ -27,8 +27,8 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<Show> getShowListByeid(int eid) {
-        return showMapper.getShowListByeid(eid);
+    public List<Show> getShowListByEid(int eid) {
+        return showMapper.getShowListByEid(eid);
     }
 
     @Override

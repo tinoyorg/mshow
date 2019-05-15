@@ -2,7 +2,9 @@ package com.server.mshow.controller;
 
 import com.server.mshow.common.JsonUtils;
 import com.server.mshow.domain.Exhibition;
+import com.server.mshow.domain.Show;
 import com.server.mshow.service.ExhibitionService;
+import com.server.mshow.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +21,9 @@ public class ExhibitionController {
 
     @Autowired
     private ExhibitionService exhibitionService;
+
+    @Autowired
+    private ShowService showService;
 
     @GetMapping("/exhibition_list")
     public Object getExhibitionList(){
@@ -46,7 +51,6 @@ public class ExhibitionController {
     public Object getExhibition(@PathVariable("exhibition_id") int exhibition_id){
         JsonUtils result = new JsonUtils();
 
-
         Exhibition exhibition = exhibitionService.getExhibition(exhibition_id);
         if(exhibition == null){
             result.setStatus("500");
@@ -60,4 +64,24 @@ public class ExhibitionController {
 
         return result.getJsonObject();
     }
+
+    @GetMapping("{exhibition_id}/show_list")
+    public Object getShowList(@PathVariable("exhibition_id") int exhibition_id){
+        JsonUtils result = new JsonUtils();
+
+        List<Show>  showList =showService.getShowListByEid(exhibition_id);
+
+        if(showList == null){
+            result.setStatus("500");
+            result.setMsg("no any show");
+            return  result.getJsonObject();
+        }
+
+        LinkedHashMap data = new LinkedHashMap<String,Object>();
+        data.put("show_list",showList);
+        result.setData(data);
+
+        return result.getJsonObject();
+    }
+
 }
