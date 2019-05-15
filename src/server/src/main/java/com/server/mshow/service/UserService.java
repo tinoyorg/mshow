@@ -7,7 +7,7 @@ import com.server.mshow.domain.UserInfo;
 public interface UserService {
 
     UserAuth getUserAuth(int uid);
-    UserAuth getUserAuthByWX(int openid);
+    UserAuth getUserAuthBywx(int openid);
     void insertUserAuth(UserAuth userAuth);
     void updateUserAuth(UserAuth userAuth);
     void updateAuth(String auth);

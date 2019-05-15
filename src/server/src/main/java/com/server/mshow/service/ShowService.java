@@ -8,7 +8,7 @@ public interface ShowService {
 
     Show getShow(int sid);
     List<Show> getAllShowList();
-    List <Show> getShowListByEid(int eid);
+    List <Show> getShowListByeid(int eid);
     void createShow(Show show);
     void updateShow(Show show);
     void deleteShow(int sid);

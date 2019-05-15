@@ -25,8 +25,8 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public List<Collection> getCollectionBySid(int sid) {
-        return collectionMapper.getCollectionBySid(sid);
+    public List<Collection> getCollectionBysid(int sid) {
+        return collectionMapper.getCollectionBysid(sid);
     }
 
     @Override
