@@ -5,7 +5,8 @@ import com.server.mshow.domain.Collection;
 import java.util.List;
 
 public interface CollectionMapper {
-
+    //展品查询
+    
     Collection getCollection(int cid);
     List<Collection> getAllCollectionList();
     List <Collection> getCollectionBysid(int sid);
