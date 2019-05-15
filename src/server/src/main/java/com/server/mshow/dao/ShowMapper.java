@@ -5,6 +5,7 @@ import com.server.mshow.domain.Show;
 import java.util.List;
 
 public interface ShowMapper {
+    //展览查询
 
     Show getShow(int sid);
     List<Show> getAllShowList();

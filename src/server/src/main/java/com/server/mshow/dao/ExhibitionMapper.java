@@ -5,6 +5,8 @@ import com.server.mshow.domain.Exhibition;
 import java.util.List;
 
 public interface ExhibitionMapper {
+    //展馆查询
+    
     Exhibition getExhibition(int eid);
     List<Exhibition> getAllExhibitionList();
     List <Exhibition> getExhibitionListByUid(int uid);
