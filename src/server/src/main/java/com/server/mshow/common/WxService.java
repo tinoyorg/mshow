@@ -13,6 +13,8 @@ public class WxService {
     @Autowired
     private WxAuth wxAuth;
 
+
+
     @SuppressWarnings("unchecked")
     public Map<String,Object> getWxSession(String wxCode){
         StringBuffer sb = new StringBuffer();
@@ -28,8 +30,5 @@ public class WxService {
         return JSON.parseObject(res, Map.class);
     }
 
-    public String verifySession(String wxOpenId, String wxSessionKey){
-        String res = "";
-        return res;
-    }
+
 }

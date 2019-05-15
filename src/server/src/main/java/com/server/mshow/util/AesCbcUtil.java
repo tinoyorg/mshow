@@ -1,4 +1,4 @@
-package com.server.mshow.common;
+package com.server.mshow.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.AlgorithmParameters;

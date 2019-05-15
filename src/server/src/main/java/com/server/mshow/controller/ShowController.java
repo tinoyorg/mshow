@@ -1,7 +1,7 @@
 package com.server.mshow.controller;
 
 
-import com.server.mshow.common.JsonUtils;
+import com.server.mshow.util.JsonUtils;
 import com.server.mshow.domain.Collection;
 import com.server.mshow.domain.Show;
 import com.server.mshow.service.CollectionService;
