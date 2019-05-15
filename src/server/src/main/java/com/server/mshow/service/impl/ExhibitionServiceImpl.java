@@ -15,7 +15,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     private ExhibitionMapper exhibitionMapper;
 
     @Override
-    public Exhibition getExhibition(String eid) {
+    public Exhibition getExhibition(int eid) {
         return exhibitionMapper.getExhibition(eid);
     }
 
@@ -25,7 +25,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     @Override
-    public List<Exhibition> getExhibitionListByUid(String uid) {
+    public List<Exhibition> getExhibitionListByUid(int uid) {
         return getExhibitionListByUid(uid);
     }
 
@@ -40,7 +40,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     @Override
-    public void deleteExhibition(String eid) {
+    public void deleteExhibition(int eid) {
         exhibitionMapper.deleteExhibition(eid);
     }
 }

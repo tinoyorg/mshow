@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface StarService {
 
-    Star getStar(String sid);
-    List<Star> getStarByUser(String uid);
+    Star getStar(int sid);
+    List<Star> getStarByUser(int uid);
     void createStar(Star star);
-    void cancelStar(String sid);//delete 删除收藏记录
+    void cancelStar(int sid);//delete 删除收藏记录
 
 
 }

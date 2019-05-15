@@ -17,7 +17,7 @@ public class ShowServiceImpl implements ShowService {
     private ShowMapper showMapper;
 
     @Override
-    public Show getShow(String sid) {
+    public Show getShow(int sid) {
         return showMapper.getShow(sid);
     }
 
@@ -27,7 +27,7 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public List<Show> getShowListByeid(String eid) {
+    public List<Show> getShowListByeid(int eid) {
         return showMapper.getShowListByeid(eid);
     }
 
@@ -42,7 +42,7 @@ public class ShowServiceImpl implements ShowService {
     }
 
     @Override
-    public void deleteShow(String sid) {
+    public void deleteShow(int sid) {
             showMapper.deleteShow(sid);
     }
 }

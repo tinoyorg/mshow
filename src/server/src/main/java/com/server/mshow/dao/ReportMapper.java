@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ReportMapper {
 
-    Report getReport(String rid);
-    List<Report> getReportByUser(String uid);
+    Report getReport(int rid);
+    List<Report> getReportByUser(int uid);
     void createReport(Report report);
-    void cancelReport(String rid);//delete
+    void cancelReport(int rid);//delete
 }

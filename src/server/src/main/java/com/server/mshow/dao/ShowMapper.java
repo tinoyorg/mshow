@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ShowMapper {
 
-    Show getShow(String sid);
+    Show getShow(int sid);
     List<Show> getAllShowList();
-    List <Show> getShowListByeid(String eid);
+    List <Show> getShowListByeid(int eid);
     void createShow(Show show);
     void updateShow(Show show);
-    void deleteShow(String sid);
+    void deleteShow(int sid);
 
 }

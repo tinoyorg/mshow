@@ -15,7 +15,7 @@ public class CollectionServiceImpl implements CollectionService {
     private CollectionMapper collectionMapper;
 
     @Override
-    public Collection getCollection(String cid) {
+    public Collection getCollection(int cid) {
         return collectionMapper.getCollection(cid);
     }
 
@@ -25,7 +25,7 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public List<Collection> getCollectionBysid(String sid) {
+    public List<Collection> getCollectionBysid(int sid) {
         return collectionMapper.getCollectionBysid(sid);
     }
 
@@ -40,7 +40,7 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public void deleteCollection(String cid) {
+    public void deleteCollection(int cid) {
         collectionMapper.deleteCollection(cid);
     }
 }

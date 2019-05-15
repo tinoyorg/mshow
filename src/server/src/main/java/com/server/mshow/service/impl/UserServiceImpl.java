@@ -14,12 +14,12 @@ public class UserServiceImpl implements UserService {
     private  UserMapper userMapper;
 
     @Override
-    public UserAuth getUserAuth(String uid) {
+    public UserAuth getUserAuth(int uid) {
         return userMapper.getUserAuth(uid);
     }
 
     @Override
-    public UserAuth getUserAuthBywx(String openid) {
+    public UserAuth getUserAuthBywx(int openid) {
         return userMapper.getUserAuthBywx(openid);
     }
 
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo getUserInfo(String uid) {
+    public UserInfo getUserInfo(int uid) {
         return userMapper.getUserInfo(uid);
     }
 

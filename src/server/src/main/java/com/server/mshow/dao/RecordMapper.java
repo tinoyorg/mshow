@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface RecordMapper {
 
-    Record getRecord(String rid);
-    List<Record> getRecordByUser(String uid);
+    Record getRecord(int rid);
+    List<Record> getRecordByUser(int uid);
     void createRecord(Record record);
-    void cancelRecord(String rid);//delete 删除某条浏览记录
-    void cancelAllRecordByUid(String uid);//delete 删除用户所有浏览记录
+    void cancelRecord(int rid);//delete 删除某条浏览记录
+    void cancelAllRecordByUid(int uid);//delete 删除用户所有浏览记录
 }

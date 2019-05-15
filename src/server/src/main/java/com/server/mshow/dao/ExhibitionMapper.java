@@ -5,10 +5,10 @@ import com.server.mshow.domain.Exhibition;
 import java.util.List;
 
 public interface ExhibitionMapper {
-    Exhibition getExhibition(String eid);
+    Exhibition getExhibition(int eid);
     List<Exhibition> getAllExhibitionList();
-    List <Exhibition> getExhibitionListByUid(String uid);
+    List <Exhibition> getExhibitionListByUid(int uid);
     void createExhibition(Exhibition exhibition);
     void updateExhibition(Exhibition exhibition);
-    void deleteExhibition(String eid);
+    void deleteExhibition(int eid);
 }

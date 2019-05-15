@@ -15,12 +15,12 @@ public class ReportServiceImpl implements ReportService {
     private ReportMapper reportMapper;
 
     @Override
-    public Report getReport(String rid) {
+    public Report getReport(int rid) {
         return reportMapper.getReport(rid);
     }
 
     @Override
-    public List<Report> getReportByUser(String uid) {
+    public List<Report> getReportByUser(int uid) {
         return reportMapper.getReportByUser(uid);
     }
 
@@ -30,7 +30,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void cancelReport(String rid) {
+    public void cancelReport(int rid) {
         reportMapper.cancelReport(rid);
     }
 }

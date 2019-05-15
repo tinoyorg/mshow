@@ -15,12 +15,12 @@ public class CommentServiceImpl implements CommentService {
     private CommentMapper commentMapper;
 
     @Override
-    public Comment getComment(String cid) {
+    public Comment getComment(int cid) {
         return commentMapper.getComment(cid);
     }
 
     @Override
-    public List<Comment> getCommentListByObject(String object_id) {
+    public List<Comment> getCommentListByObject(int object_id) {
         return getCommentListByObject(object_id);
     }
 
@@ -30,7 +30,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void cancelComment(String cid) {
+    public void cancelComment(int cid) {
         commentMapper.cancelComment(cid);
     }
 }

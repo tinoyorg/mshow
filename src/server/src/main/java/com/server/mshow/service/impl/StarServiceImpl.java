@@ -16,12 +16,12 @@ public class StarServiceImpl implements StarService {
     private StarMapper starMapper;
 
     @Override
-    public Star getStar(String sid) {
+    public Star getStar(int sid) {
         return starMapper.getStar(sid);
     }
 
     @Override
-    public List<Star> getStarByUser(String uid) {
+    public List<Star> getStarByUser(int uid) {
         return starMapper.getStarByUser(uid);
     }
 
@@ -31,7 +31,7 @@ public class StarServiceImpl implements StarService {
     }
 
     @Override
-    public void cancelStar(String sid) {
+    public void cancelStar(int sid) {
         starMapper.cancelStar(sid);
     }
 }

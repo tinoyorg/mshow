@@ -26,7 +26,6 @@ public class UserController {
     private WxService wxService;
 
     @PostMapping("/login")
-
     public Object login(@RequestBody String code,HttpServletRequest request){
 
         JSONObject jsonObject = JSON.parseObject(code);

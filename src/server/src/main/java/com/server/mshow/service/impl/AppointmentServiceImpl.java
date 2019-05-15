@@ -15,17 +15,17 @@ public class AppointmentServiceImpl implements AppointmentService {
    private AppointmentMapper appointmentMapper;
 
     @Override
-    public Appointment getAppointment(String aid) {
+    public Appointment getAppointment(int aid) {
         return appointmentMapper.getAppointment(aid);
     }
 
     @Override
-    public List<Appointment> getAppointmentListByUid(String uid) {
+    public List<Appointment> getAppointmentListByUid(int uid) {
         return appointmentMapper.getAppointmentListByUid(uid);
     }
 
     @Override
-    public List<Appointment> getAppointmentListBySid(String sid) {
+    public List<Appointment> getAppointmentListBySid(int sid) {
         return appointmentMapper.getAppointmentListBySid(sid);
     }
 
@@ -40,7 +40,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void cancelAppointment(String aid) {
+    public void cancelAppointment(int aid) {
         Appointment appointment = getAppointment(aid);
         appointment.setStatus("取消订单");
         appointmentMapper.updateAppointment(appointment);

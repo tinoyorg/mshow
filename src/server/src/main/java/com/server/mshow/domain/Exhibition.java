@@ -21,6 +21,11 @@ public class Exhibition {
     public Exhibition() {
     }
 
+    public Exhibition(int eid, String name) {
+        this.eid = eid;
+        this.name = name;
+    }
+
     public Exhibition(int eid, int uid, String name,
                       String phone, String avatar,
                       String position, String introduce,

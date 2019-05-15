@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface CollectionMapper {
 
-    Collection getCollection(String cid);
+    Collection getCollection(int cid);
     List<Collection> getAllCollectionList();
-    List <Collection> getCollectionBysid(String sid);
+    List <Collection> getCollectionBysid(int sid);
     void createCollection(Collection Collection);
     void updateCollection(Collection Collection);
-    void deleteCollection(String cid);
+    void deleteCollection(int cid);
 
 }

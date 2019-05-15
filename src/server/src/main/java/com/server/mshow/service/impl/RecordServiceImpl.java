@@ -15,12 +15,12 @@ public class RecordServiceImpl implements RecordService {
     private RecordMapper recordMapper;
 
     @Override
-    public Record getRecord(String rid) {
+    public Record getRecord(int rid) {
         return recordMapper.getRecord(rid);
     }
 
     @Override
-    public List<Record> getRecordByUser(String uid) {
+    public List<Record> getRecordByUser(int uid) {
         return getRecordByUser(uid);
     }
 
@@ -30,12 +30,12 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public void cancelRecord(String rid) {
+    public void cancelRecord(int rid) {
         recordMapper.cancelRecord(rid);
     }
 
     @Override
-    public void cancelAllRecordByUid(String uid) {
+    public void cancelAllRecordByUid(int uid) {
         recordMapper.cancelAllRecordByUid(uid);
     }
 }

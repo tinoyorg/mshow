@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ExhibitionService {
 
-    Exhibition getExhibition(String eid);
+    Exhibition getExhibition(int eid);
     List <Exhibition> getAllExhibitionList();
-    List <Exhibition> getExhibitionListByUid(String uid);
+    List <Exhibition> getExhibitionListByUid(int uid);
     void createExhibition(Exhibition exhibition);
     void updateExhibition(Exhibition exhibition);
-    void deleteExhibition(String eid);
+    void deleteExhibition(int eid);
 
 }

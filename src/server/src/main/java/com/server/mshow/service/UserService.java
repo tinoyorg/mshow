@@ -6,13 +6,13 @@ import com.server.mshow.domain.UserInfo;
 
 public interface UserService {
 
-    UserAuth getUserAuth(String uid);
-    UserAuth getUserAuthBywx(String openid);
+    UserAuth getUserAuth(int uid);
+    UserAuth getUserAuthBywx(int openid);
     void insertUserAuth(UserAuth userAuth);
     void updateUserAuth(UserAuth userAuth);
     void updateAuth(String auth);
 
-    UserInfo getUserInfo(String uid);
+    UserInfo getUserInfo(int uid);
     void insertUserInfo(UserInfo UserInfo);
     void updateUserInfo(UserInfo userInfo);
 
