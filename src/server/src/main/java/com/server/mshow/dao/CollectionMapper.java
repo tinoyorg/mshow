@@ -8,7 +8,7 @@ public interface CollectionMapper {
 
     Collection getCollection(int cid);
     List<Collection> getAllCollectionList();
-    List <Collection> getCollectionBysid(int sid);
+    List <Collection> getCollectionBySid(int sid);
     void createCollection(Collection Collection);
     void updateCollection(Collection Collection);
     void deleteCollection(int cid);

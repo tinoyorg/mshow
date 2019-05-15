@@ -50,7 +50,7 @@ public class ExhibitionController {
         Exhibition exhibition = exhibitionService.getExhibition(exhibition_id);
         if(exhibition == null){
             result.setStatus("500");
-            result.setMsg("no any exhibition");
+            result.setMsg("no this exhibition");
             return  result.getJsonObject();
         }
 

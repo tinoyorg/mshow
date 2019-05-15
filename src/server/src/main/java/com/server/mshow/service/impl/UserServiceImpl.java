@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserAuth getUserAuthBywx(int openid) {
-        return userMapper.getUserAuthBywx(openid);
+    public UserAuth getUserAuthByWX(int openid) {
+        return userMapper.getUserAuthByWX(openid);
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface ShowMapper {
 
     Show getShow(int sid);
     List<Show> getAllShowList();
-    List <Show> getShowListByeid(int eid);
+    List <Show> getShowListByEid(int eid);
     void createShow(Show show);
     void updateShow(Show show);
     void deleteShow(int sid);
