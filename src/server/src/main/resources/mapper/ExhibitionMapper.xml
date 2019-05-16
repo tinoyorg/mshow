@@ -6,80 +6,83 @@
 
     <select id="getExhibition" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Exhibition">
         SELECT
-            `exhibition`.eid,
-            `exhibition`.uid,
-            `exhibition`.name,
-            `exhibition`.phone,
-            `exhibition`.avatar,
-            `exhibition`.position,
-            `exhibition`.introduce,
-            `exhibition`.open_time,
-            `exhibition`.end_time,
+            `exhibition`.`eid`,
+            `exhibition`.`uid`,
+            `exhibition`.`name`,
+            `exhibition`.`phone`,
+            `exhibition`.`avatar`,
+            `exhibition`.`position`,
+            `exhibition`.`introduce`,
+            `exhibition`.`open_time`,
+            `exhibition`.`end_time`,
             `exhibition`.`like`,
-            `exhibition`.star,
-            `exhibition`.share
+            `exhibition`.`star`,
+            `exhibition`.`share`
         FROM  `exhibition`
-        WHERE  `exhibition`.eid = #{eid}
+        WHERE  `exhibition`.`eid` = #{eid}
     </select>
 
     <select id="getAllExhibitionList" resultType="com.server.mshow.domain.Exhibition">
         SELECT
-            `exhibition`.eid,
-            `exhibition`.uid,
-            `exhibition`.name,
-            `exhibition`.phone,
-            `exhibition`.avatar,
-            `exhibition`.position,
-            `exhibition`.introduce,
-            `exhibition`.open_time,
-            `exhibition`.end_time,
+            `exhibition`.`eid`,
+            `exhibition`.`uid`,
+            `exhibition`.`name`,
+            `exhibition`.`phone`,
+            `exhibition`.`avatar`,
+            `exhibition`.`position`,
+            `exhibition`.`introduce`,
+            `exhibition`.`open_time`,
+            `exhibition`.`end_time`,
             `exhibition`.`like`,
-            `exhibition`.star,
-            `exhibition`.share
+            `exhibition`.`star`,
+            `exhibition`.`share`
         FROM  `exhibition`
     </select>
 
     <select id="getExhibitionListByUid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Exhibition">
         SELECT
-            `exhibition`.eid,
-            `exhibition`.uid,
-            `exhibition`.name,
-            `exhibition`.phone,
-            `exhibition`.avatar,
-            `exhibition`.position,
-            `exhibition`.introduce,
-            `exhibition`.open_time,
-            `exhibition`.end_time,
+            `exhibition`.`eid`,
+            `exhibition`.`uid`,
+            `exhibition`.`name`,
+            `exhibition`.`phone`,
+            `exhibition`.`avatar`,
+            `exhibition`.`position`,
+            `exhibition`.`introduce`,
+            `exhibition`.`open_time`,
+            `exhibition`.`end_time`,
             `exhibition`.`like`,
-            `exhibition`.star,
-            `exhibition`.share
+            `exhibition`.`star`,
+            `exhibition`.`share`
         FROM  `exhibition`
-        WHERE  `exhibition`.uid = #{uid}
+        WHERE  `exhibition`.`uid` = #{uid}
     </select>
 
     <insert id="createExhibition" parameterType="com.server.mshow.domain.Exhibition">
         INSERT  INTO  `exhibition`
-            (`exhibition`.eid,`exhibition`.uid,`exhibition`.name,`exhibition`.phone,`exhibition`.avatar,`exhibition`.position,`exhibition`.introduce,`exhibition`.open_time,`exhibition`.end_time)
+            ( `eid`, `uid`, `name`, `phone`, `avatar`, `position`, `introduce`, `open_time`, `end_time`, `like`, `star`, `share`)
         VALUES
-        (#{eid}, #{uid}, #{name}, #{phone}, #{avatar}, #{position}, #{introduce}, #{open_time}, #{end_time})
+        (#{eid}, #{uid}, #{name}, #{phone}, #{avatar}, #{position}, #{introduce}, #{open_time}, #{end_time}, #{like}, #{star}, #{share})
     </insert>
 
     <update id="updateExhibition" parameterType="com.server.mshow.domain.Exhibition">
         UPDATE `exhibition` SET
-            `exhibition`.eid = #{eid},
-            `exhibition`.uid = #{uid},
-            `exhibition`.name = #{name},
-            `exhibition`.phone = #{phone},
-            `exhibition`.avatar = #{avator},
-            `exhibition`.position = #{position},
-            `exhibition`.introduce = #{intoduce},
-            `exhibition`.open_time = #{open_time},
-            `exhibition`.end_time = #{end_time}
-        WHERE `exhibition`.eid = #{eid}
+            `exhibition`.`eid` = #{eid},
+            `exhibition`.`uid` = #{uid},
+            `exhibition`.`name` = #{name},
+            `exhibition`.`phone` = #{phone},
+            `exhibition`.`avatar` = #{avator},
+            `exhibition`.`position` = #{position},
+            `exhibition`.`introduce` = #{intoduce},
+            `exhibition`.`open_time` = #{open_time},
+            `exhibition`.`end_time` = #{end_time},
+            `exhibition`.`like` = #{like},
+            `exhibition`.`star` = #{star},
+            `exhibition`.`share` = #{share}
+        WHERE `exhibition`.`eid` = #{eid}
     </update>
 
     <delete id="deleteExhibition" parameterType="java.lang.Integer">
-        DELETE  FROM  `exhibition` WHERE  eid = #{eid}
+        DELETE  FROM  `exhibition` WHERE  `eid` = #{eid}
     </delete>
 
 </mapper>

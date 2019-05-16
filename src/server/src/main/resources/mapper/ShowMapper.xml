@@ -6,75 +6,78 @@
 
     <select id="getShow" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Show">
         SELECT
-            `show`.sid,
-            `show`.eid,
-            `show`.name,
-            `show`.avatar,
-            `show`.position,
-            `show`.introduce,
-            `show`.open_time,
-            `show`.end_time,
+            `show`.`sid`,
+            `show`.`eid`,
+            `show`.`name`,
+            `show`.`avatar`,
+            `show`.`position`,
+            `show`.`introduce`,
+            `show`.`open_time`,
+            `show`.`end_time`,
             `show`.`like`,
-            `show`.star,
-            `show`.share
+            `show`.`star`,
+            `show`.`share`
         FROM  `show`
-        WHERE `show`.sid = #{sid}
+        WHERE `show`.`sid` = #{sid}
     </select>
 
     <select id="getAllShowList" resultType="com.server.mshow.domain.Show">
         SELECT
-            `show`.sid,
-            `show`.eid,
-            `show`.name,
-            `show`.avatar,
-            `show`.position,
-            `show`.introduce,
-            `show`.open_time,
-            `show`.end_time,
+            `show`.`sid`,
+            `show`.`eid`,
+            `show`.`name`,
+            `show`.`avatar`,
+            `show`.`position`,
+            `show`.`introduce`,
+            `show`.`open_time`,
+            `show`.`end_time`,
             `show`.`like`,
-            `show`.star,
-            `show`.share
+            `show`.`star`,
+            `show`.`share`
         FROM  `show`
     </select>
 
     <select id="getShowListByEid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Show">
         SELECT
-            `show`.sid,
-            `show`.eid,
-            `show`.name,
-            `show`.avatar,
-            `show`.position,
-            `show`.introduce,
-            `show`.open_time,
-            `show`.end_time,
+            `show`.`sid`,
+            `show`.`eid`,
+            `show`.`name`,
+            `show`.`avatar`,
+            `show`.`position`,
+            `show`.`introduce`,
+            `show`.`open_time`,
+            `show`.`end_time`,
             `show`.`like`,
-            `show`.star,
-            `show`.share
+            `show`.`star`,
+            `show`.`share`
         FROM  `show`
-        WHERE  `show`.eid = #{eid}
+        WHERE  `show`.`eid` = #{eid}
     </select>
 
     <insert id="createShow" parameterType="com.server.mshow.domain.Show">
         INSERT  INTO  `show`
-            (`show`.eid,`show`.name,`show`.avatar,`show`.position,`show`.introduce,`show`.open_time,`show`.end_time)
+            ( `eid`, `name`, `avatar`, `position`, `introduce`, `open_time`, `end_time`, `like`, `star`, `share`)
         VALUES
-            (#{eid}, #{name}, #{avatar}, #{position}, #{introduce}, #{open_time}, #{end_time})
+            (#{eid}, #{name}, #{avatar}, #{position}, #{introduce}, #{open_time}, #{end_time}, #{like}, #{star}, #{share})
     </insert>
 
     <update id="updateShow" parameterType="com.server.mshow.domain.Show">
         UPDATE `show` SET
-            `show`.eid = #{eid},
-            `show`.name = #{name},
-            `show`.avatar = #{avator},
-            `show`.position = #{position},
-            `show`.introduce = #{introduce},
-            `show`.open_time = #{open_time},
-            `show`.end_time = #{end_time}
-        WHERE `show`.sid = #{sid}
+            `show`.`eid` = #{eid},
+            `show`.`name` = #{name},
+            `show`.`avatar` = #{avator},
+            `show`.`position` = #{position},
+            `show`.`introduce` = #{introduce},
+            `show`.`open_time` = #{open_time},
+            `show`.`end_time` = #{end_time},
+            `show`.`like` = #{like},
+            `show`.`star` = #{star},
+            `show`.`share` = #{share}
+        WHERE `show`.`sid` = #{sid}
     </update>
 
     <delete id="deleteShow" parameterType="java.lang.Integer">
-        DELETE  FROM  `show` WHERE sid = #{sid}
+        DELETE  FROM  `show` WHERE `sid` = #{sid}
     </delete>
 
 </mapper>
