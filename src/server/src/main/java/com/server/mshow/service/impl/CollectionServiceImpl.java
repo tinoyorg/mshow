@@ -11,7 +11,7 @@ import java.util.List;
 @Service("CollectionService")
 public class CollectionServiceImpl implements CollectionService {
 
-    //@Autowired
+    @Autowired
     private CollectionMapper collectionMapper;
 
     @Override
@@ -25,8 +25,8 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public List<Collection> getCollectionBySid(int sid) {
-        return collectionMapper.getCollectionBySid(sid);
+    public List<Collection> getCollectionListBySid(int sid) {
+        return collectionMapper.getCollectionListBySid(sid);
     }
 
     @Override

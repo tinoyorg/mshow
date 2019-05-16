@@ -33,10 +33,11 @@ public class UserController {
 
     @PostMapping("/login")
     public Object login(@RequestBody String code, HttpServletRequest request, HttpServletResponse response){
-
+        //body中解析code
         JSONObject jsonObject = JSON.parseObject(code);
         String wxCode = (String) jsonObject.get("code");
         System.out.println("wxCode:" + wxCode);
+
         Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
         JsonUtils result = new JsonUtils();
 
@@ -89,10 +90,17 @@ public class UserController {
         JsonUtils result = new JsonUtils();
 
         UserInfo userInfo =new UserInfo();
+
+        //从token获取用户的openid和session_key
         String token = request.getHeader("token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String wxSessionKey = map.get("session_key");
         System.out.println(wxSessionKey);
+
+        //body中解析数据
+        JSONObject jsonObject = JSON.parseObject(encryptedData);
+        encryptedData = (String) jsonObject.get("encryptedData");
+        iv =  (String) jsonObject.get("iv");
 
         try {
             //拿到用户session_key和用户敏感数据进行解密，拿到用户信息。
@@ -123,8 +131,9 @@ public class UserController {
     @GetMapping("/user_info")
     public Object getUserInfo(HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
-        UserInfo userInfo =new UserInfo();
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        UserInfo userInfo;
+        // 从 http 请求头中取出 token,并获得openid等
+        String token = request.getHeader("token");
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -148,22 +157,26 @@ public class UserController {
     }
 
     @PutMapping("/user_info")
-    public Object updateUserInfo(HttpServletRequest request,HttpServletResponse response){
+    public Object updateUserInfo( @RequestBody String user_info, HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
 
-        UserInfo userInfo;
+        JSONObject jsonObject = JSON.parseObject(user_info);
+        JSONObject user_json = jsonObject.getJSONObject("user_info");
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
-        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
-        String open_id = map.get("open_id");
-        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+        String name = user_json.getString("user_name");
+        System.out.println("new "+name);
+
+        //String token = request.getHeader("token");// 从 http 请求头中取出 token
+        //LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        //tring open_id = map.get("open_id");
+       // UserAuth userAuth = userService.getUserAuthByWX(open_id);
 
         try {
-            userInfo = userService.getUserInfo(userAuth.getUid());
+            //userInfo = userService.getUserInfo(userAuth.getUid());
             LinkedHashMap data = new LinkedHashMap<String,Object>();
-            data.put("user_info",userInfo);
+           // data.put("user_info",userInfo);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            //response.setHeader("token",map.get("token"));
 
         } catch (Exception e) {
 

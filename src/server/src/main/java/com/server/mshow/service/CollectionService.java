@@ -8,7 +8,7 @@ public interface CollectionService {
 
     Collection getCollection(int cid);
     List<Collection> getAllCollectionList();
-    List <Collection> getCollectionBySid(int sid);
+    List <Collection> getCollectionListBySid(int sid);
     void createCollection(Collection Collection);
     void updateCollection(Collection Collection);
     void deleteCollection(int cid);

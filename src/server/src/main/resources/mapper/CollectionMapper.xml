@@ -43,7 +43,7 @@
     FROM  `collection`
     </select>
 
-    <select id="getCollectionBySid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Collection">
+    <select id="getCollectionListBySid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Collection">
         SELECT
             `collection`.cid,
             `collection`.eid,
@@ -60,7 +60,7 @@
             `collection`.star,
             `collection`.share
         FROM  `collection`
-        WHERE  `collection`.cid = #{sid}
+        WHERE  `collection`.sid = #{sid}
     </select>
     
     <insert id="createCollection" parameterType="com.server.mshow.domain.Collection">

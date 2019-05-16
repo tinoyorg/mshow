@@ -11,7 +11,7 @@ import java.util.List;
 @Service("AppointmentService")
 public class AppointmentServiceImpl implements AppointmentService {
 
-   //@Autowired
+   @Autowired
    private AppointmentMapper appointmentMapper;
 
     @Override

@@ -87,7 +87,7 @@ public class ExhibitionController {
 
         } catch (Exception e) {
             result.setStatus("500");
-            result.setMsg("no any show");
+            result.setMsg("this exhibition no any show");
             e.printStackTrace();
             return  result.getJsonObject();
         }

@@ -1,11 +1,14 @@
 package com.server.mshow.domain;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /*
 用户信息
 用户更多更全面的个人基本信息
  */
 public class UserInfo {
+
 
     private int uid;
     private String sex;

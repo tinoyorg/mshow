@@ -11,7 +11,7 @@ import java.util.List;
 @Service("RecordService")
 public class RecordServiceImpl implements RecordService {
 
-    //@Autowired
+    @Autowired
     private RecordMapper recordMapper;
 
     @Override

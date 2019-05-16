@@ -83,7 +83,7 @@ public class ShowController {
 
         try {
 
-            collectionList = collectionService.getCollectionBySid(show_id);
+            collectionList = collectionService.getCollectionListBySid(show_id);
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("collection_list",collectionList);
             result.setData(data);

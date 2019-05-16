@@ -12,7 +12,7 @@ import java.util.List;
 @Service("StarService")
 public class StarServiceImpl implements StarService {
 
-    //@Autowired
+    @Autowired
     private StarMapper starMapper;
 
     @Override

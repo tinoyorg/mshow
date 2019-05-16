@@ -13,7 +13,7 @@ import java.util.List;
 @Service("ShowService")
 public class ShowServiceImpl implements ShowService {
 
-    //@Autowired
+    @Autowired
     private ShowMapper showMapper;
 
     @Override
