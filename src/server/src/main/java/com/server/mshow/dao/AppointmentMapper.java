@@ -1,9 +1,10 @@
 package com.server.mshow.dao;
 
 import com.server.mshow.domain.Appointment;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
+@Mapper
 public interface AppointmentMapper {
     Appointment getAppointment(int aid);
     List<Appointment> getAppointmentListByUid(int uid);

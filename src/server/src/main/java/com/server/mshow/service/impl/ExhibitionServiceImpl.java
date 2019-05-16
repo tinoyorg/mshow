@@ -11,7 +11,7 @@ import java.util.List;
 @Service("ExhibitionService")
 public class ExhibitionServiceImpl implements ExhibitionService {
 
-    //@Autowired
+    @Autowired
     private ExhibitionMapper exhibitionMapper;
 
     @Override
@@ -26,7 +26,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
     @Override
     public List<Exhibition> getExhibitionListByUid(int uid) {
-        return getExhibitionListByUid(uid);
+        return exhibitionMapper.getExhibitionListByUid(uid);
     }
 
     @Override
