@@ -6,87 +6,87 @@
 
     <select id="getCollection" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Collection">
     SELECT
-        'collection'.cid,
-        'collection'.eid,
-        'collection'.sid,
-        'collection'.name,
-        'collection'.avatar,
-        'collection'.position,
-        'collection'.introduce,
-        'collection'.author,
-        'collection'.years,
-        'collection'.source,
-        'collection'.code,
-        'collection'.`like`,
-        'collection'.star,
-        'collection'.share
-    FROM  'collection'
-    WHERE  'collection'.cid = #{cid}
+        `collection`.cid,
+        `collection`.eid,
+        `collection`.sid,
+        `collection`.name,
+        `collection`.avatar,
+        `collection`.position,
+        `collection`.introduce,
+        `collection`.author,
+        `collection`.years,
+        `collection`.source,
+        `collection`.code,
+        `collection`.`like`,
+        `collection`.star,
+        `collection`.share
+    FROM  `collection`
+    WHERE  `collection`.cid = #{cid}
     </select>
 
     <select id="getAllCollectionList" resultType="com.server.mshow.domain.Collection">
     SELECT
-        'collection'.cid,
-        'collection'.eid,
-        'collection'.sid,
-        'collection'.name,
-        'collection'.avatar,
-        'collection'.position,
-        'collection'.introduce,
-        'collection'.author,
-        'collection'.years,
-        'collection'.source,
-        'collection'.code,
-        'collection'.`like`,
-        'collection'.star,
-        'collection'.share
-    FROM  'collection'
+        `collection`.cid,
+        `collection`.eid,
+        `collection`.sid,
+        `collection`.name,
+        `collection`.avatar,
+        `collection`.position,
+        `collection`.introduce,
+        `collection`.author,
+        `collection`.years,
+        `collection`.source,
+        `collection`.code,
+        `collection`.`like`,
+        `collection`.star,
+        `collection`.share
+    FROM  `collection`
     </select>
 
     <select id="getCollectionBySid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Collection">
         SELECT
-            'collection'.cid,
-            'collection'.eid,
-            'collection'.sid,
-            'collection'.name,
-            'collection'.avatar,
-            'collection'.position,
-            'collection'.introduce,
-            'collection'.author,
-            'collection'.years,
-            'collection'.source,
-            'collection'.code,
-            'collection'.`like`,
-            'collection'.star,
-            'collection'.share
-        FROM  'collection'
-        WHERE  'collection'.cid = #{sid}
+            `collection`.cid,
+            `collection`.eid,
+            `collection`.sid,
+            `collection`.name,
+            `collection`.avatar,
+            `collection`.position,
+            `collection`.introduce,
+            `collection`.author,
+            `collection`.years,
+            `collection`.source,
+            `collection`.code,
+            `collection`.`like`,
+            `collection`.star,
+            `collection`.share
+        FROM  `collection`
+        WHERE  `collection`.cid = #{sid}
     </select>
     
     <insert id="createCollection" parameterType="com.server.mshow.domain.Collection">
-    INSERT  INTO  'collection'
-        ('collection'.eid, 'collection'.sid, 'collection'.name, 'collection'.avatar, 'collection'.position, 'collection'.introduce, 'collection'.author, 'collection'.years, 'collection'.source, 'collection'.code)
+    INSERT  INTO  `collection`
+        (`collection`.eid, `collection`.sid, `collection`.name, `collection`.avatar, `collection`.position, `collection`.introduce, `collection`.author, `collection`.years, `collection`.source, `collection`.code)
     VALUES
         (#{eid}, #{sid}, #{name}, #{avatar}, #{position}, #{introduce}, #{author}, #{years}, #{source}, #{code})
     </insert>
 
     <update id="updateCollection" parameterType="com.server.mshow.domain.Collection">
-    UPDATE 'collection' SET
-        'collection'.eid = #{eid},
-        'collection'.sid = #{sid},
-        'collection'.name = #{name},
-        'collection'.avatar = #{avator},
-        'collection'.position = #{position},
-        'collection'.introduce = #{introduce},
-        'collection'.author = #{author},
-        'collection'.years = #{years},
-        'collection'.source = #{source},
-        'collection'.`code` = #{code}
-    WHERE 'collection'.cid = #{cid}
+    UPDATE `collection` SET
+        `collection`.eid = #{eid},
+        `collection`.sid = #{sid},
+        `collection`.name = #{name},
+        `collection`.avatar = #{avator},
+        `collection`.position = #{position},
+        `collection`.introduce = #{introduce},
+        `collection`.author = #{author},
+        `collection`.years = #{years},
+        `collection`.source = #{source},
+        `collection`.`code` = #{code}
+    WHERE `collection`.cid = #{cid}
     </update>
     
     <delete id="deleteCollection" parameterType="java.lang.Integer">
-    DELETE  FROM  'collection' WHERE cid = #{cid}
+    DELETE  FROM  `collection` WHERE cid = #{cid}
     </delete>
 
 </mapper>
