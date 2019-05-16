@@ -7,11 +7,11 @@ import java.util.List;
 public interface CollectionMapper {
     //展品查询
     
-    Collection getCollection(int cid);
-    List<Collection> getAllCollectionList();
-    List <Collection> getCollectionBySid(int sid);
-    void createCollection(Collection Collection);
-    void updateCollection(Collection Collection);
-    void deleteCollection(int cid);
+    Collection getCollection(int cid);//获取某一展品信息
+    List<Collection> getAllCollectionList();//获取
+    List <Collection> getCollectionBySid(int sid);//获取某展览下所有展品
+    void createCollection(Collection Collection);//创建展品
+    void updateCollection(Collection Collection);//更改展品信息
+    void deleteCollection(int cid);//删除展品
 
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.ShowMapper">
+
+    <select id="getShow" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Show">
+        SELECT
+            'show'.sid,
+            'show'.eid,
+            'show'.name,
+            'show'.avatar,
+            'show'.position,
+            'show'.introduce,
+            'show'.open_time,
+            'show'.end_time,
+            'show'.`like`,
+            'show'.star,
+            'show'.share
+        FROM  'show'
+        WHERE 'show'.sid = #{sid}
+    </select>
+
+    <select id="getAllShowList" resultType="com.server.mshow.domain.Show">
+        SELECT
+            'show'.sid,
+            'show'.eid,
+            'show'.name,
+            'show'.avatar,
+            'show'.position,
+            'show'.introduce,
+            'show'.open_time,
+            'show'.end_time,
+            'show'.`like`,
+            'show'.star,
+            'show'.share
+        FROM  'show'
+    </select>
+
+    <select id="getShowListByEid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Show">
+        SELECT
+            'show'.sid,
+            'show'.eid,
+            'show'.name,
+            'show'.avatar,
+            'show'.position,
+            'show'.introduce,
+            'show'.open_time,
+            'show'.end_time,
+            'show'.`like`,
+            'show'.star,
+            'show'.share
+        FROM  'show'
+        WHERE  'show'.eid = #{eid}
+    </select>
+
+    <insert id="createShow" parameterType="com.server.mshow.domain.Show">
+        INSERT  INTO  'show'
+            ('show'.eid,'show'.name,'show'.avatar,'show'.position,'show'.introduce,'show'.open_time,'show'.end_time)
+        VALUES
+            (#{eid}, #{name}, #{avatar}, #{position}, #{introduce}, #{open_time}, #{end_time})
+    </insert>
+
+    <update id="updateShow" parameterType="com.server.mshow.domain.Show">
+        UPDATE 'show' SET
+            'show'.eid = #{eid},
+            'show'.name = #{name},
+            'show'.avatar = #{avator},
+            'show'.position = #{position},
+            'show'.introduce = #{introduce},
+            'show'.open_time = #{open_time},
+            'show'.end_time = #{end_time}
+        WHERE 'show'.sid = #{sid}
+    </update>
+
+    <delete id="deleteShow" parameterType="java.lang.Integer">
+        DELETE  FROM  `show` WHERE sid = #{sid}
+    </delete>
+
+</mapper>
