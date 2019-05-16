@@ -48,17 +48,17 @@
             `collection`.`cid`,
             `collection`.`eid`,
             `collection`.`sid`,
-            `collection`.`name`,
-            `collection`.`avatar`,
-            `collection`.`position`,
-            `collection`.`introduce`,
-            `collection`.`author`,
-            `collection`.`years`,
-            `collection`.`source`,
-            `collection`.`code`,
-            `collection`.`like`,
-            `collection`.`star`,
-            `collection`.`share`
+            `collection`.`name`
+#             `collection`.`avatar`,
+#             `collection`.`position`,
+#             `collection`.`introduce`,
+#             `collection`.`author`,
+#             `collection`.`years`,
+#             `collection`.`source`,
+#             `collection`.`code`,
+#             `collection`.`like`,
+#             `collection`.`star`,
+#             `collection`.`share`
         FROM  `collection`
         WHERE  `collection`.`sid` = #{sid}
     </select>

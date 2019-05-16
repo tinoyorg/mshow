@@ -43,16 +43,16 @@
         SELECT
             `exhibition`.`eid`,
             `exhibition`.`uid`,
-            `exhibition`.`name`,
-            `exhibition`.`phone`,
-            `exhibition`.`avatar`,
-            `exhibition`.`position`,
-            `exhibition`.`introduce`,
-            `exhibition`.`open_time`,
-            `exhibition`.`end_time`,
-            `exhibition`.`like`,
-            `exhibition`.`star`,
-            `exhibition`.`share`
+            `exhibition`.`name`
+#             `exhibition`.`phone`,
+#             `exhibition`.`avatar`,
+#             `exhibition`.`position`,
+#             `exhibition`.`introduce`,
+#             `exhibition`.`open_time`,
+#             `exhibition`.`end_time`,
+#             `exhibition`.`like`,
+#             `exhibition`.`star`,
+#             `exhibition`.`share`
         FROM  `exhibition`
         WHERE  `exhibition`.`uid` = #{uid}
     </select>

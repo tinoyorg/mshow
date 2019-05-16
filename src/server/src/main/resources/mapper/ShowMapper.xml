@@ -41,15 +41,15 @@
         SELECT
             `show`.`sid`,
             `show`.`eid`,
-            `show`.`name`,
-            `show`.`avatar`,
-            `show`.`position`,
-            `show`.`introduce`,
-            `show`.`open_time`,
-            `show`.`end_time`,
-            `show`.`like`,
-            `show`.`star`,
-            `show`.`share`
+            `show`.`name`
+#             `show`.`avatar`,
+#             `show`.`position`,
+#             `show`.`introduce`,
+#             `show`.`open_time`,
+#             `show`.`end_time`,
+#             `show`.`like`,
+#             `show`.`star`,
+#             `show`.`share`
         FROM  `show`
         WHERE  `show`.`eid` = #{eid}
     </select>
