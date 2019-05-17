@@ -65,7 +65,7 @@
         UPDATE `show` SET
             `show`.`eid` = #{eid},
             `show`.`name` = #{name},
-            `show`.`avatar` = #{avator},
+            `show`.`avatar` = #{avatar},
             `show`.`position` = #{position},
             `show`.`introduce` = #{introduce},
             `show`.`open_time` = #{open_time},

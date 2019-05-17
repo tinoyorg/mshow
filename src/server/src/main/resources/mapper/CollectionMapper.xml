@@ -75,7 +75,7 @@
         `collection`.`eid` = #{eid},
         `collection`.`sid` = #{sid},
         `collection`.`name` = #{name},
-        `collection`.`avatar` = #{avator},
+        `collection`.`avatar` = #{avatar},
         `collection`.`position` = #{position},
         `collection`.`introduce` = #{introduce},
         `collection`.`author` = #{author},

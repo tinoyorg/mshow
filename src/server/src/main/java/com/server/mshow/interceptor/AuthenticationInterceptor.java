@@ -7,6 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
+import com.server.mshow.annotation.AdminUser;
 import com.server.mshow.annotation.PassToken;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
@@ -35,6 +36,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
         String token = httpServletRequest.getHeader("token");// 从 http 请求头中取出 token
+
         // 如果不是映射到方法直接通过
         if(!(object instanceof HandlerMethod)){
             return true;
@@ -59,7 +61,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 // 获取 token 中的 open_id
                 String open_id;
                 try {
-                    open_id = JWT.decode(token).getAudience().get(0);
+                    open_id = JWT.decode(token).getClaim("openid").asString();
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("401");
                 }
@@ -67,6 +69,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 if (userAuth == null) {
                     throw new RuntimeException("用户不存在，请重新登录");
                 }
+                else if (method.isAnnotationPresent(AdminUser.class)) {
+
+                    if(userAuth.getAuth().equals("admin")){
+                        throw new RuntimeException("用户不是管理员，不可更改数据");
+                    }
+                }
+
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
                 try {
@@ -77,6 +86,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
+
+
         return true;
     }
 

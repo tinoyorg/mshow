@@ -3,11 +3,13 @@ package com.server.mshow.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
+import com.server.mshow.domain.*;
+import com.server.mshow.service.AppointmentService;
+import com.server.mshow.service.ExhibitionService;
+import com.server.mshow.service.StarService;
 import com.server.mshow.util.AesCbcUtil;
 import com.server.mshow.util.JsonUtils;
 import com.server.mshow.common.WxService;
-import com.server.mshow.domain.UserAuth;
-import com.server.mshow.domain.UserInfo;
 import com.server.mshow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import com.alibaba.fastjson.JSON;
 
@@ -29,10 +32,18 @@ public class UserController {
     private WxService wxService;
 
     @Autowired
-    TokenService tokenService;
+    private  TokenService tokenService;
+
+    @Autowired
+    private ExhibitionService exhibitionService;
+    @Autowired
+    private StarService starService;
+    @Autowired
+    private AppointmentService appointmentService;
 
     @PostMapping("/login")
-    public Object login(@RequestBody String code, HttpServletRequest request, HttpServletResponse response){
+    public Object login(@RequestBody String code, @RequestBody String encryptedData, @RequestBody String iv,
+                        HttpServletRequest request, HttpServletResponse response){
         //body中解析code
         JSONObject jsonObject = JSON.parseObject(code);
         String wxCode = (String) jsonObject.get("code");
@@ -49,24 +60,31 @@ public class UserController {
 
         String wxOpenId = (String)wxSessionMap.get("openid");
         String wxSessionKey = (String)wxSessionMap.get("session_key");
+        UserAuth userAuth = userService.getUserAuthByWX(wxOpenId);
+        if(userAuth == null) {
+            //创建新用户到userAuth及userInfo
+            userAuth = new UserAuth();
+            userAuth.setOpenid(wxOpenId);
+            userAuth.setSession_key(wxSessionKey);
+            userAuth.setAuth("user");
 
-        UserAuth userAuth =new UserAuth();
-        userAuth.setOpenid(wxOpenId);
-        userAuth.setSession_key(wxSessionKey);
-        userAuth.setAuth("user");
+        }else {
+            //旧用户重新登录，验证session_key需要更新
+            if(!wxSessionKey.equals(userAuth.getSession_key())){
+                userAuth.setSession_key(wxSessionKey);
+            }
+        }
+
         userService.insertUserAuth(userAuth);
+        initUserInfo(wxSessionKey, encryptedData, iv);
 
         String token = tokenService.getToken(userAuth);
         response.setHeader("token",token);
 
-        LinkedHashMap data = new LinkedHashMap<String,Object>();
-
-        data.put("user_Auth",userAuth);
         System.out.println("openid: "+userAuth.getOpenid() );
         System.out.println("session_key: " + userAuth.getSession_key());
         System.out.println("token："+token);
 
-        result.setData(data);
         return result.getJsonObject();
     }
 
@@ -74,33 +92,21 @@ public class UserController {
     public Object getToken(HttpServletRequest request,HttpServletResponse response){
 
         JsonUtils result = new JsonUtils();
+
         String token = request.getHeader("token");// 从 http 请求头中取出 token
         System.out.println(token);
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String wxSessionKey = map.get("session_key");
         response.setHeader("session_key",wxSessionKey);
         response.setHeader("old_token",token);
+
         return result.getJsonObject();
     }
 
-    @UserLoginToken
-    @PostMapping("/user_info")
-    public Object initUserInfo(@RequestBody String encryptedData, @RequestBody String iv,
-                               HttpServletRequest request,HttpServletResponse response){
-        JsonUtils result = new JsonUtils();
+
+    public void initUserInfo( String wxSessionKey, String encryptedData, String iv ){
 
         UserInfo userInfo =new UserInfo();
-
-        //从token获取用户的openid和session_key
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
-        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
-        String wxSessionKey = map.get("session_key");
-        System.out.println(wxSessionKey);
-
-        //body中解析数据
-        JSONObject jsonObject = JSON.parseObject(encryptedData);
-        encryptedData = (String) jsonObject.get("encryptedData");
-        iv =  (String) jsonObject.get("iv");
 
         try {
             //拿到用户session_key和用户敏感数据进行解密，拿到用户信息。
@@ -108,23 +114,24 @@ public class UserController {
             JSONObject jsons  = JSON.parseObject(decrypts);
             userInfo.setNick(jsons.get("nickName").toString()); //用户昵称
             userInfo.setAvatar(jsons.get("avatarUrl").toString());//用户头像
-            userInfo.setSex(jsons.get("gender").toString());
-            userInfo.setName(jsons.get("nickName").toString());
-            String position =jsons.get("province").toString()+jsons.get("city").toString();
+            userInfo.setSex(jsons.get("gender").toString());//用户性别
+            userInfo.setName(jsons.get("nickName").toString());//用户姓名 用昵称代替
+
+            String position = jsons.get("province").toString()+"," //用户地址
+                            + jsons.get("city").toString()+","
+                            + jsons.get("country").toString();
+
             userInfo.setPosition(position);
-            userInfo.setLocation(jsons.get("country").toString());
+            userInfo.setLocation("uninitialized");
+
+            //插入用户信息到数据库
+            userService.insertUserInfo(userInfo);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        userService.insertUserInfo(userInfo);
-        LinkedHashMap data = new LinkedHashMap<String,Object>();
-        data.put("user_info",userInfo);
-        result.setData(data);
 
-        response.setHeader("token",map.get("token"));
 
-        return result.getJsonObject();
     }
 
     @UserLoginToken
@@ -138,10 +145,24 @@ public class UserController {
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
 
+
         try {
-            userInfo = userService.getUserInfo(userAuth.getUid());
+            int uid = userAuth.getUid();
+            userInfo = userService.getUserInfo(uid);
+
+            List<Star> starList  = starService.getStarByUser(uid);
+            List<Appointment> appointmentList  = appointmentService.getAppointmentListByUid(uid) ;
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("user_info",userInfo);
+            data.put("auth",userAuth.getAuth());
+            data.put("appointment_List" ,appointmentList);
+            data.put("star_list",starList);
+
+            if(userAuth.getAuth().equals("admin")){
+            List<Exhibition>  exhibitionList = exhibitionService.getExhibitionListByUid(uid);
+            data.put("exhibition_List",exhibitionList);
+
+            }
             result.setData(data);
             response.setHeader("token",map.get("token"));
 
@@ -157,26 +178,29 @@ public class UserController {
     }
 
     @PutMapping("/user_info")
-    public Object updateUserInfo( @RequestBody String user_info, HttpServletRequest request,HttpServletResponse response){
+    public Object updateUserInfo( @RequestBody String json, HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
 
-        JSONObject jsonObject = JSON.parseObject(user_info);
-        JSONObject user_json = jsonObject.getJSONObject("user_info");
+        JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("user_info");
+        UserInfo userInfo;
 
-        String name = user_json.getString("user_name");
-        System.out.println("new "+name);
-
-        //String token = request.getHeader("token");// 从 http 请求头中取出 token
-        //LinkedHashMap<String,String> map = tokenService.verifyToken(token);
-        //tring open_id = map.get("open_id");
-       // UserAuth userAuth = userService.getUserAuthByWX(open_id);
+        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
 
         try {
-            //userInfo = userService.getUserInfo(userAuth.getUid());
+            userInfo = userService.getUserInfo(userAuth.getUid());
+            if(jsonObject.getString("user_name") != null)
+            userInfo.setName(jsonObject.getString("user_name"));
+            if(jsonObject.getString("user_location") != null)
+            userInfo.setLocation(jsonObject.getString("user_location"));
+            userService.updateUserInfo(userInfo);
+
             LinkedHashMap data = new LinkedHashMap<String,Object>();
-           // data.put("user_info",userInfo);
+            data.put("user_info",userInfo);
             result.setData(data);
-            //response.setHeader("token",map.get("token"));
+            response.setHeader("token",map.get("token"));
 
         } catch (Exception e) {
 

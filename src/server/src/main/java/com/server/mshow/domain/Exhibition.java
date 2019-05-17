@@ -4,6 +4,10 @@ package com.server.mshow.domain;
 展馆
 展馆的相关信息
  */
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
 public class Exhibition {
     private int eid;
     private int uid;
