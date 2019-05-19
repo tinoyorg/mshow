@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.AppointmentMapper">
+
+    <select id="getAppointment" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Appointment">
+        SELECT
+            `appointment`.`aid`,
+            `appointment`.`uid`,
+            `appointment`.`sid`,
+            `appointment`.`timestamp`,
+            `appointment`.`lastmodify`,
+            `appointment`.`book_time`,
+            `appointment`.`arrival_time`,
+            `appointment`.`staus`
+        FROM  `appointment`
+        WHERE  `appointment`.`aid` = #{aid}
+    </select>
+
+    <select id="getAppointmentListByUis" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Appointment">
+        SELECT
+            `appointment`.`aid`,
+            `appointment`.`uid`,
+            `appointment`.`sid`,
+            `appointment`.`timestamp`,
+            `appointment`.`lastmodify`,
+            `appointment`.`book_time`,
+            `appointment`.`arrival_time`,
+            `appointment`.`staus`
+        FROM  `appointment`
+        WHERE  `appointment`.`uid` = #{uid}
+    </select>
+
+    <select id="getAppointmentListBySid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Appointment">
+        SELECT
+            `appointment`.`aid`,
+            `appointment`.`uid`,
+            `appointment`.`sid`,
+            `appointment`.`timestamp`,
+            `appointment`.`lastmodify`,
+            `appointment`.`book_time`,
+            `appointment`.`arrival_time`,
+            `appointment`.`staus`
+        FROM  `appointment`
+        WHERE  `appointment`.`sid` = #{sid}
+    </select>
+
+    <insert id="createAppointment" parameterType="com.server.mshow.domain.Appointment">
+        INSERT  INTO  `appointment`
+        ( `uid`, `sid`, `timestamp`, `lastmodify`, `book_time`, `arrival_time`, `staus`)
+        VALUES
+        ( #{uid}, #{sid}, #{timestamp}, #{lastmodify}, #{book_time}, #{arrival_time}, #{staus})
+    </insert>
+
+    <update id="updateAppointment" parameterType="com.server.mshow.domain.Appointment">
+    UPDATE `appointment` SET
+#         `appointment`.`aid` = #{aid},
+        `appointment`.`uid` = #{uid},
+        `appointment`.`sid` = #{sid},
+        `appointment`.`timestamp` = #{timestamp},
+        `appointment`.`lastmodify` = #{lastmodify},
+        `appointment`.`book_time` = #{book_time},
+        `appointment`.`arrival_time` = #{arrival_time},
+        `appointment`.`staus` = #{staus}
+    WHERE `appointment`.`aid` = #{aid}
+    </update>
+
+    <delete id="cancelAppointment" parameterType="java.lang.Integer">
+    UPDATE `appointment` SET
+#         `appointment`.`aid` = #{aid},
+        `appointment`.`staus` = #{staus}#有问题
+    WHERE `appointment`.`aid` = #{aid}
+    </delete>
+
+</mapper>

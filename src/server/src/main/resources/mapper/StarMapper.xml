@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.StarMapper">
+
+    <select id="getStar" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Star">
+        SELECT
+            `star`.`sid`,
+            `star`.`uid`,
+            `star`.`object_id`,
+            `star`.`object_type`,
+            `star`.`timestamp`
+        FROM  `star`
+        WHERE  `star`.`sid` = #{sid}
+    </select>
+
+    <select id="getStarByUser" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Star">
+        SELECT
+            `star`.`sid`,
+            `star`.`uid`,
+            `star`.`object_id`,
+            `star`.`object_type`,
+            `star`.`timestamp`
+        FROM  `star`
+        WHERE  `star`.`sid` = #{uid}
+    </select>
+
+    <insert id="createStar" parameterType="com.server.mshow.domain.Star">
+        INSERT  INTO  `star`
+        ( `sid`, `uid`, `object_id`, `object_type`, `timestamp`)
+        VALUES
+        ( #{sid}, #{uid}, #{object_id}, #{object_type}, #{timestamp})
+    </insert>
+
+    <delete id="deleteStar" parameterType="java.lang.Integer">
+        DELETE  FROM  `star` WHERE `sid` = #{sid}
+    </delete>
+
+</mapper>

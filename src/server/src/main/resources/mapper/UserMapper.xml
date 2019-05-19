@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.UserMapper">
+
+    <select id="getUserAuth" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.UserAuth">
+        SELECT
+            `user_auth`.`uid`,
+            `user_auth`.`openid`,
+            `user_auth`.`session_key`,
+            `user_auth`.`unionid`,
+            `user_auth`.`auth`
+        FROM  `user_auth`
+        WHERE  `user_auth`.`uid` = #{uid}
+    </select>
+
+    <select id="getUserAuthByWX" parameterType="java.lang.String" resultType="com.server.mshow.domain.UserAuth">
+        SELECT
+            `user_auth`.`uid`,
+            `user_auth`.`openid`,
+            `user_auth`.`session_key`,
+            `user_auth`.`unionid`,
+            `user_auth`.`auth`
+        FROM  `user_auth`
+        WHERE  `user_auth`.`openid` = #{openid}
+    </select>
+    
+    <insert id="insertUserAuth" parameterType="com.server.mshow.domain.UserAuth">
+        INSERT  INTO  `user_auth`
+        ( `openid`, `session_key`, `unionid`, `auth`)
+        VALUES
+        (#{openid}, #{session_key}, #{unionid}, #{auth})
+    </insert>
+
+    <update id="updateUserAuth" parameterType="com.server.mshow.domain.UserAuth">
+        UPDATE `user_auth` SET
+            `user_auth`.`openid` = #{openid},
+            `user_auth`.`session_key` = #{session_key},
+            `user_auth`.`unionid` = #{unionid},
+            `user_auth`.`auth` = #{auth}
+        WHERE `user_auth`.`uid` = #{uid}
+    </update>
+
+    <delete id="updateAuth" parameterType="java.lang.String">
+        DELETE  FROM  `user_auth` WHERE `auth` = #{auth}
+    </delete>
+
+    <select id="getUserInfo" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.UserInfo">
+        SELECT
+            `user_info`.`uid`,
+            `user_info`.`sex`,
+            `user_info`.`nick`,
+            `user_info`.`name`,
+            `user_info`.`avatar`,
+            `user_info`.`location`,
+            `user_info`.`position`,
+        FROM  `user_info`
+        WHERE  `user_info`.`uid` = #{uid}
+    </select>
+
+    <insert id="insertUserInfo" parameterType="com.server.mshow.domain.UserInfo">
+        INSERT  INTO  `user_info`
+            ( `uid`, `sex`, `nick`, `name`, `avatar`, `location`, `position`)
+        VALUES
+            (#{uid}, #{sex}, #{nick}, #{name}, #{avatar}, #{location}, #{position})
+    </insert>
+
+    <update id="updateUserInfo" parameterType="com.server.mshow.domain.UserInfo">
+        UPDATE `user_info` SET
+            `user_info`.`uid` = #{uid},
+            `user_info`.`sex` = #{sex},
+            `user_info`.`nick` = #{nick},
+            `user_info`.`name` = #{name},
+            `user_info`.`avatar` = #{avatar},
+            `user_info`.`location` = #{location},
+            `user_info`.`position` = #{position}
+        WHERE `user_info`.`uid` = #{uid}
+    </update>
+    
+</mapper>

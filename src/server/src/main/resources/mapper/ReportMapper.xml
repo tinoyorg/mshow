@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.ReportMapper">
+
+    <select id="getReport" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Report">
+        SELECT
+            `report`.`rid`,
+            `report`.`uid`,
+            `report`.`object_id`,
+            `report`.`object_type`,
+            `report`.`type`,
+            `report`.`content`,
+            `report`.`timestamp`
+        FROM  `report`
+        WHERE  `report`.`rid` = #{rid}
+    </select>
+
+    <select id="getReportByUser" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Report">
+        SELECT
+            `report`.`rid`,
+            `report`.`uid`,
+            `report`.`object_id`,
+            `report`.`object_type`,
+            `report`.`type`,
+            `report`.`content`,
+            `report`.`timestamp`
+        FROM  `report`
+        WHERE  `report`.`uid` = #{uid}
+    </select>
+
+    <insert id="createReport" parameterType="com.server.mshow.domain.Report">
+        INSERT  INTO  `report`
+        ( `uid`, `object_id`, `object_type`, `type`, `content`, `timestamp`)
+        VALUES
+        (#{uid}, #{object_id}, #{object_type}, #{type}, #{content}, #{timestamp})
+    </insert>
+
+    <delete id="cancelReport" parameterType="java.lang.Integer">
+        DELETE  FROM  `report` WHERE `rid` = #{rid}
+    </delete>
+
+</mapper>

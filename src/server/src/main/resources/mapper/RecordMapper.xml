@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.RecordMapper">
+
+    <select id="getRecord" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Record">
+        SELECT
+            `record`.`rid`,
+            `record`.`uid`,
+            `record`.`object_id`,
+            `record`.`object_type`,
+            `record`.`timestamp`
+        FROM  `record`
+        WHERE  `record`.`rid` = #{rid}
+    </select>
+
+    <select id="getRecordByUser" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Record">
+        SELECT
+            `record`.`rid`,
+            `record`.`uid`,
+            `record`.`object_id`,
+            `record`.`object_type`,
+            `record`.`timestamp`
+        FROM  `record`
+        WHERE  `record`.`uid` = #{uid}
+    </select>
+
+    <insert id="createRecord" parameterType="com.server.mshow.domain.Record">
+        INSERT  INTO  `record`
+            ( `uid`, `object_id`, `object_type`, `timestamp`)
+        VALUES
+            (#{uid}, #{object_id}, #{object_type}, #{timestamp})
+    </insert>
+
+    <delete id="cancelRecord" parameterType="java.lang.Integer">
+        DELETE  FROM  `record` WHERE `rid` = #{rid}
+    </delete>
+
+    <delete id="cancelAllRecordByUid" parameterType="java.lang.Integer">
+        DELETE  FROM  `record` WHERE `uid` = #{uid}
+    </delete>
+
+</mapper>

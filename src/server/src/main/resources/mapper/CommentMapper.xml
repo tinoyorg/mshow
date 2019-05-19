@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.CommentMapper">
+
+    <select id="getComment" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Comment">
+        SELECT
+            `comment`.`cid`,
+            `comment`.`uid`,
+            `comment`.`object_id`,
+            `comment`.`object_type`,
+            `comment`.`content`,
+            `comment`.`timestamp`,
+            `comment`.`like`
+        FROM  `comment`
+        WHERE  `comment`.`cid` = #{cid}
+    </select>
+
+    <select id="getCommentListByObject" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Comment">
+        SELECT
+            `comment`.`cid`,
+            `comment`.`uid`,
+            `comment`.`object_id`,
+            `comment`.`object_type`,
+            `comment`.`content`,
+            `comment`.`timestamp`,
+            `comment`.`like`
+        FROM  `comment`
+        WHERE  `comment`.`object_id` = #{object_id}
+    </select>
+
+    <insert id="createComment" parameterType="com.server.mshow.domain.Comment">
+        INSERT  INTO  `comment`
+        ( `uid`, `timestamp`, `object_id`, `object_type`, `content`, `timestamp`, `like`)
+        VALUES
+        ( #{uid}, #{timestamp}, #{object_id}, #{object_type}, #{content}, #{timestamp}, #{like})
+    </insert>
+
+    <update id="cancelComment" parameterType="com.server.mshow.domain.Comment">
+        UPDATE `comment` SET
+            `comment`.`uid` = #{uid},
+            `comment`.`timestamp` = #{timestamp},
+            `comment`.`object_id` = #{object_id},
+            `comment`.`object_type` = #{object_type},
+            `comment`.`content` = #{content},
+            `comment`.`timestamp` = #{timestamp},
+             `comment`.`like` = #{like}
+        WHERE `comment`.`aid` = #{cid}
+    </update>
+
+</mapper>
