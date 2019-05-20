@@ -46,7 +46,7 @@
             `comment`.`content` = #{content},
             `comment`.`timestamp` = #{timestamp},
              `comment`.`like` = #{like}
-        WHERE `comment`.`aid` = #{cid}
+        WHERE `comment`.`cid` = #{cid}
     </update>
 
 </mapper>
