@@ -46,6 +46,7 @@ public class UserController {
         String wxCode = jsonObject.getString("code");
         String wxEncryptedData =jsonObject.getString("encryptedData");
         String wxIv = jsonObject.getString("iv");
+        String wxUnionid = jsonObject.getString("unionid");
         System.out.println("wxCode:" + wxCode);
         System.out.println("wxEncryptedData : " + wxEncryptedData);
         System.out.println("wxIv :"+wxIv);
@@ -78,15 +79,19 @@ public class UserController {
         }
 
 
-        LinkedHashMap<Object,Object> map = initUserInfo(wxSessionKey, wxEncryptedData, wxIv);
-        String wxUnionid = (String) map.get("unionId");
-        UserInfo userInfo = (UserInfo) map.get("userInfo");
+
         System.out.println("wxUnionid :"+wxUnionid);
         userAuth.setUnionid(wxUnionid);
 
         //插入用户角色到数据库
         userService.insertUserAuth(userAuth);
 
+
+        LinkedHashMap<Object,Object> map = initUserInfo(wxSessionKey, wxEncryptedData, wxIv);
+        // String wxUnionid = (String) map.get("unionId");
+        UserInfo userInfo = (UserInfo) map.get("userInfo");
+        userAuth = userService.getUserAuthByWX(wxOpenId);
+        userInfo.setUid(userAuth.getUid());
         //插入用户信息到数据库
         userService.insertUserInfo(userInfo);
         String token = tokenService.getToken(userAuth);
@@ -119,7 +124,7 @@ public class UserController {
 
         LinkedHashMap<Object,Object> map = new LinkedHashMap<>();
         UserInfo userInfo =new UserInfo();
-        String unionId = "";
+        //String unionId = "";
 
         try {
             //拿到用户session_key和用户敏感数据进行解密，拿到用户信息。
@@ -139,15 +144,15 @@ public class UserController {
             userInfo.setLocation("uninitialized");
 
 
-            unionId = jsons.getString("unionId");
+           // unionId = jsons.getString("unionId");
 
-            System.out.println("unionId :"+unionId);
+            //System.out.println("unionId :"+unionId);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         map.put("userInfo",userInfo);
-        map.put("unionId",unionId);
+        //map.put("unionId",unionId);
         return map;
     }
 

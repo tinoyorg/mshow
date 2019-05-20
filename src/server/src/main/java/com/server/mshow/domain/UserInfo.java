@@ -10,6 +10,8 @@ import com.alibaba.fastjson.annotation.JSONField;
 public class UserInfo {
 
 
+
+
     private int uid;
     private String sex;
     private String nick;
@@ -37,7 +39,9 @@ public class UserInfo {
     public int getUid() {
         return uid;
     }
-
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
     public String getSex() {
         return sex;
     }
