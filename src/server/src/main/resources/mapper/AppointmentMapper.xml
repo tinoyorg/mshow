@@ -66,11 +66,4 @@
     WHERE `appointment`.`aid` = #{aid}
     </update>
 
-    <delete id="cancelAppointment" parameterType="java.lang.Integer">
-    UPDATE `appointment` SET
-#         `appointment`.`aid` = #{aid},
-        `appointment`.`staus` = #{staus}#有问题
-    WHERE `appointment`.`aid` = #{aid}
-    </delete>
-
 </mapper>

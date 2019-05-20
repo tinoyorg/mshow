@@ -13,6 +13,7 @@ public class Appointment {
     private String timestamp;
     private String lastmodify;
     private String book_time;
+    private String arrival_time;
     private String status;
 
     public Appointment() {
@@ -20,18 +21,28 @@ public class Appointment {
     }
 
     public Appointment(int aid, int uid, int sid, String timestamp,
-                       String lastmodify, String book_time, String status) {
+                       String lastmodify, String book_time, String arrival_time,String status) {
         this.aid = aid;
         this.uid = uid;
         this.sid = sid;
         this.timestamp = timestamp;
         this.lastmodify = lastmodify;
         this.book_time = book_time;
+        this.arrival_time =arrival_time;
         this.status = status;
     }
 
     public int getAid() {
         return aid;
+    }
+
+
+    public String getArrival_time() {
+        return arrival_time;
+    }
+
+    public void setArrival_time(String arrival_time) {
+        this.arrival_time = arrival_time;
     }
 
     public int getUid() {

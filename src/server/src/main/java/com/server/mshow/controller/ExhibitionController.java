@@ -7,6 +7,7 @@ import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
 import com.server.mshow.common.WxService;
 import com.server.mshow.dao.UserMapper;
+import com.server.mshow.domain.Comment;
 import com.server.mshow.domain.UserAuth;
 import com.server.mshow.service.UserService;
 import com.server.mshow.util.JsonUtils;
@@ -38,6 +39,8 @@ public class ExhibitionController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ActionController actionController;
 
     @PassToken
     @GetMapping("/exhibition_list")
@@ -79,7 +82,8 @@ public class ExhibitionController {
 
             data.put("exhibition",exhibition);
             data.put("show_List",show_List);
-
+            List<Comment> commentList = actionController.getPartComment_list(exhibition_id);
+            data.put("comment_list",commentList);
             result.setData(data);
 
         } catch (Exception e) {
@@ -152,12 +156,7 @@ public class ExhibitionController {
         return  result.getJsonObject();
     }
 
-    //@UserLoginToken
-    @GetMapping("/{exhibition_id}/exhibition_info")
-    public Object getExhibitionInfo(){
-        JsonUtils result = new JsonUtils();
-        return result.getJsonObject();
-    }
+
 
     //@UserLoginToken
     //@AdminUser

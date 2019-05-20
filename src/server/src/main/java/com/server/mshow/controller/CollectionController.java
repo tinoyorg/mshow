@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.server.mshow.annotation.AdminUser;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
+import com.server.mshow.domain.Comment;
 import com.server.mshow.domain.Exhibition;
 import com.server.mshow.domain.Show;
 import com.server.mshow.service.ExhibitionService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/collection")
@@ -33,8 +35,12 @@ public class CollectionController {
     private TokenService tokenService;
     @Autowired
     private UserService userService;
+
     @Autowired
     private ExhibitionService exhibitionService;
+
+    @Autowired
+    private ActionController actionController;
 
 
     @GetMapping("/{collection_id}/collection_content")
@@ -46,6 +52,8 @@ public class CollectionController {
             collection = collectionService.getCollection(collection_id);
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("collection",collection);
+            List<Comment> commentList = actionController.getPartComment_list(collection_id);
+            data.put("comment_list",commentList);
             result.setData(data);
 
         } catch (Exception e) {

@@ -47,33 +47,33 @@ public class TokenService {
         int uid;
         String session_key;
         String session_keyByUid;
-//        try {
+        try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET);
             JWTVerifier verifier = JWT.require(algorithm).build(); //Reusable verifier instance
             DecodedJWT jwt = verifier.verify(token);
             open_id = jwt.getClaim("openid").asString();
-//            uid = jwt.getClaim("uid").asInt();
-//            UserAuth userAuthByWX = userService.getUserAuthByWX(open_id);
-//            UserAuth userAuthByUid = userService.getUserAuth(uid);
-//            System.out.println("open_id:  "+open_id);
-//
-//            if (userAuthByWX == null || userAuthByUid == null) {
-//                throw new RuntimeException("用户不存在，请重新登录");
-//            }else{
-//                session_key = userAuthByWX.getSession_key();
-//                session_keyByUid = userAuthByUid.getSession_key();
-//                if (session_key.equals(session_keyByUid)) {
-//                    System.out.println("session_key: " + session_key);
-//                    System.out.println("session_keyByUid: " + session_keyByUid);
-//                }else {
-//                    System.out.println("用户信息不匹配");
-//                    throw new RuntimeException("401");
-//                }
-//            }
-//
-//        } catch (JWTDecodeException j) {
-//            throw new RuntimeException("401");
-//        }
+            uid = jwt.getClaim("uid").asInt();
+            UserAuth userAuthByWX = userService.getUserAuthByWX(open_id);
+            UserAuth userAuthByUid = userService.getUserAuth(uid);
+            System.out.println("open_id:  "+open_id);
+
+            if (userAuthByWX == null || userAuthByUid == null) {
+                throw new RuntimeException("用户不存在，请重新登录");
+            }else{
+                session_key = userAuthByWX.getSession_key();
+                session_keyByUid = userAuthByUid.getSession_key();
+                if (session_key.equals(session_keyByUid)) {
+                    System.out.println("session_key: " + session_key);
+                    System.out.println("session_keyByUid: " + session_keyByUid);
+                }else {
+                    System.out.println("用户信息不匹配");
+                    throw new RuntimeException("401");
+                }
+            }
+
+        } catch (JWTDecodeException j) {
+            throw new RuntimeException("401");
+        }
 
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("open_id",open_id);

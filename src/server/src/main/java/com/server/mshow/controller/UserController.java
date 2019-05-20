@@ -4,13 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
 import com.server.mshow.domain.*;
-import com.server.mshow.service.AppointmentService;
-import com.server.mshow.service.ExhibitionService;
-import com.server.mshow.service.StarService;
+import com.server.mshow.service.*;
 import com.server.mshow.util.AesCbcUtil;
 import com.server.mshow.util.JsonUtils;
 import com.server.mshow.common.WxService;
-import com.server.mshow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,13 +38,17 @@ public class UserController {
     @Autowired
     private AppointmentService appointmentService;
 
+
     @PostMapping("/login")
-    public Object login(@RequestBody String code, @RequestBody String encryptedData, @RequestBody String iv,
-                        HttpServletRequest request, HttpServletResponse response){
+    public Object login(@RequestBody String json,HttpServletRequest request, HttpServletResponse response){
         //body中解析code
-        JSONObject jsonObject = JSON.parseObject(code);
-        String wxCode = (String) jsonObject.get("code");
+        JSONObject jsonObject = JSON.parseObject(json);
+        String wxCode = jsonObject.getString("code");
+        String wxEncryptedData =jsonObject.getString("encryptedData");
+        String wxIv = jsonObject.getString("iv");
         System.out.println("wxCode:" + wxCode);
+        System.out.println("wxEncryptedData : " + wxEncryptedData);
+        System.out.println("wxIv :"+wxIv);
 
         Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
         JsonUtils result = new JsonUtils();
@@ -66,6 +67,7 @@ public class UserController {
             userAuth = new UserAuth();
             userAuth.setOpenid(wxOpenId);
             userAuth.setSession_key(wxSessionKey);
+
             userAuth.setAuth("user");
 
         }else {
@@ -75,9 +77,18 @@ public class UserController {
             }
         }
 
-        userService.insertUserAuth(userAuth);
-        initUserInfo(wxSessionKey, encryptedData, iv);
 
+        LinkedHashMap<Object,Object> map = initUserInfo(wxSessionKey, wxEncryptedData, wxIv);
+        String wxUnionid = (String) map.get("unionId");
+        UserInfo userInfo = (UserInfo) map.get("userInfo");
+        System.out.println("wxUnionid :"+wxUnionid);
+        userAuth.setUnionid(wxUnionid);
+
+        //插入用户角色到数据库
+        userService.insertUserAuth(userAuth);
+
+        //插入用户信息到数据库
+        userService.insertUserInfo(userInfo);
         String token = tokenService.getToken(userAuth);
         response.setHeader("token",token);
 
@@ -104,14 +115,17 @@ public class UserController {
     }
 
 
-    public void initUserInfo( String wxSessionKey, String encryptedData, String iv ){
+    public LinkedHashMap<Object,Object> initUserInfo( String wxSessionKey, String encryptedData, String iv ){
 
+        LinkedHashMap<Object,Object> map = new LinkedHashMap<>();
         UserInfo userInfo =new UserInfo();
+        String unionId = "";
 
         try {
             //拿到用户session_key和用户敏感数据进行解密，拿到用户信息。
             String decrypts= AesCbcUtil.decrypt(encryptedData,wxSessionKey,iv,"utf-8");//解密
             JSONObject jsons  = JSON.parseObject(decrypts);
+            System.out.println(jsons);
             userInfo.setNick(jsons.get("nickName").toString()); //用户昵称
             userInfo.setAvatar(jsons.get("avatarUrl").toString());//用户头像
             userInfo.setSex(jsons.get("gender").toString());//用户性别
@@ -124,14 +138,17 @@ public class UserController {
             userInfo.setPosition(position);
             userInfo.setLocation("uninitialized");
 
-            //插入用户信息到数据库
-            userService.insertUserInfo(userInfo);
 
+            unionId = jsons.getString("unionId");
+
+            System.out.println("unionId :"+unionId);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
+        map.put("userInfo",userInfo);
+        map.put("unionId",unionId);
+        return map;
     }
 
     @UserLoginToken
@@ -213,9 +230,7 @@ public class UserController {
         return result.getJsonObject();
     }
 
-    @PostMapping("/like")
-    public Object like(){
-        JsonUtils result = new JsonUtils();
-        return result;
-    }
+
+
+
 }

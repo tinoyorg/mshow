@@ -39,12 +39,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentMapper.updateAppointment(appointment);
     }
 
-    @Override
-    public void cancelAppointment(int aid) {
-        Appointment appointment = getAppointment(aid);
-        appointment.setStatus("取消订单");
-        appointmentMapper.updateAppointment(appointment);
-    }
 
 
 }

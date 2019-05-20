@@ -6,20 +6,16 @@ import com.server.mshow.annotation.AdminUser;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
 import com.server.mshow.dao.UserMapper;
-import com.server.mshow.domain.Exhibition;
-import com.server.mshow.domain.UserAuth;
-import com.server.mshow.service.ExhibitionService;
-import com.server.mshow.service.UserService;
+import com.server.mshow.domain.*;
+import com.server.mshow.service.*;
 import com.server.mshow.util.JsonUtils;
-import com.server.mshow.domain.Collection;
-import com.server.mshow.domain.Show;
-import com.server.mshow.service.CollectionService;
-import com.server.mshow.service.ShowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -38,6 +34,12 @@ public class ShowController {
     private UserService userService;
     @Autowired
     private ExhibitionService exhibitionService;
+
+    @Autowired
+    private AppointmentService appointmentService;
+    @Autowired
+    private ActionController actionController;
+
 
     @GetMapping("show_list")
     public Object GetShowList(){
@@ -77,6 +79,8 @@ public class ShowController {
             List<Collection> collectionList = getCollectionListBySid(show_id);
             data.put("show",show);
             data.put("collection_list",collectionList);
+            List<Comment> commentList = actionController.getPartComment_list(show_id);
+            data.put("comment_list",commentList);
             result.setData(data);
 
         }catch (Exception e) {
@@ -241,7 +245,158 @@ public class ShowController {
         return result.getJsonObject();
     }
 
+    @UserLoginToken
+    @PostMapping("/{show_id}/appointment")
+    public Object createAppointment(@RequestBody String json,@PathVariable("show_id") int show_id,
+                                    HttpServletRequest request, HttpServletResponse response){
+        JsonUtils result = new JsonUtils();
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        Appointment appointment;
+
+        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+
+        try {
+            //验证展览信息是否正确
+           Show show =  showService.getShow(show_id);
+            if(show == null){
+                result.setStatus("500");
+                result.setMsg("Not found this show ");
+                return  result.getJsonObject();
+            }
+
+            appointment = new Appointment();
+            appointment.setSid(show_id);
+            appointment.setUid(userAuth.getUid());
+
+            Date date = new Date();
+            //设置要获取到什么样的时间
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //获取String类型的时间
+            String timestamp = sdf.format(date);
+
+            appointment.setTimestamp(timestamp);
+            appointment.setLastmodify(timestamp);
+            appointment.setBook_time(timestamp);
+            if(jsonObject.getString("arrival_time") != null)
+            appointment.setArrival_time(jsonObject.getString("arrival_time"));
+            appointment.setStatus("success");
+
+            appointmentService.createAppointment(appointment);
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("appointment",appointment);
+            result.setData(data);
+            response.setHeader("token",map.get("token"));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg(" createError ");
+            return  result.getJsonObject();
+        }
 
 
+
+        return result.getJsonObject();
+    }
+
+    @UserLoginToken
+    @PutMapping("/{show_id}/appointment_info/{appointment_id}")
+    public Object updateAppointment(@RequestBody String json,@PathVariable("show_id") int show_id,@PathVariable("appointment_id") int appointment_id,
+                        HttpServletRequest request, HttpServletResponse response){
+        JsonUtils result = new JsonUtils();
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        Appointment appointment;
+
+        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+
+        try {
+            //验证展览信息是否正确
+            Show show =  showService.getShow(show_id);
+            if(show == null){
+                result.setStatus("500");
+                result.setMsg("Not found this show ");
+                return  result.getJsonObject();
+            }
+
+            appointment = appointmentService.getAppointment(appointment_id);
+
+            Date date = new Date();
+            //设置要获取到什么样的时间
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //获取String类型的时间
+            String lastmodify = sdf.format(date);
+
+            appointment.setLastmodify(lastmodify);
+            if(jsonObject.getString("arrival_time") != null)
+                appointment.setArrival_time(jsonObject.getString("arrival_time"));
+
+            appointmentService.updateAppointment(appointment);
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("appointment",appointment);
+            result.setData(data);
+            response.setHeader("token",map.get("token"));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg(" updateError ");
+            return  result.getJsonObject();
+        }
+
+
+        return result.getJsonObject();
+    }
+
+
+
+    @UserLoginToken
+    @PutMapping("/{show_id}/book_type/book_type}/appointment/{appointment_id}")
+    public Object bookAppointment(@PathVariable("show_id") int show_id,@PathVariable("book_type") String book_type,@PathVariable("appointment_id") int appointment_id,
+                                    HttpServletRequest request, HttpServletResponse response){
+        JsonUtils result = new JsonUtils();
+        Appointment appointment;
+        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+
+        try {
+            //验证展览信息是否正确
+            Show show =  showService.getShow(show_id);
+            if(show == null){
+                result.setStatus("500");
+                result.setMsg("Not found this show ");
+                return  result.getJsonObject();
+            }
+
+
+            Date date = new Date();
+            //设置要获取到什么样的时间
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //获取String类型的时间
+            String lastmodify = sdf.format(date);
+            appointment = appointmentService.getAppointment(appointment_id);
+            appointment.setLastmodify(lastmodify);
+            appointment.setStatus(book_type);
+
+            appointmentService.updateAppointment(appointment);
+
+            response.setHeader("token",map.get("token"));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg(" updateError ");
+            return  result.getJsonObject();
+        }
+
+
+        return result.getJsonObject();
+    }
 
 }
