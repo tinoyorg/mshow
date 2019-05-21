@@ -32,9 +32,9 @@
 
     <insert id="createReport" parameterType="com.server.mshow.domain.Report">
         INSERT  INTO  `report`
-        ( `uid`, `object_id`, `object_type`, `type`, `content`, `timestamp`)
+        ( `rid`, `uid`, `object_id`, `object_type`, `type`, `content`, `timestamp`)
         VALUES
-        (#{uid}, #{object_id}, #{object_type}, #{type}, #{content}, #{timestamp})
+        ( #{rid}, #{uid}, #{object_id}, #{object_type}, #{type}, #{content}, #{timestamp})
     </insert>
 
     <delete id="cancelReport" parameterType="java.lang.Integer">
