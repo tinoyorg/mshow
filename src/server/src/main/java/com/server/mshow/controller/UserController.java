@@ -62,43 +62,42 @@ public class UserController {
 
         String wxOpenId = (String)wxSessionMap.get("openid");
         String wxSessionKey = (String)wxSessionMap.get("session_key");
+
         UserAuth userAuth = userService.getUserAuthByWX(wxOpenId);
         if(userAuth == null) {
             //创建新用户到userAuth及userInfo
             userAuth = new UserAuth();
             userAuth.setOpenid(wxOpenId);
             userAuth.setSession_key(wxSessionKey);
-
             userAuth.setAuth("user");
+            userAuth.setUnionid(wxUnionid);
+
+            //插入用户角色到数据库
+            userService.insertUserAuth(userAuth);
+
+
+            LinkedHashMap<Object,Object> map = initUserInfo(wxSessionKey, wxEncryptedData, wxIv);
+            // String wxUnionid = (String) map.get("unionId")
+            UserInfo userInfo = (UserInfo) map.get("userInfo");
+            userAuth = userService.getUserAuthByWX(wxOpenId);
+            userInfo.setUid(userAuth.getUid());
+            //插入用户信息到数据库
+            userService.insertUserInfo(userInfo);
+
 
         }else {
             //旧用户重新登录，验证session_key需要更新
             if(!wxSessionKey.equals(userAuth.getSession_key())){
                 userAuth.setSession_key(wxSessionKey);
             }
+
+            userService.updateUserAuth(userAuth);
         }
 
 
 
-        System.out.println("wxUnionid :"+wxUnionid);
-        userAuth.setUnionid(wxUnionid);
-
-        //插入用户角色到数据库
-        userService.insertUserAuth(userAuth);
-
-
-        LinkedHashMap<Object,Object> map = initUserInfo(wxSessionKey, wxEncryptedData, wxIv);
-        // String wxUnionid = (String) map.get("unionId");
-        UserInfo userInfo = (UserInfo) map.get("userInfo");
-        userAuth = userService.getUserAuthByWX(wxOpenId);
-        userInfo.setUid(userAuth.getUid());
-        //插入用户信息到数据库
-        userService.insertUserInfo(userInfo);
         String token = tokenService.getToken(userAuth);
-        response.setHeader("token",token);
-
-        System.out.println("openid: "+userAuth.getOpenid() );
-        System.out.println("session_key: " + userAuth.getSession_key());
+        response.setHeader("X-Token",token);
         System.out.println("token："+token);
 
         return result.getJsonObject();
@@ -109,7 +108,7 @@ public class UserController {
 
         JsonUtils result = new JsonUtils();
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         System.out.println(token);
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String wxSessionKey = map.get("session_key");
@@ -157,12 +156,12 @@ public class UserController {
     }
 
     @UserLoginToken
-    @GetMapping("/user_info")
+    @GetMapping("/{uid}")
     public Object getUserInfo(HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         UserInfo userInfo;
         // 从 http 请求头中取出 token,并获得openid等
-        String token = request.getHeader("token");
+        String token = request.getHeader("X-Token");
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -186,7 +185,7 @@ public class UserController {
 
             }
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -199,14 +198,14 @@ public class UserController {
         return result.getJsonObject();
     }
 
-    @PutMapping("/user_info")
+    @PutMapping("/{uid}")
     public Object updateUserInfo( @RequestBody String json, HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
 
         JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("user_info");
         UserInfo userInfo;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -222,7 +221,7 @@ public class UserController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("user_info",userInfo);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 

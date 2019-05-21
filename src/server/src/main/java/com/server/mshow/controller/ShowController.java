@@ -112,7 +112,7 @@ public class ShowController {
         Show show = new Show();
 
         //从 http 请求头中取出 token,获取userAuth
-        String token = request.getHeader("token");
+        String token = request.getHeader("X-Token");
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 //        String open_id = map.get("open_id");
 //        UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -138,7 +138,7 @@ public class ShowController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("show",show);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -161,7 +161,7 @@ public class ShowController {
         JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("show");
         Show  show;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 //        String open_id = map.get("open_id");
 //        UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -196,7 +196,7 @@ public class ShowController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("show",show);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -215,7 +215,7 @@ public class ShowController {
         JsonUtils result = new JsonUtils();
         Show show;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 //        String open_id = map.get("open_id");
 //        UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -231,7 +231,7 @@ public class ShowController {
             }
 
            showService.deleteShow(show_id);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -253,7 +253,7 @@ public class ShowController {
         JSONObject jsonObject = JSONObject.parseObject(json);
         Appointment appointment;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -282,13 +282,13 @@ public class ShowController {
             appointment.setBook_time(timestamp);
             if(jsonObject.getString("arrival_time") != null)
             appointment.setArrival_time(jsonObject.getString("arrival_time"));
-            appointment.setStatus("success");
+            appointment.setStaus("success");
 
             appointmentService.createAppointment(appointment);
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("appointment",appointment);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -304,14 +304,14 @@ public class ShowController {
     }
 
     @UserLoginToken
-    @PutMapping("/{show_id}/appointment_info/{appointment_id}")
+    @PutMapping("/{show_id}/appointment/{appointment_id}")
     public Object updateAppointment(@RequestBody String json,@PathVariable("show_id") int show_id,@PathVariable("appointment_id") int appointment_id,
                         HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         JSONObject jsonObject = JSONObject.parseObject(json);
         Appointment appointment;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 
         try {
@@ -339,7 +339,7 @@ public class ShowController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("appointment",appointment);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -356,12 +356,12 @@ public class ShowController {
 
 
     @UserLoginToken
-    @PutMapping("/{show_id}/book_type/book_type}/appointment/{appointment_id}")
+    @PutMapping("/{show_id}/book_type/{book_type}/appointment/{appointment_id}")
     public Object bookAppointment(@PathVariable("show_id") int show_id,@PathVariable("book_type") String book_type,@PathVariable("appointment_id") int appointment_id,
                                     HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         Appointment appointment;
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 
         try {
@@ -381,11 +381,11 @@ public class ShowController {
             String lastmodify = sdf.format(date);
             appointment = appointmentService.getAppointment(appointment_id);
             appointment.setLastmodify(lastmodify);
-            appointment.setStatus(book_type);
+            appointment.setStaus(book_type);
 
             appointmentService.updateAppointment(appointment);
 
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 

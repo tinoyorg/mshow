@@ -33,7 +33,7 @@
         ( #{sid}, #{uid}, #{object_id}, #{object_type}, #{timestamp})
     </insert>
 
-    <delete id="deleteStar" parameterType="java.lang.Integer">
+    <delete id="cancelStar" parameterType="java.lang.Integer">
         DELETE  FROM  `star` WHERE `sid` = #{sid}
     </delete>
 

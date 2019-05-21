@@ -14,14 +14,14 @@ public class Appointment {
     private String lastmodify;
     private String book_time;
     private String arrival_time;
-    private String status;
+    private String staus;
 
     public Appointment() {
 
     }
 
     public Appointment(int aid, int uid, int sid, String timestamp,
-                       String lastmodify, String book_time, String arrival_time,String status) {
+                       String lastmodify, String book_time, String arrival_time,String staus) {
         this.aid = aid;
         this.uid = uid;
         this.sid = sid;
@@ -29,7 +29,7 @@ public class Appointment {
         this.lastmodify = lastmodify;
         this.book_time = book_time;
         this.arrival_time =arrival_time;
-        this.status = status;
+        this.staus = staus;
     }
 
     public int getAid() {
@@ -85,11 +85,11 @@ public class Appointment {
         this.book_time = book_time;
     }
 
-    public String getStatus() {
-        return status;
+    public String getStaus() {
+        return staus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStaus(String staus) {
+        this.staus = staus;
     }
 }

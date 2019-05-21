@@ -32,21 +32,13 @@
 
     <insert id="createComment" parameterType="com.server.mshow.domain.Comment">
         INSERT  INTO  `comment`
-        ( `uid`, `timestamp`, `object_id`, `object_type`, `content`, `timestamp`, `like`)
+        ( `uid`,`object_id`, `object_type`, `content`, `timestamp`, `like`)
         VALUES
-        ( #{uid}, #{timestamp}, #{object_id}, #{object_type}, #{content}, #{timestamp}, #{like})
+        ( #{uid}, #{object_id}, #{object_type}, #{content}, #{timestamp}, #{like})
     </insert>
 
-    <update id="cancelComment" parameterType="com.server.mshow.domain.Comment">
-        UPDATE `comment` SET
-            `comment`.`uid` = #{uid},
-            `comment`.`timestamp` = #{timestamp},
-            `comment`.`object_id` = #{object_id},
-            `comment`.`object_type` = #{object_type},
-            `comment`.`content` = #{content},
-            `comment`.`timestamp` = #{timestamp},
-             `comment`.`like` = #{like}
-        WHERE `comment`.`cid` = #{cid}
-    </update>
+    <delete id="cancelComment" parameterType="java.lang.Integer">
+        DELETE  FROM  `comment` WHERE `cid` = #{cid}
+    </delete>
 
 </mapper>

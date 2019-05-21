@@ -33,28 +33,37 @@ public class ActionController {
 
     @Autowired
     private CollectionService collectionService;
+
     @Autowired
     private ShowService showService;
+
     @Autowired
     private ExhibitionService exhibitionService;
+
     @Autowired
     private  StarService starService;
 
+    @Autowired
+    private ReportService reportService;
+
+
     @UserLoginToken
-    @GetMapping("/user/appointment_list")
+    @GetMapping("/appointment_list")
     public Object getAppointmentList(HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
 
         try {
-            List<Appointment> appointment_list= appointmentService.getAppointmentListByUid(userAuth.getUid());
+            int uid = userAuth.getUid();
+            System.out.println(uid);
+            List<Appointment> appointment_list= appointmentService.getAppointmentListByUid(uid);
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("appointment_list",appointment_list);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -68,10 +77,10 @@ public class ActionController {
     }
 
     @UserLoginToken
-    @GetMapping("/user/record_list")
+    @GetMapping("/record_list")
     public Object getRecordList(HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -81,7 +90,7 @@ public class ActionController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("record_list",record_list);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -120,18 +129,23 @@ public class ActionController {
 
     public List<Comment> getPartComment_list(int object_id){
 
-        List<Comment> comment_list = commentService.getCommentListByObject(object_id).subList(0,2);
+        List<Comment> comment_list = commentService.getCommentListByObject(object_id);
+        List<Comment> newList = null;
 
-        return comment_list;
+        if(comment_list.size()>2){
+            newList = comment_list.subList(0,1);
+        }
+
+        return newList;
     }
 
     @UserLoginToken
-    @PostMapping("/user/object_type/{object_type}/object_id/{object_id}/comment")
+    @PostMapping("/object_type/{object_type}/object_id/{object_id}/comment")
     public Object createComment(@RequestBody String json, @PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                                 HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         JSONObject jsonObject = JSONObject.parseObject(json);
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -141,11 +155,12 @@ public class ActionController {
             comment.setUid(userAuth.getUid());
             comment.setObject_id(object_id);
             comment.setObject_type(object_type);
+
             Date date = new Date();
             //设置要获取到什么样的时间
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             //获取String类型的时间
-            String  timestamp= sdf.format(date);
+            String timestamp= sdf.format(date);
             comment.setTimestamp(timestamp);
 
             if(jsonObject.getString("content") != null)
@@ -156,7 +171,7 @@ public class ActionController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("comment",comment);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
 
         } catch (Exception e) {
@@ -171,19 +186,20 @@ public class ActionController {
     }
 
     @UserLoginToken
-    @DeleteMapping("/user/object_type/{object_type}/object_id/{object_id}/comment/{comment_id}")
+    @DeleteMapping("/object_type/{object_type}/object_id/{object_id}/comment/{comment_id}")
     public Object deleteComment(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                                 @PathVariable("comment_id") int comment_id, HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 
 
         try {
+
             commentService.cancelComment(comment_id);
 
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
 
         } catch (Exception e) {
@@ -198,11 +214,11 @@ public class ActionController {
     }
 
     @UserLoginToken
-    @PostMapping("/user/object_type/{object_type}/object_id/{object_id}/like")
+    @PostMapping("/object_type/{object_type}/object_id/{object_id}/like")
     public Object createLike(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                              HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 
         try {
@@ -242,7 +258,7 @@ public class ActionController {
             data.put("like_count",like);
             result.setData(data);
 
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
 
         } catch (Exception e) {
@@ -258,11 +274,11 @@ public class ActionController {
     }
 
     @UserLoginToken
-    @DeleteMapping("/user/object_type/{object_type}/object_id/{object_id}/like")
+    @DeleteMapping("/object_type/{object_type}/object_id/{object_id}/like")
     public Object cancelLike(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                              HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 
         try {
@@ -301,7 +317,7 @@ public class ActionController {
             data.put("like_count",like);
             result.setData(data);
 
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
 
         } catch (Exception e) {
@@ -317,12 +333,12 @@ public class ActionController {
     }
 
     @UserLoginToken
-    @PostMapping("/user/object_type/{object_type}/object_id/{object_id}/star")
+    @PostMapping("/object_type/{object_type}/object_id/{object_id}/star")
     public Object createStar(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                              HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         Star star = new Star();
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -379,7 +395,7 @@ public class ActionController {
             data.put("star_count",star_count);
             result.setData(data);
 
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
 
         } catch (Exception e) {
@@ -395,12 +411,12 @@ public class ActionController {
     }
 
     @UserLoginToken
-    @PostMapping("/user/object_type/{object_type}/object_id/{object_id}/star/{star_id}")
+    @DeleteMapping("/object_type/{object_type}/object_id/{object_id}/star/{star_id}")
     public Object cancelStar(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                              @PathVariable("star_id") int star_id,HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 
 
@@ -445,7 +461,7 @@ public class ActionController {
             data.put("star_count",star_count);
             result.setData(data);
 
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
 
         } catch (Exception e) {
@@ -453,6 +469,61 @@ public class ActionController {
             e.printStackTrace();
             result.setStatus("500");
             result.setMsg("An Error In Staring a " + object_type);
+            return  result.getJsonObject();
+        }
+
+
+        return result.getJsonObject();
+    }
+
+
+    @UserLoginToken
+    @PostMapping("/object_type/{object_type}/object_id/{object_id}/report")
+    public Object createReport(@RequestBody String json,@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
+                             HttpServletRequest request, HttpServletResponse response){
+        JsonUtils result = new JsonUtils();
+        JSONObject jsonObject = JSONObject.parseObject(json);
+
+        Report report = new Report();
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+
+        try {
+
+            Date date = new Date();
+            //设置要获取到什么样的时间
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //获取String类型的时间
+            String  timestamp= sdf.format(date);
+            report.setTimestamp(timestamp);
+
+            if(jsonObject.getString("type") != null)
+                report.setType(jsonObject.getString("type"));
+            if(jsonObject.getString("content") != null)
+                report.setContent(jsonObject.getString("content"));
+            report.setUid(userAuth.getUid());
+            report.setObject_id(object_id);
+            report.setObject_type(object_type);
+
+            reportService.createReport(report);
+
+
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("user_id", userAuth.getUid());
+
+            data.put("report",report);
+            result.setData(data);
+
+            response.setHeader("X-Token",map.get("X-Token"));
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg("An Error In Reporting a " + object_type);
             return  result.getJsonObject();
         }
 

@@ -106,7 +106,7 @@ public class ExhibitionController {
         return showList;
     }
 
-    //@UserLoginToken
+    @UserLoginToken
     @PostMapping("/exhibition_info")
     public Object createExhibition(@RequestBody String json,HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
@@ -116,7 +116,7 @@ public class ExhibitionController {
 
 
         //从 http 请求头中取出 token,获取userAuth
-        String token = request.getHeader("token");
+        String token = request.getHeader("X-Token");
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -143,7 +143,7 @@ public class ExhibitionController {
             data.put("exhibition",exhibition);
             data.put("auth",userAuth.getAuth());
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -158,8 +158,8 @@ public class ExhibitionController {
 
 
 
-    //@UserLoginToken
-    //@AdminUser
+    @UserLoginToken
+    @AdminUser
     @PutMapping("/{exhibition_id}/exhibition_info")
     public Object updateExhibition(@PathVariable("exhibition_id") int exhibition_id,@RequestBody String json,
                                    HttpServletRequest request, HttpServletResponse response){
@@ -168,7 +168,7 @@ public class ExhibitionController {
         JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("exhibition");
         Exhibition exhibition;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -203,7 +203,7 @@ public class ExhibitionController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("exhibition",exhibition);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -216,13 +216,13 @@ public class ExhibitionController {
     }
 
 
-    //@AdminUser
+    @AdminUser
     @DeleteMapping("/{exhibition_id}/exhibition_info")
     public Object cancelExhibition(@PathVariable("exhibition_id") int exhibition_id,HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         Exhibition exhibition;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -244,7 +244,7 @@ public class ExhibitionController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("auth",userAuth.getAuth());
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 

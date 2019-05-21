@@ -18,7 +18,7 @@
         WHERE  `appointment`.`aid` = #{aid}
     </select>
 
-    <select id="getAppointmentListByUis" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Appointment">
+    <select id="getAppointmentListByUid" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Appointment">
         SELECT
             `appointment`.`aid`,
             `appointment`.`uid`,
@@ -55,7 +55,6 @@
 
     <update id="updateAppointment" parameterType="com.server.mshow.domain.Appointment">
     UPDATE `appointment` SET
-#         `appointment`.`aid` = #{aid},
         `appointment`.`uid` = #{uid},
         `appointment`.`sid` = #{sid},
         `appointment`.`timestamp` = #{timestamp},

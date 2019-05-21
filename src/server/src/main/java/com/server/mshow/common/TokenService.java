@@ -78,7 +78,7 @@ public class TokenService {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("open_id",open_id);
        // map.put("session_key",session_key);
-        map.put("token",token);//更新的token
+        map.put("X-Token",token);//更新的token
         return map;
     }
 

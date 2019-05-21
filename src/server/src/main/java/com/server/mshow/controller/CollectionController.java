@@ -76,7 +76,7 @@ public class CollectionController {
         Collection collection = new Collection();
 
         //从 http 请求头中取出 token,获取userAuth
-        String token = request.getHeader("token");
+        String token = request.getHeader("X-Token");
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 //        String open_id = map.get("open_id");
 //        UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -104,7 +104,7 @@ public class CollectionController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("collection",collection);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -127,7 +127,7 @@ public class CollectionController {
         JSONObject jsonObject = JSONObject.parseObject(json).getJSONObject("collection");
         Collection collection;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 //        String open_id = map.get("open_id");
 //        UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -166,7 +166,7 @@ public class CollectionController {
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("collection",collection);
             result.setData(data);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
@@ -186,7 +186,7 @@ public class CollectionController {
         JsonUtils result = new JsonUtils();
         Collection collection;
 
-        String token = request.getHeader("token");// 从 http 请求头中取出 token
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
 //        String open_id = map.get("open_id");
 //        UserAuth userAuth = userService.getUserAuthByWX(open_id);
@@ -202,7 +202,7 @@ public class CollectionController {
             }
 
             collectionService.deleteCollection(collection_id);
-            response.setHeader("token",map.get("token"));
+            response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {
 
