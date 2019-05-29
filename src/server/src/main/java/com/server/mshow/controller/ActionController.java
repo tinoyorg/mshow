@@ -102,6 +102,33 @@ public class ActionController {
 
         return result.getJsonObject();
     }
+//
+//    @UserLoginToken
+//    @GetMapping("/record")
+//    public Object getRecordList(HttpServletRequest request,HttpServletResponse response){
+//        JsonUtils result = new JsonUtils();
+//        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
+//        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+//        String open_id = map.get("open_id");
+//        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+//
+//        try {
+//            List<Record> record_list = recordService.getRecordByUser(userAuth.getUid());
+//            LinkedHashMap data = new LinkedHashMap<String,Object>();
+//            data.put("record_list",record_list);
+//            result.setData(data);
+//            response.setHeader("X-Token",map.get("X-Token"));
+//
+//        } catch (Exception e) {
+//
+//            e.printStackTrace();
+//            result.setStatus("500");
+//            result.setMsg("An Error In Getting A Record_list");
+//            return  result.getJsonObject();
+//        }
+//
+//        return result.getJsonObject();
+//    }
 
 
     @GetMapping("/comment_list/object_type/{object_type}/object_id/{object_id}")
@@ -133,7 +160,8 @@ public class ActionController {
         List<Comment> newList = null;
 
         if(comment_list.size()>2){
-            newList = comment_list.subList(0,1);
+            //newList = comment_list.subList(0,1);
+            newList = comment_list;
         }
 
         return newList;
@@ -149,10 +177,14 @@ public class ActionController {
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
         String open_id = map.get("open_id");
         UserAuth userAuth = userService.getUserAuthByWX(open_id);
+
+        UserInfo userInfo = userService.getUserInfo(userAuth.getUid());
         try {
             Comment comment = new Comment();
 
             comment.setUid(userAuth.getUid());
+            comment.setName(userInfo.getNick());
+            comment.setAvatar(userInfo.getAvatar());
             comment.setObject_id(object_id);
             comment.setObject_type(object_type);
 

@@ -9,6 +9,8 @@ package com.server.mshow.domain;
 public class Comment {
     private int cid;
     private int uid;
+    private String name;
+    private String avatar;
     private int object_id;
     private String object_type;
     private String content;
@@ -28,6 +30,23 @@ public class Comment {
         this.content = content;
         this.timestamp = timestamp;
         this.like = like;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getCid() {
