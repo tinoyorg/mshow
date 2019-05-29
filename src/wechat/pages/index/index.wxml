@@ -1,13 +1,74 @@
-<!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+<!--pages/index/index.wxml-->
+<view>
+  <view>
+    <swiper indicator-dots='{{dots}}'
+      autoplay='{{autoplay}}' interval='{{dtime}}'>
+      <block wx:for='{{swipers}}' wx:key='this'>
+        <swiper-item>
+          <image src='/image/{{item}}' class='swiper-image'></image>
+        </swiper-item>
+      </block>
+    </swiper>
   </view>
-  <view class="usermotto">
-    <text bindtap="bindHomeTap" class="user-motto">{{motto}}</text>
+  <view class='index-search'>
+    <icon type='search' size='15' class='search-icon' bindtap='input_confirm'></icon>
+    <input class='search-input' maxlength='30' bindconfirm='input_confirm' bindinput='input_words' value='{{searchinput}}'/>
+    <icon type='clear' size='15' class='search-icon' bindtap='input_clear'></icon>
   </view>
+  <view wx:for='{{show_list}}' wx:key='this'>
+    <view bindtap='onTapExhibit' data-sid='{{item.sid}}' class='index-exhibit'>
+      <image class='exhibit-image' mode='widthFix' src='/image/index-show1.png'/>
+      <view>
+        <view class='exhibit-textbox'>
+          <text class='exhibit-name'>{{item.name}}</text>
+          <text class='exhibit-info'>{{item.position}} | {{item.open_time/10000}} - {{item.end_time/10000}}</text>
+        </view>
+        <!-- <view class='exhibit-moneybox'>
+          <text class='exhibit-money'>￥{{item.money}}</text>
+        </view> -->
+        <view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/star.png'></image>
+            <text class='exhibit-icon-text'>{{item.like}}</text>
+          </view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/skim.png'></image>
+            <text class='exhibit-icon-text'>{{item.star}}</text>
+          </view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/ticket.png'></image>
+            <text class='exhibit-icon-text'>{{item.share}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- <view wx:for='{{exhibit_box}}' wx:key='this'>
+    <view bindtap='onTapExhibit' data-sid='{{item.sid}}' class='index-exhibit'>
+      <image class='exhibit-image' mode='widthFix' src='/image/{{item.image}}'/>
+      <view>
+        <view class='exhibit-textbox'>
+          <text class='exhibit-name'>{{item.name}}</text>
+          <text class='exhibit-info'>{{item.address}} | {{item.time}}</text>
+        </view>
+        <view class='exhibit-moneybox'>
+          <text class='exhibit-money'>￥{{item.money}}</text>
+        </view>
+        <view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/star.png'></image>
+            <text class='exhibit-icon-text'>{{item.star}}</text>
+          </view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/skim.png'></image>
+            <text class='exhibit-icon-text'>{{item.skim}}</text>
+          </view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/ticket.png'></image>
+            <text class='exhibit-icon-text'>{{item.ticket}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view> -->
 </view>

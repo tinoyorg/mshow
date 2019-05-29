@@ -1,0 +1,112 @@
+/* pages/index/exhibition.wxss */
+.exhibition-imagebox{
+  height: 0;
+  width: 100%;
+  padding-bottom: 50%;
+}
+.exhibition-image{
+  width: 100%;
+}
+.exhibition-info{
+  padding: 36rpx 44rpx 16rpx 36rpx;
+}
+.exhibition-info-name{
+  display: inline-block;
+  color: #353535;
+  margin-bottom: 24rpx;
+}
+.exhibition-info-like{
+  width: 72rpx;
+  float: right;
+}
+.exhibition-info-icon{
+  display: inline-block;
+  width: 32rpx;
+  padding-right: 18rpx;
+  vertical-align: middle;
+}
+.exhibition-info-text{
+  vertical-align: middle;
+  margin: 16rpx 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10pt;
+  color: #353535;
+}
+.exhibition-button{
+  display: flex;
+  flex-direction: row;
+}
+.exhibition-order{  
+  margin: 36rpx;
+  width: 40%
+}
+.exhibition-introduce{
+  padding: 36rpx;
+}
+.exhibition-introduce-title{
+  display: block;
+  color: #353535;
+  font-size: 12pt;
+  margin-bottom: 24rpx;
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95;
+}
+.exhibition-introduce-text{
+  color: #353535;
+  font-size: 10pt;
+}
+.exhibition-introduce-control{
+  display: block;
+  text-align: right;
+  padding: 24rpx 36rpx 0 0;
+}
+.exhibition-introduce-more{
+  display: inline-block;
+  font-size: 10pt;
+  vertical-align: middle;
+}
+.exhibition-introduce-icon{
+  display: inline-block;
+  width: 32rpx;
+  vertical-align: middle;
+}
+.exhibition-comment{
+  padding: 36rpx;
+}
+.exhibition-comment-title{
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95;
+}
+.exhibition-comment-client{
+  margin: 36rpx 0;
+}
+.exhibition-comment-imagebox{
+  display: inline-block;
+}
+.exhibition-comment-avatar-image{
+  border-radius: 128rpx;
+  width: 128rpx;
+  height: 128rpx;
+}
+.exhibition-comment-textbox{
+  display: inline-block;
+  vertical-align: top;
+}
+.exhibition-comment-name{
+  display: block;
+  padding: 18rpx 0 0 24rpx;
+  color: #353535;
+  font-size: 12pt;
+}
+.exhibition-comment-time{
+  display: block;
+  padding: 16rpx 0 0 24rpx;
+  color: #888888;
+  font-size: 8pt;
+}
+.exhibition-comment-context{
+  padding: 16rpx 0 24rpx 18rpx;
+  font-size: 12pt;
+}

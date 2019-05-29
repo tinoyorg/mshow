@@ -1,0 +1,58 @@
+<!--pages/mymuseum/mymuseum.wxml-->
+<view wx:if="{{auth == 'admin'}}">
+  <view class='museum'>
+    <view class='museum-head' style="background-image: url('{{image_bk_url}}')">
+      <view class='head-user'>
+        <image src='{{image_at_url}}' class='head-avatar'/>
+        <text class='head-title'>{{exhibitionInfo.name}}</text>
+      </view>
+    </view>
+    <view class='museum-exhibition'>
+      <text class='exhibition-title'>展览信息</text>
+      <scroll-view class="exhibition-view" scroll-x="true" style="width: 100%">
+          <view class="exhibition-image">
+            <image src='/image/exhibition1.png'/>
+          </view>
+          <view class="exhibition-image">
+            <image src='/image/exhibition2.png'/>
+          </view>
+          <view class="exhibition-image">
+            <image src='/image/exhibition3.png'/>
+          </view>
+      </scroll-view>
+    </view>
+    <view class='exhibition-info museum-button'>
+    <button class='exhibition-order' type='primary' bindtap='changeMyMuseum'>增加展览</button>
+    <button class='exhibition-order' bindtap='deleteMyMuseum'> 删除展览 </button>
+  </view>
+    <view class='museum-info'>
+      <text class='info-title'>展馆信息</text>
+      <view class='info-box'>
+        <text class='info-tag'>地址：</text>
+        <text class='info-content'>{{exhibitionInfo.position}}</text>
+      </view>
+      <view class='info-box'>
+        <text class='info-tag'>时间：</text>
+        <text class='info-content'>{{exhibitionInfo.open_time}} - {{exhibitionInfo.end_time}}</text>
+      </view>
+      <!-- <view class='info-box'>
+        <text class='info-tag'>费用：</text>
+        <text class='info-content'>20 ~ 35</text>
+      </view> -->
+      <view class='info-intro'>
+        <text class='intro-title'>展馆简介</text>
+        <text class='intro-text'>{{exhibition_introduce}}</text>
+        <view wx:if="{{!exhibition_introduce_full}}" class='intro-control' bindtap='fullText'>
+          <text class='intro-more'>{{intro_tip}}</text>
+          <image class='intro-icon' src='{{intro_icon}}' mode='widthFix'/>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='museum-button exhibition-info'>
+    <button class='exhibition-order' type='primary' bindtap='changeMyMuseum'>修改信息</button>
+    <button class='exhibition-order' bindtap='deleteMyMuseum'> 删除展馆 </button>
+  </view>
+</view>
+<view wx:else>
+</view>

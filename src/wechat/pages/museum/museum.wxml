@@ -1,0 +1,60 @@
+<!--pages/museum/museum.wxml-->
+<view class='museum'>
+  <view class='museum-head' style="background-image: url('{{image_bk_url}}')">
+    <view class='head-user'>
+      <image src='{{image_at_url}}' class='head-avatar'/>
+      <text class='head-title'>苏州园林不圆馆</text>
+    </view>
+  </view>
+  <view class='museum-exhibition'>
+    <text class='exhibition-title'>展览信息</text>
+    <scroll-view class="exhibition-view" scroll-x="true" style="width: 100%">
+        <view class="exhibition-image">
+          <image src='/image/exhibition1.png'/>
+        </view>
+        <view class="exhibition-image">
+          <image src='/image/exhibition2.png'/>
+        </view>
+        <view class="exhibition-image">
+          <image src='/image/exhibition3.png'/>
+        </view>
+    </scroll-view>
+  </view>
+  <view class='museum-info'>
+    <text class='info-title'>展馆信息</text>
+    <view class='info-box'>
+      <text class='info-tag'>地址：</text>
+      <text class='info-content'>深圳市南山区科技园南区R2-B三楼步步高</text>
+    </view>
+    <view class='info-box'>
+      <text class='info-tag'>时间：</text>
+      <text class='info-content'>9:00 - 17:00</text>
+    </view>
+    <view class='info-box'>
+      <text class='info-tag'>费用：</text>
+      <text class='info-content'>20 ~ 35</text>
+    </view>
+    <view class='info-intro'>
+      <text class='intro-title'>展馆简介</text>
+      <text class='intro-text'>{{intro_s}}</text>
+      <view class='intro-control' bindtap='fullText'>
+        <text class='intro-more'>{{intro_tip}}</text>
+        <image class='intro-icon' src='{{intro_icon}}' mode='widthFix'/>
+      </view>
+    </view>
+  </view>
+  <view class='museum-recommend'>
+    <text class='recommend-title'>相关推荐</text>
+    <scroll-view class="recommend-view" scroll-x="true" style="width: 100%">
+        <view class="recommend-image">
+          <image src='/image/exhibition1.png'/>
+        </view>
+        <view class="recommend-image">
+          <image src='/image/exhibition2.png'/>
+        </view>
+        <view class="recommend-image">
+          <image src='/image/exhibition3.png'/>
+        </view>
+    </scroll-view>
+  </view>
+</view>

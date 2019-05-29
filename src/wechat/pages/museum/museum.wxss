@@ -1,0 +1,123 @@
+/* pages/museum/museum.wxss */
+.museum-head{
+  position:relative;
+  height: 0;
+  width: 100%;
+  padding-bottom: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.head-user{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  display: inline-block;
+}
+.head-avatar{
+  display: block;
+  margin: auto;
+  border-radius: 156rpx;
+  width: 156rpx;
+  height: 156rpx;
+}
+.head-title{
+  display: block;
+  text-align: center;
+  font-size: 10pt;
+  color: #353535;
+  margin-top: 12rpx;
+}
+.museum-exhibition{
+  margin: 24rpx;
+}
+.exhibition-title{
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95;
+}
+.exhibition-imagebox{
+  display: inline-block;
+}
+.exhibition-image{
+  display: inline-block;
+  margin: 24rpx 24rpx 24rpx 0;
+}
+.exhibition-image image{
+  height: 240rpx;
+  width: 425rpx;
+}
+.exhibition-view{
+  white-space: nowrap;
+}
+.exhibition-order{
+  margin: 36rpx;
+  width: 80%
+}
+.exhibition-info{
+  padding: 36rpx 44rpx 16rpx 36rpx;
+}
+.museum-info{
+  margin: 0 24rpx;
+}
+.info-title{
+  display: block;
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95;
+}
+.info-box{
+  display: block;
+}
+.info-tag{
+  color: #353535;
+  font-size: 12pt;
+}
+.info-content{
+  color: #353535;
+  font-size: 8pt;
+}
+.info-intro{
+  margin: 24rpx 0;
+}
+.intro-title{
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95; 
+  display: block;
+}
+.intro-text{
+  color: #353535;
+  font-size: 10pt;
+}
+.intro-control{
+  display: block;
+  text-align: right;
+  padding: 12rpx 36rpx 0 0;
+}
+.intro-more{
+  display: inline-block;
+  font-size: 10pt;
+  vertical-align: middle;
+}
+.intro-icon{
+  display: inline-block;
+  width: 32rpx;
+  vertical-align: middle;
+}
+.museum-recommend{
+  margin: 24rpx;
+}
+.recommend-title{
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95; 
+  display: block;
+}
+.recommend-image{
+  display: inline-block;
+  margin: 24rpx 24rpx 24rpx 0;
+}
+.recommend-image image{
+  height: 240rpx;
+  width: 425rpx;
+}
+.recommend-view{
+  white-space: nowrap;
+}

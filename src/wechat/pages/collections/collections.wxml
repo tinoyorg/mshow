@@ -1,0 +1,31 @@
+<!--pages/collections/collections.wxml-->
+<view>
+  <view wx:for='{{collection_list}}' wx:key='this'>
+    <view bindtap='onTapExhibit' data-cid='{{item.cid}}' class='index-collections'>
+    <view>
+    <image class='exhibit-image' src='{{item.avatar}}'/>
+      <view class='collections-right'>
+        <view class='exhibit-textbox'>
+          <text class='exhibit-name'>{{item.name}}</text>
+          <text class='exhibit-info'>{{item.address}}</text>
+        </view>
+        <view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/star.png'></image>
+            <text class='exhibit-icon-text'>{{item.like}}</text>
+          </view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/skim.png'></image>
+            <text class='exhibit-icon-text'>{{item.star}}</text>
+          </view>
+          <view class='exhibit-iconbox'>
+            <image class='exhibit-icon' mode='widthFix' src='/image/icon/ticket.png'></image>
+            <text class='exhibit-icon-text'>{{item.share}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+      
+    </view>
+  </view>
+</view>

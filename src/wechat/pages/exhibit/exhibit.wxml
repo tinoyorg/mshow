@@ -1,0 +1,44 @@
+<!--pages/exhibit/exhibit.wxml-->
+<view class='exhibit'>
+  <view class='exhibit-imagebox'>
+    <image src='{{image_url}}' class='exhibit-image' mode='widthFix'/>
+  </view>
+  <view class='exhibit-info'>
+    <view>
+      <text class='exhibit-info-name'>{{exhibit_name}}</text>
+      <view class='exhibit-info-likebox'>
+        <image src='{{like_icon}}' bindtap='changeLike' class='exhibit-info-like' mode='widthFix'/>
+        <text class='exhibit-info-likenum'>{{like_num}}</text>
+      </view>
+    </view>
+    <view class='exhibit-info-textbox'>
+      <text class='exhibit-info-text1'>{{exhibit_owner}} | {{exhibit_time}}</text>
+      <text class='exhibit-info-text2'>{{exhibit_from}} | {{exhibit_id}}</text>
+    </view>
+  </view>
+  <view class='exhibit-introduce'>
+    <text class='exhibit-introduce-title'>展品信息</text>
+    <text class='exhibit-introduce-text'>{{exhibit_introduce}}</text>
+    <view class='exhibit-introduce-control' bindtap='fullText'>
+      <text class='exhibit-introduce-more'>{{introduce_tip}}</text>
+      <image class='exhibit-introduce-icon' src='{{introduce_tip_icon}}' mode='widthFix'/>
+    </view>
+  </view>
+  <view class='exhibit-comment'>
+    <text class='exhibit-comment-title'>妙语连珠</text>
+    <view wx:for='{{comment_list}}' wx:key="this">
+      <view class='exhibit-comment-client'>
+        <view>
+          <view class='exhibit-comment-imagebox'>
+            <image src='{{item.avatar}}' class='exhibit-comment-avatar-image'/>
+          </view>
+          <view class='exhibit-comment-textbox'>
+            <text class='exhibit-comment-name'>{{item.name}}</text>
+            <text class='exhibit-comment-time'>{{item.timestamp}}</text>
+          </view>
+        </view>
+        <text class='exhibit-comment-context'>{{item.context}}</text>
+      </view>
+    </view>
+  </view>
+</view>
