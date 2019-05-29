@@ -9,6 +9,7 @@ import com.server.mshow.common.WxService;
 import com.server.mshow.dao.UserMapper;
 import com.server.mshow.domain.Comment;
 import com.server.mshow.domain.UserAuth;
+import com.server.mshow.service.CollectionService;
 import com.server.mshow.service.UserService;
 import com.server.mshow.util.JsonUtils;
 import com.server.mshow.domain.Exhibition;
@@ -33,6 +34,9 @@ public class ExhibitionController {
 
     @Autowired
     private ShowService showService;
+
+    @Autowired
+    private CollectionService collectionService;
 
     @Autowired
     private TokenService tokenService;
@@ -237,8 +241,8 @@ public class ExhibitionController {
                 return  result.getJsonObject();
             }
 
-
-
+            collectionService.deleteCollectionByEid(exhibition_id);
+            showService.deleteShowByEid(exhibition_id);
             exhibitionService.deleteExhibition(exhibition_id);
 
             userAuth.setAuth("user");

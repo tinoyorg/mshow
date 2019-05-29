@@ -232,6 +232,7 @@ public class ShowController {
                 return  result.getJsonObject();
             }
 
+            collectionService.deleteCollectionBySid(show_id);
            showService.deleteShow(show_id);
             response.setHeader("X-Token",map.get("X-Token"));
 
