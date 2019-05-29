@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.server.mshow.dao.ToolMapper">
+
+    <select id="searchCollection" parameterType="java.lang.String" resultType="com.server.mshow.domain.Collection">
+    SELECT
+        `collection`.`cid`,
+        `collection`.`eid`,
+        `collection`.`sid`,
+        `collection`.`name`,
+        `collection`.`avatar`,
+        `collection`.`position`,
+        `collection`.`introduce`,
+        `collection`.`author`,
+        `collection`.`years`,
+        `collection`.`source`,
+        `collection`.`code`,
+        `collection`.`like`,
+        `collection`.`star`,
+        `collection`.`share`
+    FROM  `collection`
+    WHERE  `collection`.`name` like "%"#{queryStr}"%"
+    </select>
+
+
+    <select id="searchShow" parameterType="java.lang.String" resultType="com.server.mshow.domain.Show">
+        SELECT
+            `show`.`sid`,
+            `show`.`eid`,
+            `show`.`name`,
+            `show`.`avatar`,
+            `show`.`position`,
+            `show`.`introduce`,
+            `show`.`open_time`,
+            `show`.`end_time`,
+            `show`.`like`,
+            `show`.`star`,
+            `show`.`share`
+        FROM  `show`
+        WHERE `show`.`name` like "%"#{queryStr}"%"
+    </select>
+
+    <select id="searchExhibition" parameterType="java.lang.String" resultType="com.server.mshow.domain.Exhibition">
+        SELECT
+            `exhibition`.`eid`,
+            `exhibition`.`uid`,
+            `exhibition`.`name`,
+            `exhibition`.`phone`,
+            `exhibition`.`avatar`,
+            `exhibition`.`position`,
+            `exhibition`.`introduce`,
+            `exhibition`.`open_time`,
+            `exhibition`.`end_time`,
+            `exhibition`.`like`,
+            `exhibition`.`star`,
+            `exhibition`.`share`
+        FROM  `exhibition`
+        WHERE  `exhibition`.`name` like "%"#{queryStr}"%"
+    </select>
+</mapper>

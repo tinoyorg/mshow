@@ -105,7 +105,7 @@ public class ActionController {
 
     @UserLoginToken
     @PostMapping("/record/object_type/{object_type}/object_id/{object_id}")
-    public Object getRecordList(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
+    public Object createRecord(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
                                 HttpServletRequest request,HttpServletResponse response){
         JsonUtils result = new JsonUtils();
         String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
@@ -170,7 +170,7 @@ public class ActionController {
         List<Comment> comment_list = commentService.getCommentListByObject(object_id);
         List<Comment> newList = null;
 
-        if(comment_list.size()>2){
+        if(comment_list.size()>0){
             //newList = comment_list.subList(0,1);
             newList = comment_list;
         }
