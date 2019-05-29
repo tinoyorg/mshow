@@ -13,10 +13,7 @@ import com.server.mshow.service.ToolService;
 import com.server.mshow.service.UserService;
 import com.server.mshow.util.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +31,7 @@ public class ToolController {
     private ToolService toolService;
 
 
-    @GetMapping("/search/query")
+    @PostMapping("/search/query")
     public Object search(@RequestBody String json,HttpServletRequest request, HttpServletResponse response){
         //body中解析code
         JSONObject jsonObject = JSON.parseObject(json);
