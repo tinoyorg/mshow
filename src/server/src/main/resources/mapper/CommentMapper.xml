@@ -12,8 +12,12 @@
             `comment`.`object_type`,
             `comment`.`content`,
             `comment`.`timestamp`,
-            `comment`.`like`
+            `comment`.`like`,
+            `user_info`.`name`,
+            `user_info`.`avatar`
         FROM  `comment`
+        LEFT JOIN  `user_info`
+        ON  `comment`.`uid` = `user_info`.`uid`
         WHERE  `comment`.`cid` = #{cid}
     </select>
 
@@ -25,8 +29,12 @@
             `comment`.`object_type`,
             `comment`.`content`,
             `comment`.`timestamp`,
-            `comment`.`like`
+            `comment`.`like`,
+            `user_info`.`name`,
+            `user_info`.`avatar`
         FROM  `comment`
+        LEFT JOIN `user_info`
+        ON `comment`.`uid` = `user_info`.`uid`
         WHERE  `comment`.`object_id` = #{object_id}
     </select>
 
