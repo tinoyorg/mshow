@@ -102,33 +102,44 @@ public class ActionController {
 
         return result.getJsonObject();
     }
-//
-//    @UserLoginToken
-//    @GetMapping("/record")
-//    public Object getRecordList(HttpServletRequest request,HttpServletResponse response){
-//        JsonUtils result = new JsonUtils();
-//        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
-//        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
-//        String open_id = map.get("open_id");
-//        UserAuth userAuth = userService.getUserAuthByWX(open_id);
-//
-//        try {
-//            List<Record> record_list = recordService.getRecordByUser(userAuth.getUid());
-//            LinkedHashMap data = new LinkedHashMap<String,Object>();
-//            data.put("record_list",record_list);
-//            result.setData(data);
-//            response.setHeader("X-Token",map.get("X-Token"));
-//
-//        } catch (Exception e) {
-//
-//            e.printStackTrace();
-//            result.setStatus("500");
-//            result.setMsg("An Error In Getting A Record_list");
-//            return  result.getJsonObject();
-//        }
-//
-//        return result.getJsonObject();
-//    }
+
+    @UserLoginToken
+    @PostMapping("/record/object_type/{object_type}/object_id/{object_id}")
+    public Object getRecordList(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
+                                HttpServletRequest request,HttpServletResponse response){
+        JsonUtils result = new JsonUtils();
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+
+        Record record = new Record();
+        try {
+            record.setUid(userAuth.getUid());
+            record.setObject_id(object_id);
+            record.setObject_type(object_type);
+            Date date = new Date();
+            //设置要获取到什么样的时间
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //获取String类型的时间
+            String timestamp= sdf.format(date);
+            record.setTimestamp(timestamp);
+            recordService.createRecord(record);
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+            data.put("record",record);
+            result.setData(data);
+            response.setHeader("X-Token",map.get("X-Token"));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg("An Error In Getting A Record_list");
+            return  result.getJsonObject();
+        }
+
+        return result.getJsonObject();
+    }
 
 
     @GetMapping("/comment_list/object_type/{object_type}/object_id/{object_id}")
