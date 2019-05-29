@@ -80,4 +80,7 @@
         DELETE  FROM  `show` WHERE `sid` = #{sid}
     </delete>
 
+    <delete id="deleteShowByEid" parameterType="java.lang.Integer">
+        DELETE  FROM  `show` WHERE `eid` = #{eid}
+    </delete>
 </mapper>

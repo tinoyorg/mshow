@@ -92,4 +92,12 @@
     DELETE  FROM  `collection` WHERE `cid` = #{cid}
     </delete>
 
+    <delete id="deleteCollectionBySid" parameterType="java.lang.Integer">
+    DELETE  FROM  `collection` WHERE `sid` = #{sid}
+    </delete>
+
+    <delete id="deleteCollectionByEid" parameterType="java.lang.Integer">
+    DELETE  FROM  `collection` WHERE `eid` = #{eid}
+    </delete>
+
 </mapper>

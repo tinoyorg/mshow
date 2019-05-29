@@ -43,4 +43,14 @@ public class CollectionServiceImpl implements CollectionService {
     public void deleteCollection(int cid) {
         collectionMapper.deleteCollection(cid);
     }
+
+    @Override
+    public void deleteCollectionBySid(int sid) {
+        collectionMapper.deleteCollectionBySid(sid);
+    }
+
+    @Override
+    public void deleteCollectionByEid(int eid) {
+        collectionMapper.deleteCollectionByEid(eid);
+    }
 }

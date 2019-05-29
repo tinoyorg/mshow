@@ -14,5 +14,6 @@ public interface CollectionMapper {
     void createCollection(Collection Collection);//创建展品
     void updateCollection(Collection Collection);//更改展品信息
     void deleteCollection(int cid);//删除展品
-
+    void deleteCollectionBySid(int sid);
+    void deleteCollectionByEid(int eid);
 }

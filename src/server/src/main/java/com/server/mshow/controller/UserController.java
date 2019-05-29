@@ -64,6 +64,7 @@ public class UserController {
         String wxSessionKey = (String)wxSessionMap.get("session_key");
 
         UserAuth userAuth = userService.getUserAuthByWX(wxOpenId);
+        UserInfo userInfo;
         if(userAuth == null) {
             //创建新用户到userAuth及userInfo
             userAuth = new UserAuth();
@@ -78,7 +79,7 @@ public class UserController {
 
             LinkedHashMap<Object,Object> map = initUserInfo(wxSessionKey, wxEncryptedData, wxIv);
             // String wxUnionid = (String) map.get("unionId")
-            UserInfo userInfo = (UserInfo) map.get("userInfo");
+            userInfo = (UserInfo) map.get("userInfo");
             userAuth = userService.getUserAuthByWX(wxOpenId);
             userInfo.setUid(userAuth.getUid());
             //插入用户信息到数据库
@@ -95,7 +96,9 @@ public class UserController {
         }
 
 
-
+        LinkedHashMap data = new LinkedHashMap<String,Object>();
+        data.put("uid",userAuth.getUid());
+        result.setData(data);
         String token = tokenService.getToken(userAuth);
         response.setHeader("X-Token",token);
         System.out.println("token："+token);

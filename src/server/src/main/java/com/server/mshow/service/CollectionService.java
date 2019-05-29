@@ -12,4 +12,6 @@ public interface CollectionService {
     void createCollection(Collection Collection);
     void updateCollection(Collection Collection);
     void deleteCollection(int cid);
+    void deleteCollectionBySid(int sid);
+    void deleteCollectionByEid(int eid);
 }

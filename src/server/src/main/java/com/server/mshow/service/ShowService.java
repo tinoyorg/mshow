@@ -12,4 +12,5 @@ public interface ShowService {
     void createShow(Show show);
     void updateShow(Show show);
     void deleteShow(int sid);
+    void deleteShowByEid(int eid);
 }

@@ -45,4 +45,9 @@ public class ShowServiceImpl implements ShowService {
     public void deleteShow(int sid) {
             showMapper.deleteShow(sid);
     }
+
+    @Override
+    public void deleteShowByEid(int eid) {
+        showMapper.deleteShowByEid(eid);
+    }
 }

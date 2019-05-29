@@ -15,5 +15,5 @@ public interface ShowMapper {
     void createShow(Show show);
     void updateShow(Show show);
     void deleteShow(int sid);
-
+    void deleteShowByEid(int eid);
 }

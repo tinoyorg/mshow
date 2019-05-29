@@ -7,7 +7,7 @@ package com.server.mshow.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
+//@JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
 public class Show {
     private int sid;
     private int eid;

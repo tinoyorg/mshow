@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 展品
 展品的相关信息
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
+//@JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
 public class Collection {
     private int cid;
     private int eid;

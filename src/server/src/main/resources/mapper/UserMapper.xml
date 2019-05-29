@@ -54,7 +54,7 @@
             `user_info`.`name`,
             `user_info`.`avatar`,
             `user_info`.`location`,
-            `user_info`.`position`,
+            `user_info`.`position`
         FROM  `user_info`
         WHERE  `user_info`.`uid` = #{uid}
     </select>

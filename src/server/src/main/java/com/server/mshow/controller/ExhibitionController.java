@@ -237,7 +237,10 @@ public class ExhibitionController {
                 return  result.getJsonObject();
             }
 
+
+
             exhibitionService.deleteExhibition(exhibition_id);
+
             userAuth.setAuth("user");
             userService.updateUserAuth(userAuth);
 

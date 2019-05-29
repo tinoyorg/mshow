@@ -135,6 +135,8 @@ public class ShowController {
             show.setEnd_time(jsonObject.getString("end_time"));
 
             showService.createShow(show);
+
+
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("show",show);
             result.setData(data);
