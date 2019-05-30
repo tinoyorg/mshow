@@ -477,6 +477,14 @@ public class ActionController {
 
         try {
 
+            star = starService.getStarByObject(userAuth.getUid(),object_id,object_type);
+            if(star != null){
+
+                result.setStatus("500");
+                result.setMsg("the "+object_type+" was Stared");
+            }
+            else
+                star =null;
             Date date = new Date();
             //设置要获取到什么样的时间
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -487,6 +495,7 @@ public class ActionController {
             star.setUid(userAuth.getUid());
             star.setObject_id(object_id);
             star.setObject_type(object_type);
+
 
             starService.createStar(star);
 
