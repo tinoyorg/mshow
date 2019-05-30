@@ -1,0 +1,53 @@
+<!--pages/index/exhibition.wxml-->
+<view>
+  <view class='exhibition-imagebox'>
+    <image src='{{image_url}}' class='exhibition-image' mode='widthFix'/>
+  </view>
+  <view class='exhibition-info'>
+    <view>
+      <text class='exhibition-info-name'>{{show.name}}</text>
+      <image src='{{like_icon}}' bindtap='changeLike'class='exhibition-info-like' mode='widthFix'/>
+    </view>
+    <view>
+      <image src='/image/icon/attraction.png' class='exhibition-info-icon' mode='widthFix'/>
+      <text class='exhibition-info-text'>{{exhibition_museum}}</text>
+    </view>
+    <view>
+      <image src='/image/icon/location.png' class='exhibition-info-icon' mode='widthFix'/>
+      <text class='exhibition-info-text'>{{exhibition_address}}</text>
+    </view>
+    <view>
+      <image src='/image/icon/calendar.png' class='exhibition-info-icon' mode='widthFix'/>
+      <text class='exhibition-info-text'>{{exhibition_time}}</text>
+    </view>
+    <view class='exhibition-button'>
+      <button class='exhibition-order' type='{{exhibition_order_type}}' bindtap='changeOrder'>{{exhibition_order_status}}</button>
+      <button class='exhibition-order' type='primary' bindtap='onAllCollections'> 查看展品 </button>
+    </view>
+  </view>
+  <view class='exhibition-introduce'>
+    <text class='exhibition-introduce-title'>展览介绍</text>
+    <text class='exhibition-introduce-text'>{{show_introduce}}</text>
+    <view wx:if="{{!show_introduce_full}}" class='exhibition-introduce-control' bindtap='fullText'>
+      <text class='exhibition-introduce-more'>{{introduce_tip}}</text>
+      <image class='exhibition-introduce-icon' src='{{introduce_tip_icon}}' mode='widthFix'/>
+    </view>
+  </view>
+  <view class='exhibition-comment'>
+    <text class='exhibition-comment-title'>妙语连珠</text>
+    <view wx:for='{{comment_list}}' wx:key="this">
+      <view class='exhibition-comment-client'>
+        <view>
+          <view class='exhibition-comment-imagebox'>
+            <image src='{{item.avatar}}' class='exhibition-comment-avatar-image'/>
+          </view>
+          <view class='exhibition-comment-textbox'>
+            <text class='exhibition-comment-name'>{{item.name}}</text>
+            <text class='exhibition-comment-time'>{{item.timestamp}}</text>
+          </view>
+        </view>
+        <text class='exhibition-comment-context'>{{item.content}}</text>
+      </view>
+    </view>
+  </view>
+</view>

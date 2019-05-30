@@ -1,0 +1,23 @@
+<!--pages/information/information.wxml-->
+<view class='home-top'>
+  <view class='information-grid home-td'>
+    <text>头像</text>
+    <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatar}}" mode="cover"></image>
+  </view>
+  <view class='information-grid information-bottom home-td'>
+    <text>昵称</text>
+    <text class="userinfo-nickname">{{userInfo.nick}}</text>
+  </view>
+  <view class='information-grid information-bottom home-td'>
+    <text>性名</text>
+    <text class="userinfo-nickname">{{userInfo.name}}</text>
+  </view>
+  <view class='information-grid information-bottom home-td'>
+    <text>姓别</text>
+    <text class="userinfo-nickname">{{userInfo.sex}}</text>
+  </view>
+  <view class='information-grid information-bottom home-td'>
+    <text>位置</text>
+    <text class="userinfo-nickname">{{userInfo.position}}</text>
+  </view>
+</view>

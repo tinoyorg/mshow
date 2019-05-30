@@ -1,23 +1,23 @@
-// pages/index/index.js
+// pages/collections/collections.js
 const app = getApp()
 
 Page({
+
   /**
    * 页面的初始数据
    */
   data: {
-    searchinput: '',
+    collection_list: [],
     dots: true,
     autoplay: true,
     dtime: 3000,
-    show_list: [],
     swipers: ['index-swiper1.png', 'index-swiper2.png', 'index-swiper3.png'],
     exhibit_box: [
       {
         sid: 1,
         image: 'index-show1.png',
-        name: '展览一',
-        address: '展馆地址展馆地址',
+        name: '展品一',
+        address: '展馆名称',
         time: '还剩3天',
         money: '998',
         star: 123,
@@ -27,8 +27,8 @@ Page({
       {
         sid: 2,
         image: 'index-show2.png',
-        name: '展览二',
-        address: '展馆地址展馆地址',
+        name: '展品二',
+        address: '展馆名称',
         time: '还剩3天',
         money: '599',
         star: 112323,
@@ -38,8 +38,8 @@ Page({
       {
         sid: 3,
         image: 'index-show3.png',
-        name: '展览三',
-        address: '展馆地址展馆地址',
+        name: '展品三',
+        address: '展馆名称',
         time: '还剩3天',
         money: '399',
         star: 2,
@@ -48,66 +48,36 @@ Page({
       }
     ]
   },
+  
   /**
    * 自定义函数
    */
   onTapExhibit: function (e) {
-    var sid = e.currentTarget.dataset.sid;
-    console.log("Open page exhibition_" + sid);
+    var cid = e.currentTarget.dataset.cid;
+    console.log("Open page exhibition_" + cid);
     wx.navigateTo({
-      url: '../exhibition/exhibition?sid=' + sid
+      url: '../exhibit/exhibit?cid=' + cid
     })
   },
 
-  input_words: function(e) {
-    this.setData({
-      searchinput: e.detail.value
-    })
-  },
-
-  input_confirm: function () {
-    var indexThis = this
-    console.log("Open page exhibit_" + this.data.searchinput)
-    wx.request({
-      url: app.globalData.host + '/search/query',
-      data: {
-        queryStr: this.data.searchinput,
-      },
-      method: 'POST',
-      success(res) {
-        console.log(res)
-      }
-    })
-    // wx.navigateTo({
-      
-    // })
-  },
-  
-  input_clear: function() {
-    this.setData({
-      searchinput: '',
+  input_confirm: function (e) {
+    var value = e.detail.value;
+    console.log("Open page exhibit_" + value)
+    wx.navigateTo({
+      url: '../exhibit/exhibit?eid=' + value
     })
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var indexThis = this
-    wx.request({
-      url: app.globalData.host + '/show/show_list',
-      method: 'GET',
-      success(res) {
-        indexThis.setData({
-          show_list : res.data.data.show_list
-        })
-        console.log(indexThis.data.show_list)
-      },
-      fail() {
-        console.log('Request Fail')
-      }
+  onLoad: function (e) {
+    console.log('Opening Collections Page')
+    var collections = JSON.parse(e.collectionsBean)
+    this.setData({
+      collection_list: collections
     })
-    console.log('Opening Index Page')
+    console.log(this.data.collection_list)
   },
 
   /**

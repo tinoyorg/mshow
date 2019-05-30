@@ -1,42 +1,41 @@
-/**home.wxss**/
+/* pages/favorite/favorite.wxss */
 @import "../common/lib/weui.wxss";
-.home-top{
-  padding: 50rpx 0
-}
-.home-td{
-  display: flex;
-  align-items:center;
-}
-.home-button{
-  width: 60%
-}
-.home-image{
-  width: 80rpx;
-  height: 80rpx;
-  margin: 20rpx;
+.information-bottom{
+  height: 80rpx
 }
 .swiper-image{
   width: 100%;
   height: 100%;
+}
+.index-search{
+  margin: 20rpx 125rpx;
+  border: 1px solid #b2b2b2;
+  border-radius:20px;
+}
+.search-icon{
+  padding: 0 25rpx;
+  vertical-align: middle;
+}
+.search-input{
+  height: 35px;
+  width: 160px;
+  line-height: 35rpx;
+  display: inline-block;
+  vertical-align:middle;
 }
 .index-exhibit{
   margin: 0 30rpx 40rpx 30rpx;
   border: 1px solid #b2b2b2;
   border-radius:5px;
 }
-.home-grid{
-  border-top: 1px solid #b2b2b2;
-}
-.home-grid-bottom{
-  border-top: 1px solid #b2b2b2;
-  border-bottom: 1px solid #b2b2b2;
-}
 .exhibit-image{
   width: 100%;
 }
 .exhibit-textbox{
-  display: inline-block;
+  display: flex;
   width: 80%;
+  align-items: center;
+  justify-content: space-between
 }
 .exhibit-moneybox{
   display: inline-block;
@@ -75,20 +74,3 @@
   vertical-align: middle;
 }
 
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-  float: right
-}

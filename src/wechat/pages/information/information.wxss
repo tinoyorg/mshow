@@ -1,11 +1,15 @@
-/**home.wxss**/
+/* pages/information/information.wxss */
 @import "../common/lib/weui.wxss";
+.information-grid{
+  border-bottom: 1px solid #b2b2b2;
+}
 .home-top{
   padding: 50rpx 0
 }
 .home-td{
   display: flex;
-  align-items:center;
+  align-items: center;
+  justify-content: space-between
 }
 .home-button{
   width: 60%
@@ -85,7 +89,6 @@
   width: 128rpx;
   height: 128rpx;
   margin: 20rpx;
-  border-radius: 50%;
 }
 
 .userinfo-nickname {

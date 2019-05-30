@@ -1,14 +1,46 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/museum/museum",
+    "pages/exhibit/exhibit",
+    "pages/exhibition/exhibition",
+    "pages/collections/collections",
+    "pages/information/information",
+    "pages/mymuseum/mymuseum",
+    "pages/favorite/favorite",
+    "pages/appointment/appointment"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "MShow",
     "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "image/tab1.png",
+        "selectedIconPath": "image/tab1-h.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/museum/museum",
+        "iconPath": "image/tab2.png",
+        "selectedIconPath": "image/tab2-h.png",
+        "text": "展馆"
+      },
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "image/tab3.png",
+        "selectedIconPath": "image/tab3-h.png",
+        "text": "个人"
+      }
+    ]
   },
   "sitemapLocation": "sitemap.json"
 }

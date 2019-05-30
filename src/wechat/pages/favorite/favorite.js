@@ -1,6 +1,4 @@
-// pages/index/index.js
-const app = getApp()
-
+// pages/favorite/favorite.js
 Page({
   /**
    * 页面的初始数据
@@ -10,7 +8,6 @@ Page({
     dots: true,
     autoplay: true,
     dtime: 3000,
-    show_list: [],
     swipers: ['index-swiper1.png', 'index-swiper2.png', 'index-swiper3.png'],
     exhibit_box: [
       {
@@ -59,31 +56,20 @@ Page({
     })
   },
 
-  input_words: function(e) {
+  input_words: function (e) {
     this.setData({
       searchinput: e.detail.value
     })
   },
 
   input_confirm: function () {
-    var indexThis = this
     console.log("Open page exhibit_" + this.data.searchinput)
-    wx.request({
-      url: app.globalData.host + '/search/query',
-      data: {
-        queryStr: this.data.searchinput,
-      },
-      method: 'POST',
-      success(res) {
-        console.log(res)
-      }
+    wx.navigateTo({
+      url: '../exhibit/exhibit?eid=' + this.data.searchinput
     })
-    // wx.navigateTo({
-      
-    // })
   },
-  
-  input_clear: function() {
+
+  input_clear: function () {
     this.setData({
       searchinput: '',
     })
@@ -93,20 +79,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var indexThis = this
-    wx.request({
-      url: app.globalData.host + '/show/show_list',
-      method: 'GET',
-      success(res) {
-        indexThis.setData({
-          show_list : res.data.data.show_list
-        })
-        console.log(indexThis.data.show_list)
-      },
-      fail() {
-        console.log('Request Fail')
-      }
-    })
     console.log('Opening Index Page')
   },
 
