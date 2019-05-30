@@ -15,6 +15,35 @@ public class WxAuth {
 
     private String sessionHost;
 
+    private  String tokenHost;
+
+    private  String acodeUnlimitHost;
+
+    private String appSecret;
+
+    public String getAppSecret() {
+        return appSecret;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
+
+    public String getTokenHost() {
+        return tokenHost;
+    }
+
+    public void setTokenHost(String tokenHost) {
+        this.tokenHost = tokenHost;
+    }
+    public String getAcodeUnlimitHost() {
+        return acodeUnlimitHost;
+    }
+
+    public void setAcodeUnlimitHost(String acodeUnlimitHost) {
+        this.acodeUnlimitHost = acodeUnlimitHost;
+    }
+
     public String getAppId() {
         return appId;
     }

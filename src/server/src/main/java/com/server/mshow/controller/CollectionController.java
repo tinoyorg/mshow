@@ -1,9 +1,11 @@
 package com.server.mshow.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.server.mshow.annotation.AdminUser;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
+import com.server.mshow.common.WxService;
 import com.server.mshow.domain.*;
 import com.server.mshow.service.ExhibitionService;
 import com.server.mshow.service.ShowService;
@@ -15,8 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.Buffer;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/collection")
@@ -38,6 +43,53 @@ public class CollectionController {
 
     @Autowired
     private ActionController actionController;
+
+    @Autowired
+    private WxService wxService;
+
+
+    @GetMapping("/{collection_id}/collection_qr")
+    public Object getCollectionQR(@PathVariable("collection_id") int collection_id){
+        JsonUtils result = new JsonUtils();
+
+        Map<String,Object> wxAccessTokenMap = wxService.getAccessToken();
+
+        if(wxAccessTokenMap == null){
+            result.setStatus("404");
+            result.setMsg("Error in Getting AccessToken");
+            return result.getJsonObject();
+        }
+
+        String access_token = (String)wxAccessTokenMap.get("access_token");
+        System.out.println("access_token: "+ access_token);
+
+        String scene = collection_id+"";
+        String page = "pages/exhibit/exhibit";
+        HashMap<String, String> params = new HashMap<>();
+        params.put("scene", scene);
+        params.put("page", page);
+        JSONObject json = JSONObject.parseObject(JSON.toJSONString(params));
+        System.out.println("json: "+json.toJSONString());
+        Map<String,Object> wxAcodeunlimit = wxService.getWxacodeunlimit(access_token,json);
+        System.out.println(wxAcodeunlimit);
+        if(wxAcodeunlimit == null){
+            result.setStatus("404");
+            result.setMsg("Error in Getting acodeunlimit");
+            return result.getJsonObject();
+        }
+
+        Buffer buffer = (Buffer)wxAcodeunlimit.get("buffer");
+
+        System.out.println(buffer);
+
+        LinkedHashMap data = new LinkedHashMap<String,Object>();
+        data.put("Buffer",buffer);
+
+        result.setData(data);
+
+        return result.getJsonObject();
+    }
+
 
 
     @GetMapping("/{collection_id}/collection_content")
