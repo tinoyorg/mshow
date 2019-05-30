@@ -41,4 +41,8 @@
         DELETE  FROM  `record` WHERE `uid` = #{uid}
     </delete>
 
+    <delete id="cancelRecordByObject">
+        DELETE  FROM  `record`
+        WHERE  `record`.`uid` = #{uid} and `record`.`object_id` = #{object_id} and `record`.`object_type` = #{object_type}
+    </delete>
 </mapper>

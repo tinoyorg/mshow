@@ -10,4 +10,5 @@ public interface ReportService {
     List<Report> getReportByUser(int uid);
     void createReport(Report report);
     void cancelReport(int rid);//delete
+    void cancelReportByObject(int uid,int object_id,String object_type);
 }

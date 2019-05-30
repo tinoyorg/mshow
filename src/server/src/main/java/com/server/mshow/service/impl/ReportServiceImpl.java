@@ -33,4 +33,9 @@ public class ReportServiceImpl implements ReportService {
     public void cancelReport(int rid) {
         reportMapper.cancelReport(rid);
     }
+
+    @Override
+    public void cancelReportByObject(int uid, int object_id, String object_type) {
+        reportMapper.cancelReportByObject(uid, object_id, object_type);
+    }
 }

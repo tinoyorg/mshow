@@ -38,4 +38,10 @@ public class RecordServiceImpl implements RecordService {
     public void cancelAllRecordByUid(int uid) {
         recordMapper.cancelAllRecordByUid(uid);
     }
+
+    @Override
+    public void cancelRecordByObject(int uid, int object_id, String object_type) {
+        recordMapper.cancelRecordByObject(uid, object_id, object_type);
+    }
+
 }

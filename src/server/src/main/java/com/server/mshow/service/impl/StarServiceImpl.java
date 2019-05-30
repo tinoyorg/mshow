@@ -21,9 +21,30 @@ public class StarServiceImpl implements StarService {
     }
 
     @Override
+    public Star getStarByObject(int uid, int object_id, String object_type) {
+        return starMapper.getStarByObject(uid, object_id, object_type);
+    }
+
+    @Override
     public List<Star> getStarByUser(int uid) {
         return starMapper.getStarByUser(uid);
     }
+
+    @Override
+    public List<Star> getStarListByExhibition(int uid, String object_type) {
+        return starMapper.getStarListByExhibition(uid, object_type);
+    }
+
+    @Override
+    public List<Star> getStarListByShow(int uid, String object_type) {
+        return starMapper.getStarListByShow(uid, object_type);
+    }
+
+    @Override
+    public List<Star> getStarListByCollection(int uid, String object_type) {
+        return starMapper.getStarListByCollection(uid,object_type);
+    }
+
 
     @Override
     public void createStar(Star star) {
@@ -33,5 +54,10 @@ public class StarServiceImpl implements StarService {
     @Override
     public void cancelStar(int sid) {
         starMapper.cancelStar(sid);
+    }
+
+    @Override
+    public void cancelStarByObject(int uid, int object_id, String object_type) {
+        starMapper.cancelStarByObject(uid, object_id, object_type);
     }
 }

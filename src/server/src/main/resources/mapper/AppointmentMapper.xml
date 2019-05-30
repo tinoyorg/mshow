@@ -13,8 +13,15 @@
             `appointment`.`lastmodify`,
             `appointment`.`book_time`,
             `appointment`.`arrival_time`,
-            `appointment`.`staus`
+            `appointment`.`staus`,
+            `show`.`name`,
+            `show`.`avatar`,
+            `show`.`like`,
+            `show`.`star`,
+            `show`.`share`
         FROM  `appointment`
+        LEFT JOIN  `show`
+        ON `appointment`.`sid` = `show`.`sid`
         WHERE  `appointment`.`aid` = #{aid}
     </select>
 
@@ -27,8 +34,15 @@
             `appointment`.`lastmodify`,
             `appointment`.`book_time`,
             `appointment`.`arrival_time`,
-            `appointment`.`staus`
+            `appointment`.`staus`,
+            `show`.`name`,
+            `show`.`avatar`,
+            `show`.`like`,
+            `show`.`star`,
+            `show`.`share`
         FROM  `appointment`
+        LEFT JOIN  `show`
+        ON `appointment`.`sid` = `show`.`sid`
         WHERE  `appointment`.`uid` = #{uid}
     </select>
 
@@ -65,4 +79,7 @@
     WHERE `appointment`.`aid` = #{aid}
     </update>
 
+    <delete id="deleteAppointmentBySid" parameterType="java.lang.Integer">
+    DELETE  FROM  `appointment` WHERE `sid` = #{sid}
+    </delete>
 </mapper>

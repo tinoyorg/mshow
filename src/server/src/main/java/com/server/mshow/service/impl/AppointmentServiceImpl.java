@@ -39,6 +39,10 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentMapper.updateAppointment(appointment);
     }
 
+    @Override
+    public void deleteAppointmentBySid(int sid) {
+        appointmentMapper.deleteAppointmentBySid(sid);
+    }
 
 
 }

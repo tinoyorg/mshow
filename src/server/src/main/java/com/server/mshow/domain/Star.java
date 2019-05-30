@@ -13,6 +13,8 @@ public class Star {
     private int object_id;
     private String object_type;
     private String timestamp;
+    private String name;
+    private String avatar;
 
     public Star() {
     }
@@ -61,4 +63,22 @@ public class Star {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
 }

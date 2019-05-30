@@ -375,6 +375,95 @@ public class ActionController {
         return result.getJsonObject();
     }
 
+
+
+    @UserLoginToken
+    @GetMapping("/star_list/object_type/{object_type}")
+    public Object getStarList(@PathVariable("object_type") String object_type,HttpServletRequest request,HttpServletResponse response){
+
+        JsonUtils result = new JsonUtils();
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+
+        try {
+            List<Star> starList;
+
+            if(object_type.equals("collection")){
+                starList = starService.getStarListByCollection(userAuth.getUid(),object_type);
+                System.out.println("query collection");
+            }
+            else if(object_type.equals("show")){
+                starList = starService.getStarListByShow(userAuth.getUid(),object_type);
+                System.out.println("query show");
+            }
+            else if(object_type.equals("exhibition")) {
+                starList = starService.getStarListByExhibition(userAuth.getUid(), object_type);
+                System.out.println("query exhibition");
+            }
+            else {
+                result.setStatus("500");
+                result.setMsg(" the object_type " + object_type + "is wrong");
+                return  result.getJsonObject();
+            }
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+
+            data.put("item_list",starList);
+            result.setData(data);
+            response.setHeader("X-Token",map.get("X-Token"));
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg("An Error In Getting A Star_list of" + object_type);
+            return  result.getJsonObject();
+        }
+
+        return result.getJsonObject();
+    }
+
+    @UserLoginToken
+    @GetMapping("/object_type/{object_type}/object_id/{object_id}/star")
+    public Object getStar(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
+                             HttpServletRequest request, HttpServletResponse response){
+        JsonUtils result = new JsonUtils();
+
+        String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
+        LinkedHashMap<String,String> map = tokenService.verifyToken(token);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+        Star star = null;
+
+        try {
+            star = starService.getStarByObject(userAuth.getUid(),object_id,object_type);
+
+            LinkedHashMap data = new LinkedHashMap<String,Object>();
+
+            data.put("star",star);
+
+            if(star != null)
+                data.put("star_status",1);
+            else
+                data.put("star_status",0);
+            result.setData(data);
+
+            response.setHeader("X-Token",map.get("X-Token"));
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            result.setStatus("500");
+            result.setMsg("An Error in Getting Star a " + object_type);
+            return  result.getJsonObject();
+        }
+
+
+        return result.getJsonObject();
+    }
+
     @UserLoginToken
     @PostMapping("/object_type/{object_type}/object_id/{object_id}/star")
     public Object createStar(@PathVariable("object_type") String object_type, @PathVariable("object_id") int object_id,
@@ -574,4 +663,23 @@ public class ActionController {
         return result.getJsonObject();
     }
 
+
+    public Boolean deleteAllThingByObject(int uid, int object_id ,String Object_type){
+
+        try {
+
+            commentService.cancelCommentByObject(uid, object_id, Object_type);
+            recordService.cancelRecordByObject(uid, object_id, Object_type);
+            reportService.cancelReportByObject(uid, object_id, Object_type);
+            starService.cancelStarByObject(uid, object_id, Object_type);
+
+            return  true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
 }

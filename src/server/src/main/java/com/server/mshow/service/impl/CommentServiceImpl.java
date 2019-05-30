@@ -33,4 +33,9 @@ public class CommentServiceImpl implements CommentService {
     public void cancelComment(int cid) {
         commentMapper.cancelComment(cid);
     }
+
+    @Override
+    public void cancelCommentByObject(int uid, int object_id, String object_type) {
+        commentMapper.cancelCommentByObject(uid, object_id, object_type);
+    }
 }

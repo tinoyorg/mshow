@@ -9,13 +9,10 @@ import com.server.mshow.common.WxService;
 import com.server.mshow.dao.UserMapper;
 import com.server.mshow.domain.Comment;
 import com.server.mshow.domain.UserAuth;
-import com.server.mshow.service.CollectionService;
-import com.server.mshow.service.UserService;
+import com.server.mshow.service.*;
 import com.server.mshow.util.JsonUtils;
 import com.server.mshow.domain.Exhibition;
 import com.server.mshow.domain.Show;
-import com.server.mshow.service.ExhibitionService;
-import com.server.mshow.service.ShowService;
 import javafx.beans.binding.ObjectExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +42,9 @@ public class ExhibitionController {
     private UserService userService;
     @Autowired
     private ActionController actionController;
+
+    @Autowired
+    private AppointmentService appointmentService;
 
     @PassToken
     @GetMapping("/exhibition_list")
@@ -224,7 +224,7 @@ public class ExhibitionController {
     @DeleteMapping("/{exhibition_id}/exhibition_info")
     public Object cancelExhibition(@PathVariable("exhibition_id") int exhibition_id,HttpServletRequest request, HttpServletResponse response){
         JsonUtils result = new JsonUtils();
-        Exhibition exhibition;
+        Exhibition exhibition = null;
 
         String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
@@ -235,13 +235,21 @@ public class ExhibitionController {
         try {
             //验证展馆信息是否正确
             exhibition = exhibitionService.getExhibition(exhibition_id);
-            if(exhibition.getUid() != userAuth.getUid()){
+            if(exhibition == null ){
                 result.setStatus("500");
-                result.setMsg("用户不匹配 ");
+                result.setMsg("no found this exhibition ");
                 return  result.getJsonObject();
             }
 
             collectionService.deleteCollectionByEid(exhibition_id);
+
+            List<Show> showList = showService.getShowListByEid(exhibition_id);
+
+            for (Show show : showList) {
+                appointmentService.deleteAppointmentBySid(show.getSid());
+            }
+
+            actionController.deleteAllThingByObject(userAuth.getUid(),exhibition_id,"exhibition");
             showService.deleteShowByEid(exhibition_id);
             exhibitionService.deleteExhibition(exhibition_id);
 
@@ -264,6 +272,7 @@ public class ExhibitionController {
 
         return result.getJsonObject();
     }
+
 
 
 }

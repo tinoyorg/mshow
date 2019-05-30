@@ -174,13 +174,13 @@ public class UserController {
             int uid = userAuth.getUid();
             userInfo = userService.getUserInfo(uid);
 
-            List<Star> starList  = starService.getStarByUser(uid);
+            //List<Star> starList  = starService.getStarByUser(uid);
             List<Appointment> appointmentList  = appointmentService.getAppointmentListByUid(uid) ;
             LinkedHashMap data = new LinkedHashMap<String,Object>();
             data.put("user_info",userInfo);
             data.put("auth",userAuth.getAuth());
             data.put("appointment_List" ,appointmentList);
-            data.put("star_list",starList);
+            //data.put("star_list",starList);
 
             if(userAuth.getAuth().equals("admin")){
             List<Exhibition>  exhibitionList = exhibitionService.getExhibitionListByUid(uid);

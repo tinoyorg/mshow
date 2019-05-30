@@ -219,8 +219,8 @@ public class ShowController {
 
         String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
-//        String open_id = map.get("open_id");
-//        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
 
 
         try {
@@ -233,7 +233,9 @@ public class ShowController {
             }
 
             collectionService.deleteCollectionBySid(show_id);
-           showService.deleteShow(show_id);
+            appointmentService.deleteAppointmentBySid(show_id);
+            actionController.deleteAllThingByObject(userAuth.getUid(),show_id,"show");
+            showService.deleteShow(show_id);
             response.setHeader("X-Token",map.get("X-Token"));
 
         } catch (Exception e) {

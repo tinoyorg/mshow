@@ -4,14 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.server.mshow.annotation.AdminUser;
 import com.server.mshow.annotation.UserLoginToken;
 import com.server.mshow.common.TokenService;
-import com.server.mshow.domain.Comment;
-import com.server.mshow.domain.Exhibition;
-import com.server.mshow.domain.Show;
+import com.server.mshow.domain.*;
 import com.server.mshow.service.ExhibitionService;
 import com.server.mshow.service.ShowService;
 import com.server.mshow.service.UserService;
 import com.server.mshow.util.JsonUtils;
-import com.server.mshow.domain.Collection;
 import com.server.mshow.service.CollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -188,8 +185,8 @@ public class CollectionController {
 
         String token = request.getHeader("X-Token");// 从 http 请求头中取出 token
         LinkedHashMap<String,String> map = tokenService.verifyToken(token);
-//        String open_id = map.get("open_id");
-//        UserAuth userAuth = userService.getUserAuthByWX(open_id);
+        String open_id = map.get("open_id");
+        UserAuth userAuth = userService.getUserAuthByWX(open_id);
 
 
         try {
@@ -200,7 +197,7 @@ public class CollectionController {
                 result.setMsg("Not found this collection ");
                 return  result.getJsonObject();
             }
-
+            actionController.deleteAllThingByObject(userAuth.getUid(),collection_id,"collection");
             collectionService.deleteCollection(collection_id);
             response.setHeader("X-Token",map.get("X-Token"));
 

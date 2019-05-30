@@ -15,6 +15,17 @@
         WHERE  `star`.`sid` = #{sid}
     </select>
 
+    <select id="getStarByObject" resultType="com.server.mshow.domain.Star">
+        SELECT
+            `star`.`sid`,
+            `star`.`uid`,
+            `star`.`object_id`,
+            `star`.`object_type`,
+            `star`.`timestamp`
+        FROM  `star`
+        WHERE  `star`.`uid` = #{uid} and `star`.`object_id` = #{object_id} and `star`.`object_type` = #{object_type}
+    </select>
+
     <select id="getStarByUser" parameterType="java.lang.Integer" resultType="com.server.mshow.domain.Star">
         SELECT
             `star`.`sid`,
@@ -24,6 +35,51 @@
             `star`.`timestamp`
         FROM  `star`
         WHERE  `star`.`sid` = #{uid}
+    </select>
+
+    <select id="getStarListByExhibition"  resultType="com.server.mshow.domain.Star">
+        SELECT
+            `star`.`sid`,
+            `star`.`uid`,
+            `star`.`object_id`,
+            `star`.`object_type`,
+            `star`.`timestamp`,
+            `exhibition`.`name`,
+            `exhibition`.`avatar`
+        FROM  `star`
+        LEFT JOIN  `exhibition`
+        ON `star`.`object_id` = `exhibition`.`eid`
+        WHERE  `star`.`uid` = #{uid} and `star`.`object_type` = #{object_type}
+    </select>
+
+    <select id="getStarListByShow"  resultType="com.server.mshow.domain.Star">
+        SELECT
+            `star`.`sid`,
+            `star`.`uid`,
+            `star`.`object_id`,
+            `star`.`object_type`,
+            `star`.`timestamp`,
+            `show`.`name`,
+            `show`.`avatar`
+        FROM  `star`
+        LEFT JOIN  `show`
+        ON `star`.`object_id` = `show`.`sid`
+        WHERE  `star`.`uid` = #{uid} and `star`.`object_type` = #{object_type}
+    </select>
+
+    <select id="getStarListByCollection"  resultType="com.server.mshow.domain.Star">
+        SELECT
+            `star`.`sid`,
+            `star`.`uid`,
+            `star`.`object_id`,
+            `star`.`object_type`,
+            `star`.`timestamp`,
+            `collection`.`name`,
+            `collection`.`avatar`
+        FROM  `star`
+        LEFT JOIN  `collection`
+        ON `star`.`object_id` = `collection`.`cid`
+        WHERE  `star`.`uid` = #{uid} and `star`.`object_type` = #{object_type}
     </select>
 
     <insert id="createStar" parameterType="com.server.mshow.domain.Star">
@@ -37,4 +93,8 @@
         DELETE  FROM  `star` WHERE `sid` = #{sid}
     </delete>
 
+    <delete id="cancelStarByObject">
+        DELETE  FROM  `star`
+        WHERE  `star`.`uid` = #{uid} and `star`.`object_id` = #{object_id} and `star`.`object_type` = #{object_type}
+    </delete>
 </mapper>

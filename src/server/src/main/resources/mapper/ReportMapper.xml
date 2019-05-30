@@ -41,4 +41,8 @@
         DELETE  FROM  `report` WHERE `rid` = #{rid}
     </delete>
 
+    <delete id="cancelReportByObject">
+        DELETE  FROM  `report`
+        WHERE  `report`.`uid` = #{uid} and `report`.`object_id` = #{object_id} and `report`.`object_type` = #{object_type}
+    </delete>
 </mapper>

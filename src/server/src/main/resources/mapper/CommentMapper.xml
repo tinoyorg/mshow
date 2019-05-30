@@ -49,4 +49,8 @@
         DELETE  FROM  `comment` WHERE `cid` = #{cid}
     </delete>
 
+    <delete id="cancelCommentByObject">
+        DELETE  FROM  `comment`
+        WHERE  `comment`.`uid` = #{uid} and `comment`.`object_id` = #{object_id} and `comment`.`object_type` = #{object_type}
+    </delete>
 </mapper>
