@@ -12,15 +12,15 @@
 </view>
 <view>
   <view class='home-td home-grid' bindtap='onTapInformation'>
-    <image class='home-image' src='/image/tab1-h.png'></image>
+    <image class='home-image' src='/image/icon/card-fill.png'></image>
     <text>个人信息</text>
   </view>
   <view class='home-td home-grid' bindtap='onTapMymuseum'>
-    <image class='home-image' src='/image/tab2-h.png'></image>
+    <image class='home-image' src='/image/icon/database-fill.png'></image>
     <text>我的展馆</text>
   </view>
   <view class='home-td home-grid' bindtap='onTapFavorite'>
-    <image class='home-image' src='/image/tab3-h.png'></image>
+    <image class='home-image' src='/image/icon/save-fill.png'></image>
     <text>我的收藏</text>
   </view>
   <!-- <view class='home-td home-grid' bindtap='onTapFavorite'>
@@ -28,7 +28,7 @@
     <text>浏览历史</text>
   </view> -->
   <view class='home-td home-grid-bottom' bindtap='onTapAppointment'>
-    <image class='home-image' src='/image/tab1-h.png'></image>
+    <image class='home-image' src='/image/icon/smile-fill.png'></image>
     <text>我的预约</text>
   </view>
 </view>

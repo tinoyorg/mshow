@@ -1,4 +1,19 @@
 /* pages/exhibit/exhibit.wxss */
+.textarea-bg {
+  margin: 20rpx;
+  font-size: 32rpx;
+  height: 100rpx;
+  border: 1px solid #b2b2b2;
+  border-radius:5px;
+}
+.exhibition-button{
+  display: flex;
+  flex-direction: row;
+}
+.exhibition-order-button{  
+  margin: 20rpx;
+  width: 24%
+}
 .exhibit{
   margin: 35rpx;
 }

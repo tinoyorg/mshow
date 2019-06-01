@@ -7,13 +7,22 @@ Page({
    * 页面的初始数据
    */
   data: {
+    exh_Name: '',
+    exh_Position: '',
+    exh_Phone: '',
+    exh_OpenTime: '',
+    exh_EndTime: '',
+    exh_Intro: '',
     auth: '',
     isauth: false,
     exhibitionInfo: {},
+    changing: false,
     exhibition_introduce: "",
     exhibition_introduce_text: "",
     exhibition_introduce_length: 0,
     exhibition_introduce_full: true,
+    hiddenmodalput: true,
+    image_src: "/image/avatar.png",
     image_bk_url: "/image/museum1.png",
     image_at_url: "/image/avatar.png",
     intro_fullText: false,
@@ -25,6 +34,90 @@ Page({
   /**
    * 自定义函数
    */
+  chooseImage: function () {
+    var mymuseumThis = this
+    wx.chooseImage({
+      count: 1,
+      success: function(res) {
+        mymuseumThis.setData({
+          image_src: res.tempFilePaths[0]
+        })
+      },
+    })
+  },
+
+  exhName: function (e) {
+    this.setData({
+      exh_Name: e.detail.value
+    })
+  },
+
+  exhPosition: function (e) {
+    this.setData({
+      exh_Position: e.detail.value
+    })
+  },
+
+  exhPhone: function (e) {
+    this.setData({
+      exh_Phone: e.detail.value
+    })
+  },
+
+  exhOpenTime: function (e) {
+    this.setData({
+      exh_OpenTime: e.detail.value
+    })
+  },
+
+  exhEndTime: function (e) {
+    this.setData({
+      exh_EndTime: e.detail.value
+    })
+  },
+
+  exhIntro: function (e) {
+    this.setData({
+      exh_Intro: e.detail.value
+    })
+  },
+
+  confirmM: function () {
+    var mymuseumThis = this
+    console.log(this.data.exh_Name + ' ' + this.data.exh_Intro)
+    wx.request({
+      url: app.globalData.host + '/exhibition/exhibition_info',
+      method: 'POST',
+      header: {
+        'X-Token': wx.getStorageSync('X-Token')
+      },
+      data: {
+        exhibition: {
+          exhibition_name: mymuseumThis.data.exh_Name,
+          exhibition_phone: mymuseumThis.data.exh_Phone,
+          exhibition_position: mymuseumThis.data.exh_Position,
+          exhibition_introduce: mymuseumThis.data.exh_Intro,
+          open_time: mymuseumThis.data.exh_OpenTime,
+          end_time: mymuseumThis.data.exh_EndTime,
+          exhibition_avatar: wx.getFileSystemManager().readFileSync(mymuseumThis.data.image_src, "base64")
+        }
+      },
+      success(res) {
+        console.log(res)
+      },
+    })
+  },
+
+  changeStat: function () {
+    this.data.changing = !this.data.changing
+    console.log(this.data.changing)
+    this.onLoad('auth')
+  },
+
+  changeMyMuseum: function () {
+    var mymuseumThis = this
+  },
+
   deleteMyMuseum: function () {
     var mymuseumThis = this
     wx.request({
@@ -38,6 +131,13 @@ Page({
         console.log('Delete Success')
       },
     })
+  },
+
+  cancelM: function (e) {
+    this.setData({
+      hiddenmodalput: true,
+    })
+    console.log(this.data.exh_Name + ' ' + this.data.exh_Intro)
   },
 
   fullText: function () {
@@ -60,14 +160,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (e) {
+  onLoad: function () {
     var mumuseumThis = this
     var length = 0
-    console.log('Opening Museum Page')
     this.setData({
-      auth: e.auth
+      auth: wx.getStorageSync('auth')
     })
-    if(e.auth != 'admin') {
+    console.log('Opening Museum Page')
+    if(wx.getStorageSync('auth') != 'admin') {
       wx.showModal({
         title: '提示',
         content: '您还没有创建展馆，是否创建？',
@@ -75,12 +175,16 @@ Page({
         success: function (res) {
           if (res.confirm) {//这里是点击了确定以后
             console.log('用户点击确定')
+            mumuseumThis.setData({
+              hiddenmodalput: false
+            })
           } else {//这里是点击了取消以后
             console.log('用户点击取消')
           }
         }
       })
     } else {
+      console.log(wx.getStorageSync('uid'))
       wx.request({
         url: app.globalData.host + '/user/' + wx.getStorageSync('uid'),
         header: {

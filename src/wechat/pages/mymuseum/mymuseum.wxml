@@ -21,10 +21,10 @@
           </view>
       </scroll-view>
     </view>
-    <view class='exhibition-info museum-button'>
-    <button class='exhibition-order' type='primary' bindtap='changeMyMuseum'>增加展览</button>
-    <button class='exhibition-order' bindtap='deleteMyMuseum'> 删除展览 </button>
-  </view>
+    <!-- <view class='exhibition-info museum-button'>
+      <button class='exhibition-order' type='primary' bindtap='changeMyMuseum'>增加展览</button>
+      <button class='exhibition-order' bindtap='deleteMyMuseum'> 删除展览 </button>
+    </view> -->
     <view class='museum-info'>
       <text class='info-title'>展馆信息</text>
       <view class='info-box'>
@@ -49,10 +49,32 @@
       </view>
     </view>
   </view>
+  <view>
+  
+  </view>
   <view class='museum-button exhibition-info'>
-    <button class='exhibition-order' type='primary' bindtap='changeMyMuseum'>修改信息</button>
+    <button class='exhibition-order' type='primary' bindtap='changeStat'>修改信息</button>
     <button class='exhibition-order' bindtap='deleteMyMuseum'> 删除展馆 </button>
   </view>
+  <!-- <view wx:else class='museum-button exhibition-info'>
+    <button class='exhibition-order' type='primary' bindtap='changeMyMuseum'>提交修改</button>
+    <button class='exhibition-order' bindtap='changeStat'> 撤销修改 </button>
+  </view> -->
 </view>
-<view wx:else>
-</view>
+<view wx:else></view>
+<modal hidden="{{hiddenmodalput}}" title="完善资料" confirm-text="提交" cancel-text="取消" bindcancel="cancelM" bindconfirm="confirmM">
+  <view class='museum-head'>
+      <view class='head-user'>
+        <image src='{{image_src}}' class='head-avatar' bindtap='chooseImage'/>
+      </view>
+    </view>
+  <text class='info-title'>展馆名字</text>
+  <textarea bindinput='exhName' type='text' auto-height='true' maxlength='20' placeholder="请输入展馆姓名..." auto-focus/>
+  <text class='info-title'>展馆信息</text>
+  <textarea bindinput='exhPosition' type='text' auto-height='true' maxlength='300' placeholder="地址" />
+  <textarea bindinput='exhPhone' type='number' auto-height='true' maxlength='15' placeholder="电话" />
+  <textarea bindinput='exhOpenTime' type='number' auto-height='true' maxlength='8' placeholder="开始时间如20190102" />
+  <textarea bindinput='exhEndTime' type='number' auto-height='true' maxlength='8' placeholder="结束时间如20190102" />
+  <text class='info-title'>展馆介绍</text>
+  <textarea bindinput='exhIntro' type='text' auto-height='true' maxlength='300' placeholder="请输入展馆介绍" />
+</modal>

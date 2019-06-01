@@ -9,7 +9,11 @@ Page({
   data: {
     collection: {},
     comment_list: [],
-    image_url: "/image/exhibit1.png",
+    exhibit_introduce: "",
+    exhibit_introduce_text: "",
+    exhibit_introduce_length: 0,
+    exhibit_introduce_full: true,
+    image_url: "/image/collection/qhc.jpg",
     exhibit_name: "珍藏版GTX 770",
     like_status: false,
     like_icon: "/image/icon/like.png",
@@ -46,6 +50,34 @@ Page({
   /**
    * 自定义函数
    */
+  onComment: function (e) {
+    var collectThis = this
+    console.log(e.detail.value.comment)
+    if (wx.getStorageSync('X-Token')) {
+      wx.request({
+        url: app.globalData.host + '/object_type/collection/object_id/' + collectThis.data.collection.cid + '/comment',
+        header: {
+          'X-Token': wx.getStorageSync('X-Token')
+        },
+        data: {
+          content: e.detail.value.comment
+        },
+        method: 'POST',
+        success(res) {
+          console.log(res)
+        },
+        fail() {
+        }
+      })
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 2000//持续的时间
+      })
+    }
+  },
+
   fullText: function () {
     this.exhibit_fullText = !this.exhibit_fullText;
     if (this.exhibit_fullText === true) {
@@ -62,6 +94,7 @@ Page({
       })
     }
   },
+
   changeLike: function () {
     this.like_status = !this.like_status;
     if (this.like_status === true) {
@@ -85,14 +118,23 @@ Page({
       url: app.globalData.host + '/collection/' + e.cid + '/collection_content',
       method: 'GET',
       success(res) {
+        console.log(res)
         exhibitThis.setData({
           collection: res.data.data.collection,
-          comment_list: res.data.data.comment_list
+          comment_list: res.data.data.comment_list,
+          exhibit_introduce: res.data.data.collection.introduce,
+          exhibit_introduce_text: res.data.data.collection.introduce,
+          exhibit_introduce_length: res.data.data.collection.introduce.length
         })
+        if (exhibitThis.data.show_introduce_length > 90) {
+          exhibitThis.setData({
+            exhibit_introduce: exhibitThis.data.exhibit_introduce_text.substring(0, 90) + "...",
+            exhibit_introduce_full: false
+          })
+        }
+        console.log(exhibitThis.data.collection)
       }
     })
-    console.log(this.data.collection)
-    console.log(this.data.comment_list)
   },
 
   /**

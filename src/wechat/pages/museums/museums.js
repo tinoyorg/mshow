@@ -1,4 +1,4 @@
-// pages/index/index.js
+// pages/museums/museums.js
 const app = getApp()
 
 Page({
@@ -10,8 +10,8 @@ Page({
     dots: true,
     autoplay: true,
     dtime: 3000,
-    show_list: [],
-    swipers: ['exhibition/hnsbwg.jpg', 'exhibition/jsbwg.jpg', 'exhibition/hnbwg.jpg'],
+    exhibition_list: [],
+    swipers: ['index-swiper1.png', 'index-swiper2.png', 'index-swiper3.png'],
     exhibit_box: [
       {
         sid: 1,
@@ -51,41 +51,11 @@ Page({
   /**
    * 自定义函数
    */
-  onTapExhibit: function (e) {
-    var sid = e.currentTarget.dataset.sid;
-    console.log("Open page exhibition_" + sid);
+  onTapMuseum: function (e) {
+    var eid = e.currentTarget.dataset.sid;
+    console.log("Open page museum_" + eid);
     wx.navigateTo({
-      url: '../exhibition/exhibition?sid=' + sid
-    })
-  },
-
-  input_words: function(e) {
-    this.setData({
-      searchinput: e.detail.value
-    })
-  },
-
-  input_confirm: function () {
-    var indexThis = this
-    console.log("Open page exhibit_" + this.data.searchinput)
-    wx.request({
-      url: app.globalData.host + '/search/query',
-      data: {
-        queryStr: this.data.searchinput,
-      },
-      method: 'POST',
-      success(res) {
-        console.log(res)
-      }
-    })
-    // wx.navigateTo({
-      
-    // })
-  },
-  
-  input_clear: function() {
-    this.setData({
-      searchinput: '',
+      url: '../museum/museum?eid=' + eid
     })
   },
 
@@ -93,24 +63,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setEnableDebug({
-      enableDebug: true,
-    })
     var indexThis = this
     wx.request({
-      url: app.globalData.host + '/show/show_list',
+      url: app.globalData.host + '/exhibition/exhibition_list',
       method: 'GET',
       success(res) {
         indexThis.setData({
-          show_list : res.data.data.show_list
+          exhibition_list: res.data.data.exhibition_list
         })
-        console.log(indexThis.data.show_list)
       },
       fail() {
         console.log('Request Fail')
       }
     })
-    console.log('Opening Index Page')
+    console.log('Opening Museums Page')
   },
 
   /**

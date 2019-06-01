@@ -33,7 +33,6 @@ Page({
   },
 
   onTapMymuseum: function() {
-    var auth = ''
     if (wx.getStorageSync('X-Token')) {
       wx.request({
         url: app.globalData.host + '/user/' + wx.getStorageSync('uid'),
@@ -42,10 +41,9 @@ Page({
         },
         method: 'GET',
         success(res) {
-          auth = res.data.data.auth
-          console.log(auth)
+          wx.setStorageSync('auth', res.data.data.auth)
           wx.navigateTo({
-            url: '../mymuseum/mymuseum?auth=' + auth
+            url: '../mymuseum/mymuseum'
           })
         },
         fail() {

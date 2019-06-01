@@ -1,12 +1,12 @@
-<!--pages/appointment/appointment.wxml-->
+<!--pages/museums/museums.wxml-->
 <view>
-  <view wx:for='{{show_list}}' wx:key='this'>
-    <view bindtap='onTapExhibit' data-sid='{{item.sid}}' class='index-exhibit'>
-      <image class='exhibit-image' mode='widthFix' src='/image/index-show1.png'/>
+  <view wx:for='{{exhibition_list}}' wx:key='this'>
+    <view bindtap='onTapMuseum' data-sid='{{item.eid}}' class='index-exhibit'>
+      <image class='exhibit-image' mode='widthFix' src='/image/exhibition/hnsbwg.jpg'/>
       <view>
         <view class='exhibit-textbox'>
-          <text class='exhibit-name'>{{item.name}}</text>
-          <text class='exhibit-info'>{{item.staus}} | {{item.book_time}}</text>
+          <text class='exhibit-name'>{{item.name}} | {{item.phone}}</text>
+          <text class='exhibit-info'>{{item.position}} | {{item.open_time}} - {{item.end_time}}</text>
         </view>
         <!-- <view class='exhibit-moneybox'>
           <text class='exhibit-money'>￥{{item.money}}</text>

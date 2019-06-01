@@ -15,8 +15,11 @@ Page({
     show_introduce_text: "",
     show_introduce_length: 0,
     show_introduce_full: true,
+    star_status: 0,
     like_status: false,
     like_icon: "/image/icon/like.png",
+    star_status: false,
+    star_icon: "/image/icon/star.png",
     exhibition_order: false,
     exhibition_order_type: "",
     exhibition_order_status: "",
@@ -35,18 +38,101 @@ Page({
   /**
    * 自定义函数
    */
-  changeOrder: function () {
-    console.log(this.data.intime);
-    this.exhibition_order = !this.exhibition_order;
-    if (this.exhibition_order === true) {
-      this.setData({
-        exhibition_order_type: "default",
-        exhibition_order_status: "已预约"
+  onComment: function (e) {
+    var showThis = this
+    console.log(e.detail.value.comment)
+    if (wx.getStorageSync('X-Token')) {
+      wx.request({
+        url: app.globalData.host + '/object_type/show/object_id/' + showThis.data.show.sid + '/comment',
+        header: {
+          'X-Token': wx.getStorageSync('X-Token')
+        },
+        data: {
+          content: e.detail.value.comment
+        },
+        method: 'POST',
+        success(res) {
+          console.log(res)
+        },
+        fail() {
+        }
       })
     } else {
-      this.setData({
-        exhibition_order_type: "primary",
-        exhibition_order_status: "预约"
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 2000//持续的时间
+      })
+    }
+  },
+
+  onShareAppMessage: function (e) {
+    return {
+      title: 'MShow',
+      path: 'pages/index/index',
+      success: function (res) {
+        // 转发成功
+        console.log("转发成功:" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+      }
+    }
+  },
+
+  changeOrder: function () {
+    var showThis = this
+    this.exhibition_order = !this.exhibition_order;
+    if (wx.getStorageSync('X-Token')) {
+      if (this.exhibition_order === true) {
+        wx.showActionSheet({
+          itemList: ['9:00-11:30', '2:30-5:00'],
+          success: function (res) {
+            if (!res.cancel) {
+              console.log(res.tapIndex)//这里是点击了那个按钮的下标
+              wx.request({
+                url: app.globalData.host + '/show/' + showThis.data.show.sid + '/appointment',
+                header: {
+                  'X-Token': wx.getStorageSync('X-Token')
+                },
+                method: 'POST',
+                data: {
+                  arrival_time: res.tapIndex
+                },
+                success(res) {
+                  showThis.setData({
+                    exhibition_order_type: "default",
+                    exhibition_order_status: "已预约"
+                  })
+                },
+                fail() {
+                }
+              })
+            }
+          }
+        })
+      } else {
+        wx.request({
+          url: app.globalData.host + '/show/' + showThis.data.show.sid + '/book_type/cancel/appointment_/' + showThis.data.show.sid,
+          header: {
+            'X-Token': wx.getStorageSync('X-Token')
+          },
+          success(res) {
+            showThis.setData({
+              exhibition_order_type: "primary",
+              exhibition_order_status: "预约"
+            })
+          },
+          fail() {
+          }
+        })
+      }
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 2000//持续的时间
       })
     }
   },
@@ -69,14 +155,43 @@ Page({
   },
 
   changeLike: function () {
-    this.like_status = !this.like_status;
-    if (this.like_status === true) {
-      this.setData({
-        like_icon: "/image/icon/like-h.png"
-      })
+    if (wx.getStorageSync('X-Token')) {
+      this.like_status = !this.like_status;
+      if (this.like_status === true) {
+        this.setData({
+          like_icon: "/image/icon/like-h.png"
+        })
+      } else {
+        this.setData({
+          like_icon: "/image/icon/like.png"
+        })
+      }
     } else {
-      this.setData({
-        like_icon: "/image/icon/like.png"
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 2000//持续的时间
+      })
+    }
+  },
+
+  changeStar: function () {
+    if (wx.getStorageSync('X-Token')) {
+      this.star_status = !this.star_status;
+      if (this.star_status === true) {
+        this.setData({
+          star_icon: "/image/icon/star-h.png"
+        })
+      } else {
+        this.setData({
+          star_icon: "/image/icon/star.png"
+        })
+      }
+    } else {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 2000//持续的时间
       })
     }
   },
@@ -94,7 +209,6 @@ Page({
    */
   onLoad: function (e) {
     console.log("Opening Exhibition " + e.sid);
-    console.log('sid is ' + this.data.sid)
     var showThis = this
     wx.request({
       url: app.globalData.host + '/show/' + e.sid +'/show_content',
@@ -109,6 +223,22 @@ Page({
             })
           }
         })
+        if (wx.getStorageSync('X-Token')) {
+          wx.request({
+            url: app.globalData.host + '/object_type/exhibition/object_id/' + res.data.data.show.eid + '/star',
+            method: 'GET',
+            header: {
+              'X-Token': wx.getStorageSync('X-Token'),
+            },
+            success(star) {
+              console.log(star)
+              showThis.setData({
+                star_status: star.data.data.star_status
+              })
+            }
+          })
+        }
+        
         // wx.request({
         //   url: app.globalData.host + '/comment_list/object_type/' + 'show' + '/object_id/' + res.data.data.show.sid,
         //   method: 'GET',
@@ -137,6 +267,19 @@ Page({
         }
       }
     })
+    // if(wx.getStorageSync('X-Token')) {
+    //   wx.request({
+    //     url: app.globalData.host + '/user/' + wx.getStorageSync('uid'),
+    //     header: {
+    //       'X-Token': wx.getStorageSync('X-Token')
+    //     },
+    //     method: 'GET',
+    //     success(res) {
+    //     },
+    //     fail() {
+    //     }
+    //   })
+    // }
   },
 
   /**

@@ -1,29 +1,35 @@
 <!--pages/favorite/favorite.wxml-->
 <view>
-  <view wx:for='{{exhibit_box}}' wx:key='this'>
-    <view bindtap='onTapExhibit' data-sid='{{item.sid}}' class='index-exhibit'>
-      <image class='exhibit-image' mode='widthFix' src='/image/{{item.image}}'/>
-      <view>
-        <view class='exhibit-textbox'>
-          <text class='exhibit-name'>{{item.name}}</text>
-          <text class='exhibit-info'>{{item.address}} | {{item.time}}</text>
-        </view>
-        <view>
-          <view class='exhibit-iconbox'>
-            <image class='exhibit-icon' mode='widthFix' src='/image/icon/star.png'></image>
-            <text class='exhibit-icon-text'>{{item.star}}</text>
-          </view>
-          <view class='exhibit-iconbox'>
-            <image class='exhibit-icon' mode='widthFix' src='/image/icon/skim.png'></image>
-            <text class='exhibit-icon-text'>{{item.skim}}</text>
-          </view>
-          <view class='exhibit-iconbox'>
-            <image class='exhibit-icon' mode='widthFix' src='/image/icon/ticket.png'></image>
-            <text class='exhibit-icon-text'>{{item.ticket}}</text>
-          </view>
-        </view>
+  <view class='exhibition-info'>
+    <button class='exhibition-order' bindtap='changeType'> {{type}} </button>
+  </view>
+  <view wx:if="{{type == '展览'}}" wx:for='{{msgList}}' wx:key='this'>
+    <view bindtap='onTapExhibition' data-sid='{{item.object_id}}' class='index-exhibit'>
+      <image class='exhibit-image' mode='widthFix' src='/image/index-show1.png'/>
+      <view class='exhibit-textbox'>
+        <text class='exhibit-name'>{{item.name}}</text>
+        <text class='exhibit-info'>{{item.timestamp}}</text>
       </view>
     </view>
   </view>
+  <view wx:if="{{type == '展品'}}" wx:for='{{msgList}}' wx:key='this'>
+    <view bindtap='onTapExhibit' data-sid='{{item.object_id}}' class='index-exhibit'>
+      <image class='exhibit-image' mode='widthFix' src='/image/index-show1.png'/>
+      <view class='exhibit-textbox'>
+        <text class='exhibit-name'>{{item.name}}</text>
+        <text class='exhibit-info'>{{item.timestamp}}</text>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{type == '展馆'}}" wx:for='{{msgList}}' wx:key='this'>
+    <view bindtap='onTapMuseum' data-sid='{{item.object_id}}' class='index-exhibit'>
+      <image class='exhibit-image' mode='widthFix' src='/image/index-show1.png'/>
+      <view class='exhibit-textbox'>
+        <text class='exhibit-name'>{{item.name}}</text>
+        <text class='exhibit-info'>{{item.timestamp}}</text>
+      </view>
+    </view>
+  </view>
+  
 </view>
 

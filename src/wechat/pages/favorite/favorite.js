@@ -1,13 +1,19 @@
 // pages/favorite/favorite.js
+const app = getApp()
+
 Page({
   /**
    * 页面的初始数据
    */
   data: {
+    msgList: [],
+    type: '展览',
     searchinput: '',
     dots: true,
     autoplay: true,
     dtime: 3000,
+    wordsList: ['展览', '展品', '展馆'],
+    engList: ['show', 'collection', 'exhibition'],
     swipers: ['index-swiper1.png', 'index-swiper2.png', 'index-swiper3.png'],
     exhibit_box: [
       {
@@ -48,11 +54,74 @@ Page({
   /**
    * 自定义函数
    */
-  onTapExhibit: function (e) {
+
+  changeType: function () {
+    var favoriteThis = this
+    wx.showActionSheet({
+      itemList: ['展览', '展品', '展馆'],
+      success: function (res) {
+        var num = res.tapIndex
+        if (!res.cancel) {
+          console.log(res.tapIndex)//这里是点击了那个按钮的下标
+          favoriteThis.setData({
+            type: favoriteThis.data.wordsList[res.tapIndex]
+          })
+          wx.request({
+            url: app.globalData.host + '/star_list/object_type/' + favoriteThis.data.engList[res.tapIndex],
+            method: 'GET',
+            header: {
+              'X-Token': wx.getStorageSync('X-Token'),
+            },
+            success(ans) {
+              favoriteThis.setData({
+                msgList: ans.data.data.item_list
+              })
+            }
+          })
+          // wx.request({
+          //   url: app.globalData.host + '/show/' + showThis.data.show.sid + '/appointment',
+          //   header: {
+          //     'X-Token': wx.getStorageSync('X-Token')
+          //   },
+          //   method: 'POST',
+          //   data: {
+          //     arrival_time: res.tapIndex
+          //   },
+          //   success(res) {
+          //     showThis.setData({
+          //       exhibition_order_type: "default",
+          //       exhibition_order_status: "已预约"
+          //     })
+          //   },
+          //   fail() {
+          //   }
+          // })
+        }
+      }
+    })
+  },
+
+  onTapExhibition: function (e) {
     var sid = e.currentTarget.dataset.sid;
     console.log("Open page exhibition_" + sid);
     wx.navigateTo({
       url: '../exhibition/exhibition?sid=' + sid
+    })
+  },
+
+  onTapExhibit: function (e) {
+    var cid = e.currentTarget.dataset.sid;
+    console.log("Open page exhibit_" + cid);
+    wx.navigateTo({
+      url: '../exhibit/exhibit?cid=' + cid
+    })
+  },
+
+  onTapMuseum: function (e) {
+    var eid = e.currentTarget.dataset.sid;
+    console.log("Open page museum_" + eid);
+    wx.navigateTo({
+      url: '../museum/museum?eid=' + eid
     })
   },
 
@@ -79,7 +148,20 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('Opening Index Page')
+    var favoriteThis = this
+    console.log('Opening Favorite Page')
+    wx.request({
+      url: app.globalData.host + '/star_list/object_type/' + favoriteThis.data.engList[0],
+      method: 'GET',
+      header: {
+        'X-Token': wx.getStorageSync('X-Token'),
+      },
+      success(ans) {
+        favoriteThis.setData({
+          msgList: ans.data.data.item_list
+        })
+      }
+    })
   },
 
   /**

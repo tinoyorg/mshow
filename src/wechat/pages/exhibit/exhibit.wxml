@@ -5,27 +5,33 @@
   </view>
   <view class='exhibit-info'>
     <view>
-      <text class='exhibit-info-name'>{{exhibit_name}}</text>
+      <text class='exhibit-info-name'>{{collection.name}}</text>
       <view class='exhibit-info-likebox'>
         <image src='{{like_icon}}' bindtap='changeLike' class='exhibit-info-like' mode='widthFix'/>
         <text class='exhibit-info-likenum'>{{like_num}}</text>
       </view>
     </view>
     <view class='exhibit-info-textbox'>
-      <text class='exhibit-info-text1'>{{exhibit_owner}} | {{exhibit_time}}</text>
-      <text class='exhibit-info-text2'>{{exhibit_from}} | {{exhibit_id}}</text>
+      <text class='exhibit-info-text1'>{{collection.author}} | {{collection.code}}</text>
+      <text class='exhibit-info-text2'>{{collection.position}} | {{collection.source}} | {{collection.years}} </text>
     </view>
   </view>
   <view class='exhibit-introduce'>
     <text class='exhibit-introduce-title'>展品信息</text>
     <text class='exhibit-introduce-text'>{{exhibit_introduce}}</text>
-    <view class='exhibit-introduce-control' bindtap='fullText'>
+    <view wx:if="{{!exhibit_introduce_full}}" class='exhibit-introduce-control' bindtap='fullText'>
       <text class='exhibit-introduce-more'>{{introduce_tip}}</text>
       <image class='exhibit-introduce-icon' src='{{introduce_tip_icon}}' mode='widthFix'/>
     </view>
   </view>
-  <view class='exhibit-comment'>
+  <view>
     <text class='exhibit-comment-title'>妙语连珠</text>
+    <form bindsubmit="onComment">
+      <view class='exhibition-button'>
+        <textarea class='textarea-bg' name="comment"/>
+        <button class='exhibition-order-button' type='primary' form-type="submit" > 评论 </button>
+      </view>
+    </form>
     <view wx:for='{{comment_list}}' wx:key="this">
       <view class='exhibit-comment-client'>
         <view>
@@ -37,7 +43,7 @@
             <text class='exhibit-comment-time'>{{item.timestamp}}</text>
           </view>
         </view>
-        <text class='exhibit-comment-context'>{{item.context}}</text>
+        <text class='exhibit-comment-context'>{{item.content}}</text>
       </view>
     </view>
   </view>

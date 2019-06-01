@@ -1,4 +1,55 @@
 /* pages/museum/museum.wxss */
+.exhibit-comment-title{
+  font-size: 12pt;
+  padding-left: 12rpx;
+  border-left: 3px solid #576b95;
+}
+.exhibition-button{
+  display: flex;
+  flex-direction: row;
+}
+.exhibition-order-button{  
+  margin: 20rpx;
+  width: 24%
+}
+.textarea-bg {
+  margin: 20rpx;
+  font-size: 32rpx;
+  height: 100rpx;
+  border: 1px solid #b2b2b2;
+  border-radius:5px;
+}
+.exhibit-comment-avatar-image{
+  border-radius: 128rpx;
+  width: 128rpx;
+  height: 128rpx;
+}
+.exhibit-comment-client{
+  margin: 36rpx 0;
+}
+.exhibit-comment-imagebox{
+  display: inline-block;
+}
+.exhibit-comment-textbox{
+  display: inline-block;
+  vertical-align: top;
+}
+.exhibit-comment-name{
+  display: block;
+  padding: 18rpx 0 0 24rpx;
+  color: #353535;
+  font-size: 12pt;
+}
+.exhibit-comment-time{
+  display: block;
+  padding: 16rpx 0 0 24rpx;
+  color: #888888;
+  font-size: 8pt;
+}
+.exhibit-comment-context{
+  padding: 16rpx 0 24rpx 18rpx;
+  font-size: 12pt;
+}
 .museum-head{
   position:relative;
   height: 0;

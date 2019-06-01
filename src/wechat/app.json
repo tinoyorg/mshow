@@ -9,7 +9,8 @@
     "pages/information/information",
     "pages/mymuseum/mymuseum",
     "pages/favorite/favorite",
-    "pages/appointment/appointment"
+    "pages/appointment/appointment",
+    "pages/museums/museums"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -24,20 +25,20 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "image/tab1.png",
-        "selectedIconPath": "image/tab1-h.png",
+        "iconPath": "image/icon/read.png",
+        "selectedIconPath": "image/icon/read-fill.png",
         "text": "首页"
       },
       {
-        "pagePath": "pages/museum/museum",
-        "iconPath": "image/tab2.png",
-        "selectedIconPath": "image/tab2-h.png",
+        "pagePath": "pages/museums/museums",
+        "iconPath": "image/icon/home.png",
+        "selectedIconPath": "image/icon/home-fill.png",
         "text": "展馆"
       },
       {
         "pagePath": "pages/home/home",
-        "iconPath": "image/tab3.png",
-        "selectedIconPath": "image/tab3-h.png",
+        "iconPath": "image/icon/contacts.png",
+        "selectedIconPath": "image/icon/contacts-fill.png",
         "text": "个人"
       }
     ]

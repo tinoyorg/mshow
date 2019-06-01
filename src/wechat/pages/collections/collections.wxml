@@ -3,7 +3,7 @@
   <view wx:for='{{collection_list}}' wx:key='this'>
     <view bindtap='onTapExhibit' data-cid='{{item.cid}}' class='index-collections'>
     <view>
-    <image class='exhibit-image' src='{{item.avatar}}'/>
+    <image class='exhibit-image' src='{{image_url}}'/>
       <view class='collections-right'>
         <view class='exhibit-textbox'>
           <text class='exhibit-name'>{{item.name}}</text>

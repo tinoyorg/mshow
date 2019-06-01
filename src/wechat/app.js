@@ -4,7 +4,7 @@ var config = require('./config')
 App({
   globalData: {
     userInfo: null,
-    host: '',
+    host: 'http://mshow.wiolfi.cn',
   },
   onLaunch: function () {
     // 展示本地存储能力

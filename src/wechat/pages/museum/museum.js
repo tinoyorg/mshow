@@ -1,11 +1,20 @@
 // pages/museum/museum.js
+const app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    image_bk_url: "/image/museum1.png",
+    show_list: [],
+    exhibition: {},
+    comment_list: [],
+    museum_introduce: "",
+    museum_introduce_text: "",
+    museum_introduce_length: 0,
+    museum_introduce_full: true,
+    image_bk_url: "/image/exhibition1.png",
     image_at_url: "/image/avatar.png",
     intro_fullText: false,
     intro_tip: "展开全文",
@@ -16,6 +25,14 @@ Page({
   /**
    * 自定义函数
    */
+  onTapExhibit: function (e) {
+    var sid = e.currentTarget.dataset.sid;
+    console.log("Open page exhibition_" + sid);
+    wx.navigateTo({
+      url: '../exhibition/exhibition?sid=' + sid
+    })
+  },
+
   fullText: function () {
     this.intro_fullText = !this.intro_fullText;
     if (this.intro_fullText === true) {
@@ -38,16 +55,34 @@ Page({
    */
   onLoad: function (e) {
     console.log('Opening Museum Page')
+    var museumThis = this
+    wx.request({
+      url: app.globalData.host + '/exhibition/' + e.eid + '/exhibition_content',
+      method: 'GET',
+      success(res) {
+        console.log(res)
+        museumThis.setData({
+          exhibition: res.data.data.exhibition,
+          show_list: res.data.data.show_List,
+          comment_list: res.data.data.comment_list,
+          museum_introduce: res.data.data.exhibition.introduce,
+          museum_introduce_text: res.data.data.exhibition.introduce
+        })
+        if (museumThis.data.museum_introduce_length > 90) {
+          museumThis.setData({
+            museum_introduce: museumThis.data.museum_introduce_text.substring(0, 90) + "...",
+            museum_introduce_full: false
+          })
+        }
+      }
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    this.setData({
-      intro_s: this.data.intro_text.substring(0, 90) + "...",
-      intro_fullText: false,
-    });
+
   },
 
   /**

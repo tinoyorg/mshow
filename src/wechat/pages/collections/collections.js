@@ -11,6 +11,7 @@ Page({
     dots: true,
     autoplay: true,
     dtime: 3000,
+    image_url: '/image/collection/qhc.jpg',
     swipers: ['index-swiper1.png', 'index-swiper2.png', 'index-swiper3.png'],
     exhibit_box: [
       {

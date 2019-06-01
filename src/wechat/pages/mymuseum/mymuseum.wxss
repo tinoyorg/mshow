@@ -1,10 +1,20 @@
 /* pages/mymuseum/mymuseum.wxss */
+.textarea-bg {
+  margin: 20rpx;
+  font-size: 32rpx;
+  /* auto-height: true; */
+  border: 1px solid #b2b2b2;
+  border-radius:5px;
+}
 .exhibition-info{
   padding: 16rpx 32rpx 16rpx 32rpx;
 }
 .exhibition-order{
   margin: 36rpx;
   width: 40%
+}
+.exhibition-order-button{
+  margin: 36rpx;
 }
 .museum-button{
   display: flex;
